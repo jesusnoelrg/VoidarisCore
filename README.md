@@ -18,6 +18,8 @@ con mensajes y estilo uniformes.
 |---|---|
 | Spawn | `/spawn`, `/setspawn`, primer spawn, respawn y retorno al caer al vacío |
 | Teletransporte | `/tpa`, `/tpaccept`, `/tpdeny`, `/tpacancel` con delay y cooldown |
+| Warps | `/warp`, `/setwarp`, `/delwarp`, `/warps` con permiso opcional por warp |
+| Kits | `/kit`, `/kits` con cooldown y permiso por kit, kit de primera entrada |
 | Homes | `/home`, `/sethome`, `/delhome`, `/homes` con límites por permiso |
 | Utilidades | Mesas de trabajo virtuales, `/enderchest`, `/hat`, `/gamemode` |
 | Bienvenida | Anuncio y kit de primera entrada, MOTD |

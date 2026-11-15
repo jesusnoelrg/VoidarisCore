@@ -1,0 +1,29 @@
+# VoidarisCore - global settings.
+# Each module is toggled here; its specific settings live in its own file.
+
+config-version: 1
+
+modules:
+  spawn: true
+  tpa: true
+  homes: true
+  warps: true
+  kits: true
+  chat: true
+  join-quit: true
+  private-messages: true
+  announcements: true
+  signs: true
+  utilities: true
+  economy: true
+
+integrations:
+  luckperms: true
+  placeholderapi: true
+  vault: true
+
+storage:
+  # Runtime data (homes, warps, kit cooldowns) is written to plugins/VoidarisCore/data/.
+  autosave-interval-seconds: 300
+
+debug: false

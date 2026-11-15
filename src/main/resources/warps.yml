@@ -1,0 +1,9 @@
+# VoidarisCore - warps settings.
+# Warp locations are stored in data/warps.yml, not here.
+
+warmup-seconds: 3
+cooldown-seconds: 5
+name-pattern: "^[a-zA-Z0-9_-]{1,16}$"
+
+# When true, each warp requires voidaris.warps.use.<warp>; otherwise voidaris.warps.use is enough.
+per-warp-permission: false

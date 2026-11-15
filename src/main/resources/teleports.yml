@@ -1,0 +1,32 @@
+# VoidarisCore - teleport settings (spawn, tpa, back).
+
+defaults:
+  warmup-seconds: 3
+  cancel-on-move: true
+  cancel-on-damage: true
+  # Players with voidaris.teleport.bypass skip warmup and cooldown.
+
+spawn:
+  warmup-seconds: 3
+  cooldown-seconds: 0
+  teleport-on-first-join: true
+  teleport-on-respawn: true
+  # Respawn at bed/anchor takes priority when true.
+  respect-bed-spawn: true
+  void-return:
+    enabled: true
+    # Y level below which the player is sent back to spawn.
+    min-y: -70
+    worlds: []
+
+tpa:
+  warmup-seconds: 3
+  cooldown-seconds: 30
+  request-timeout-seconds: 60
+  blocked-worlds: []
+
+back:
+  enabled: true
+  warmup-seconds: 3
+  cooldown-seconds: 30
+  save-on-death: true

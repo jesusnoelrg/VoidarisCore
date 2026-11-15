@@ -1,0 +1,80 @@
+# VoidarisCore - player-facing messages (MiniMessage).
+# <prefix> is replaced with the value of "prefix" in every message.
+
+prefix: "<dark_purple><bold>Voidaris</bold> <dark_gray><bold>»</bold> "
+
+general:
+  no-permission: "<prefix><white>No tienes permiso para hacer eso."
+  player-only: "<prefix><white>Este comando solo puede usarlo un jugador."
+  player-not-found: "<prefix><white>El jugador <light_purple><player></light_purple> no está conectado."
+  reloaded: "<prefix><white>Configuración recargada."
+  module-disabled: "<prefix><white>Este módulo está desactivado."
+
+teleport:
+  warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
+  cancelled-move: "<prefix><white>Teletransporte cancelado porque te moviste."
+  cancelled-damage: "<prefix><white>Teletransporte cancelado porque recibiste daño."
+  cooldown: "<prefix><white>Debes esperar <light_purple><seconds></light_purple> segundos para teletransportarte de nuevo."
+
+spawn:
+  teleported: "<prefix><white>Has sido enviado al spawn."
+  set: "<prefix><white>Spawn establecido en tu posición."
+  not-set: "<prefix><white>El spawn todavía no ha sido establecido."
+
+tpa:
+  sent: "<prefix><white>Solicitud enviada a <light_purple><player></light_purple>."
+  received: "<prefix><light_purple><player></light_purple> <white>quiere teletransportarse a ti. <green><click:run_command:'/tpaccept'>[Aceptar]</click></green> <red><click:run_command:'/tpdeny'>[Rechazar]</click></red>"
+  received-here: "<prefix><light_purple><player></light_purple> <white>quiere que te teletransportes a su posición. <green><click:run_command:'/tpaccept'>[Aceptar]</click></green> <red><click:run_command:'/tpdeny'>[Rechazar]</click></red>"
+  accepted: "<prefix><white>Has aceptado la solicitud de <light_purple><player></light_purple>."
+  accepted-target: "<prefix><light_purple><player></light_purple> <white>aceptó tu solicitud."
+  denied: "<prefix><white>Has rechazado la solicitud de <light_purple><player></light_purple>."
+  denied-target: "<prefix><light_purple><player></light_purple> <white>rechazó tu solicitud."
+  cancelled: "<prefix><white>Has cancelado tu solicitud."
+  expired: "<prefix><white>La solicitud con <light_purple><player></light_purple> ha expirado."
+  no-pending: "<prefix><white>No tienes solicitudes pendientes."
+  self: "<prefix><white>No puedes enviarte una solicitud a ti mismo."
+  already-pending: "<prefix><white>Ya tienes una solicitud pendiente con <light_purple><player></light_purple>."
+
+back:
+  teleported: "<prefix><white>Has vuelto a tu ubicación anterior."
+  no-location: "<prefix><white>No tienes una ubicación anterior."
+
+homes:
+  teleported: "<prefix><white>Teletransportado a la home <light_purple><home></light_purple>."
+  set: "<prefix><white>Home <light_purple><home></light_purple> establecida."
+  deleted: "<prefix><white>Home <light_purple><home></light_purple> eliminada."
+  not-found: "<prefix><white>No existe la home <light_purple><home></light_purple>."
+  limit-reached: "<prefix><white>Alcanzaste tu límite de <light_purple><limit></light_purple> homes."
+  list: "<prefix><white>Tus homes (<light_purple><count></light_purple>/<light_purple><limit></light_purple>): <homes>"
+  list-empty: "<prefix><white>No tienes homes establecidas."
+  invalid-name: "<prefix><white>El nombre de la home no es válido."
+  blocked-world: "<prefix><white>No puedes establecer homes en este mundo."
+
+warps:
+  teleported: "<prefix><white>Teletransportado al warp <light_purple><warp></light_purple>."
+  set: "<prefix><white>Warp <light_purple><warp></light_purple> establecido."
+  deleted: "<prefix><white>Warp <light_purple><warp></light_purple> eliminado."
+  not-found: "<prefix><white>No existe el warp <light_purple><warp></light_purple>."
+  list: "<prefix><white>Warps disponibles: <warps>"
+  list-empty: "<prefix><white>No hay warps disponibles."
+
+kits:
+  received: "<prefix><white>Has recibido el kit <light_purple><kit></light_purple>."
+  not-found: "<prefix><white>No existe el kit <light_purple><kit></light_purple>."
+  cooldown: "<prefix><white>Podrás reclamar el kit <light_purple><kit></light_purple> en <light_purple><time></light_purple>."
+  inventory-full: "<prefix><white>Algunos ítems no cabían y se soltaron al suelo."
+  list: "<prefix><white>Kits disponibles: <kits>"
+  list-empty: "<prefix><white>No hay kits disponibles."
+
+private-messages:
+  disabled-self: "<prefix><white>Has desactivado los mensajes privados."
+  enabled-self: "<prefix><white>Has activado los mensajes privados."
+  target-disabled: "<prefix><light_purple><player></light_purple> <white>tiene los mensajes privados desactivados."
+  no-reply: "<prefix><white>No tienes a quién responder."
+  ignored: "<prefix><white>Ahora ignoras a <light_purple><player></light_purple>."
+  unignored: "<prefix><white>Ya no ignoras a <light_purple><player></light_purple>."
+  spy-enabled: "<prefix><white>Modo espía activado."
+  spy-disabled: "<prefix><white>Modo espía desactivado."
+
+chat:
+  muted: "<prefix><white>El chat está silenciado."

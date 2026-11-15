@@ -25,7 +25,8 @@ Voidaris core plugin. Paper 26.3 (build 248), Java 25, Gradle Kotlin DSL.
 ## Strict Guidelines
 - **Approval required:** NEVER install dependencies or submit a PR to the `main` branch without first consulting `jesusnoelrg`.
 - **Modules:** `club.voidaris.core.<module>` — one package per module (spawn, tpa, homes, chat, etc.).
-- **Each module:** its own section in `config.yml`, messages in `messages.yml`, and permissions in `plugin.yml`.
+- **Each module:** an on/off toggle under `modules:` in `config.yml`, its settings in its own file (`teleports.yml`, `homes.yml`, `warps.yml`, `kits.yml`, `chat-format.yml`, `announces.yml`, or a new one registered in `ConfigManager`), messages in `messages.yml`, and permissions in `plugin.yml`.
+- **Runtime data** (homes, warp locations, cooldowns) goes in `plugins/VoidarisCore/data/`, never in the default config files.
 - **Player-facing messages (Spanish):** Use MiniMessage with the prefix `<dark_purple><bold>Voidaris</bold> <dark_gray><bold>»</bold>`<white>{message}.
 - **Plugin permissions:** `voidaris.<module>.<action>`.
 - No hardcoded text: everything must reside in `messages.yml`.
