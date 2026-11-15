@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": ["Bash(./gradlew compileJava:*)", "Bash(./gradlew build:*)", "Bash(git status)", "Bash(git diff:*)"],
+    "deny": [
+      "Read(./run/**)", "Read(./build/**)", "Read(./.gradle/**)",
+      "Read(./.idea/**)", "Read(**/*.jar)", "Read(./gradlew*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [{ "matcher": "Bash", "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guard-bash.sh" }] }],
+    "Stop": [{ "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/compile-on-stop.sh" }] }]
+  }
+}
