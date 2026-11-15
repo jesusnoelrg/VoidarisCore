@@ -15,7 +15,7 @@ A strict guide for initializing a new module in the project. It ensures that all
 Ensure that you strictly follow this checklist when creating a module:
 
 1. **Create the package:** Generate the appropriate base directory or package.
-2. **Create the `Module` class:** Implement the module's main class.
+2. **Create the `Module` class:** Extend `club.voidaris.core.module.Module` (its id is the key under `modules:`), return the module's listeners from `listeners()`, and register it in `VoidarisCore#registerModules()`. `ModuleManager` registers/unregisters the listeners when the toggle changes and calls `onReload()` on `/voidaris reload`.
 3. **Add to `config`:** Add the module toggle under `modules:` in `config.yml`, and put its settings in its own file in `src/main/resources/` (reuse an existing one if it fits, otherwise create it and register it in `club.voidaris.core.config.ConfigManager`).
 4. **Define messages:** Specify and add the messages that the module will send to players in `messages.yml`, and add each key as a constant in `Keys.Message` (`club.voidaris.core.Keys`) under a comment with the module name.
 5. **Define permissions in `plugin.yml`:** Register the necessary permission nodes for this module directly in the `plugin.yml` file, and add each node as a constant in `Keys.Permission`.
