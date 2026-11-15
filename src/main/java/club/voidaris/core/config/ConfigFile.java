@@ -5,6 +5,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public final class ConfigFile {
 
@@ -24,6 +27,12 @@ public final class ConfigFile {
             plugin.saveResource(name, false);
         }
         config = YamlConfiguration.loadConfiguration(file);
+        // Keys added in newer versions fall back to the bundled file when an older copy exists on disk.
+        try (var reader = new InputStreamReader(plugin.getResource(name), StandardCharsets.UTF_8)) {
+            config.setDefaults(YamlConfiguration.loadConfiguration(reader));
+        } catch (IOException e) {
+            plugin.getLogger().warning("Could not load bundled defaults for " + name + ": " + e.getMessage());
+        }
     }
 
     public FileConfiguration get() {
