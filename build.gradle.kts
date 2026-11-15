@@ -8,6 +8,9 @@ version = "1.0.0"
 
 val paperVersion = "26.3.build.248-stable"
 val targetJava = 25
+// Resolved at runtime through plugin.yml "libraries", so they are not shaded into the jar.
+val hikariVersion = "7.1.0"
+val mariadbVersion = "3.5.11"
 
 repositories {
     mavenCentral()
@@ -19,6 +22,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:$paperVersion")
     compileOnly("net.luckperms:api:5.4")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("com.zaxxer:HikariCP:$hikariVersion")
 }
 
 java {
@@ -32,7 +36,11 @@ tasks {
     }
 
     processResources {
-        val props = mapOf("version" to project.version)
+        val props = mapOf(
+            "version" to project.version,
+            "hikariVersion" to hikariVersion,
+            "mariadbVersion" to mariadbVersion,
+        )
         inputs.properties(props)
         filteringCharset = "UTF-8"
         filesMatching("plugin.yml") { expand(props) }

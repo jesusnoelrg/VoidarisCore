@@ -6,6 +6,9 @@ authors: [ NoDebuffing ]
 description: Plugin núcleo del servidor Voidaris (spawn, tpa, homes, chat, mensajes y más).
 website: https://web.voidaris.club
 softdepend: [ LuckPerms, PlaceholderAPI ]
+libraries:
+  - com.zaxxer:HikariCP:${hikariVersion}
+  - org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}
 
 permissions:
   voidaris.core.reload:
