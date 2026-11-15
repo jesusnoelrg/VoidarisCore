@@ -49,7 +49,7 @@ public final class VoidarisCore extends JavaPlugin {
 
     private void registerModules() {
         var formatter = new PlayerFormatter(messages, integrations);
-        moduleManager.register(new JoinQuitModule(configManager, formatter));
+        moduleManager.register(new JoinQuitModule(configManager, formatter, integrations));
     }
 
     private void registerCommands() {

@@ -12,8 +12,8 @@ permissions:
     description: Reload VoidarisCore configuration files.
     default: op
   voidaris.joinquit.mvp:
-    description: Use the mvp join/quit format.
+    description: Use the mvp join format.
     default: false
   voidaris.joinquit.vip:
-    description: Use the vip join/quit format.
+    description: Use the vip join format.
     default: false
