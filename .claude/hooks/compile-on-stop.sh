@@ -8,6 +8,12 @@ if [ "$(jq -r '.stop_hook_active // false' <<<"$input")" = "true" ]; then
 fi
 
 cd "$CLAUDE_PROJECT_DIR" || exit 0
+
+# Hooks run in a non-interactive shell, so ~/.bashrc (where sdkman sets up Java) is never sourced.
+if [ -z "$JAVA_HOME" ] && [ -d "$HOME/.sdkman/candidates/java/current" ]; then
+  export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+  export PATH="$JAVA_HOME/bin:$PATH"
+fi
 git status --porcelain | grep -qE '\.(java|kts|yml)$' || exit 0
 
 out=$(./gradlew compileJava processResources -q 2>&1)
