@@ -10,6 +10,11 @@ general:
   reloaded: "<prefix><white>Configuración recargada."
   module-disabled: "<prefix><white>Este módulo está desactivado."
 
+commands:
+  # Plain text (no MiniMessage), shown in /help.
+  voidaris:
+    description: "Comandos de administración de VoidarisCore"
+
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
   cancelled-move: "<prefix><white>Teletransporte cancelado porque te moviste."

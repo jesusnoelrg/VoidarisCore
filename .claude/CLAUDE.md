@@ -26,13 +26,14 @@ Voidaris core plugin. Paper 26.3 (build 248), Java 25, Gradle Kotlin DSL.
 - **Approval required:** NEVER install dependencies or submit a PR to the `main` branch without first consulting `jesusnoelrg`.
 - **Modules:** `club.voidaris.core.<module>` — one package per module (spawn, tpa, homes, chat, etc.).
 - **Each module:** an on/off toggle under `modules:` in `config.yml`, its settings in its own file (`teleports.yml`, `homes.yml`, `warps.yml`, `kits.yml`, `chat-format.yml`, `announces.yml`, or a new one registered in `ConfigManager`), messages in `messages.yml`, and permissions in `plugin.yml`.
+- **Keys:** every permission node and message key is a constant in `club.voidaris.core.Keys` (`Keys.Permission`, `Keys.Message`), grouped by module. Never use string literals for them in code.
 - **Runtime data** (homes, warp locations, cooldowns) goes in `plugins/VoidarisCore/data/`, never in the default config files.
 - **Player-facing messages (Spanish):** Use MiniMessage with the prefix `<dark_purple><bold>Voidaris</bold> <dark_gray><bold>»</bold>`<white>{message}.
 - **Plugin permissions:** `voidaris.<module>.<action>`.
 - No hardcoded text: everything must reside in `messages.yml`.
 - Core integrations: LuckPerms API, PlaceholderAPI, Vault (economy).
 - **Root cause:** No error is considered resolved without evidence of its root cause; mere hypotheses are not accepted.
-- **Coding style:** Use modern Java-style indentation. Comment ONLY complex logic (the "why"), never what the code itself does (the "what"). Avoid over-engineering.
+- **Coding style:** Use modern Java-style indentation. Comment ONLY complex logic (the "why"), never what the code itself does (the "what"). Do not write standalone, full-fledged features within modules that will be heavily used.
 - **Scope management:** Log any errors or ideas that fall outside the current scope in `docs/BACKLOG.md` using the `>>` append operator—no need to read the entire file.
 - **Sub-agents:** Use them EXCLUSIVELY for exploring the source code (read-only) or for performing isolated parallel checks, in order to protect the main context.
 
