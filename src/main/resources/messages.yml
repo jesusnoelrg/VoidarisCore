@@ -14,6 +14,8 @@ commands:
   # Plain text (no MiniMessage), shown in /help.
   voidaris:
     description: "Comandos de administración de VoidarisCore"
+  cosmetics:
+    description: "Equipa tus cosméticos"
 
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
@@ -83,3 +85,17 @@ private-messages:
 
 chat:
   muted: "<prefix><white>El chat está silenciado."
+
+cosmetics:
+  unavailable: "<prefix><white>Los cosméticos no están disponibles en este momento."
+  join-message:
+    # <cosmetic> is the name of the cosmetic from cosmetics.yml.
+    selected: "<prefix><white>Equipaste el mensaje de entrada <cosmetic><white>."
+    not-found: "<prefix><white>No existe el mensaje de entrada <light_purple><id></light_purple>."
+    locked: "<prefix><white>No tienes desbloqueado el mensaje de entrada <cosmetic><white>."
+    list: "<prefix><white>Tus mensajes de entrada (pasa el ratón para verlos, clic para equipar): <cosmetics>"
+    list-empty: "<prefix><white>No tienes mensajes de entrada desbloqueados."
+    list-entry: "<dark_gray>[<cosmetic><dark_gray>]"
+    list-entry-selected: "<dark_gray>[<green>✔</green> <cosmetic><dark_gray>]"
+    # Hover preview of a cosmetic whose format is empty (such as silent).
+    preview-hidden: "<gray>Tu entrada no se anunciará."

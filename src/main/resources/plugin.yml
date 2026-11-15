@@ -14,9 +14,42 @@ permissions:
   voidaris.core.reload:
     description: Reload VoidarisCore configuration files.
     default: op
-  voidaris.joinquit.mvp:
-    description: Use the mvp join format.
+  voidaris.cosmetics.joinmessage.silent:
+    description: Equip the silent join message.
+    default: true
+  voidaris.cosmetics.joinmessage.default:
+    description: Equip the default join message.
     default: false
-  voidaris.joinquit.vip:
-    description: Use the vip join format.
+  voidaris.cosmetics.joinmessage.wizard:
+    description: Equip the wizard join message.
+    default: false
+  voidaris.cosmetics.joinmessage.fire:
+    description: Equip the fire join message.
+    default: false
+  voidaris.cosmetics.joinmessage.water:
+    description: Equip the water join message.
+    default: false
+  voidaris.cosmetics.joinmessage.rainbow:
+    description: Equip the rainbow join message.
+    default: false
+  voidaris.cosmetics.joinmessage.event:
+    description: Equip the event join message.
+    default: false
+  voidaris.cosmetics.joinmessage.box:
+    description: Equip the box join message.
+    default: false
+  voidaris.cosmetics.joinmessage.pc:
+    description: Equip the pc join message.
+    default: false
+  voidaris.cosmetics.joinmessage.hacker:
+    description: Equip the hacker join message.
+    default: false
+  voidaris.cosmetics.joinmessage.void:
+    description: Equip the void join message.
+    default: false
+  voidaris.cosmetics.joinmessage.creeper:
+    description: Equip the creeper join message.
+    default: false
+  voidaris.cosmetics.joinmessage.royal:
+    description: Equip the royal join message.
     default: false

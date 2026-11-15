@@ -1,0 +1,60 @@
+# VoidarisCore - cosmetics (MiniMessage).
+# Players equip cosmetics with /cosmetics. Only the equipped choice is stored (in the database), so the database
+# must be enabled in database.yml; without it every player uses the default selection.
+
+join-messages:
+  # Each cosmetic is unlocked with voidaris.cosmetics.joinmessage.<id> (give it to ranks in LuckPerms).
+  # Players who never picked one, or lost the one they picked, use this cosmetic if they own it, and no message otherwise.
+  default-selection: default
+  # name: shown in /cosmetics joinmessage. format: the join message; an empty format ("") hides the join.
+  # Formats support the placeholders of chat-format.yml (<player>, <displayname>, <prefix_lp>, <suffix_lp>, PlaceholderAPI).
+  # seasons: optional formats that replace format between two dates (MM-dd, inclusive, may wrap around the new year).
+  # The first active season wins; a cosmetic with no active season and no format cannot be equipped or shown.
+  cosmetics:
+    silent:
+      name: "<gray>Silencioso"
+      format: ""
+    default:
+      name: "<white>Predeterminado"
+      format: "<dark_gray>[<green>+</green>]</dark_gray> %luckperms_prefix%<white><player> <gray>se ha unido."
+    wizard:
+      name: "<gradient:#B06AB3:#4568DC>Mago</gradient>"
+      format: "<light_purple>✦</light_purple> <gradient:#B06AB3:#4568DC>Con un destello arcano, <player> se materializó en Voidaris.</gradient>"
+    fire:
+      name: "<gradient:#FFE259:#FF4E00>Fuego</gradient>"
+      format: "<gradient:#FFE259:#FFA751:#FF4E00:#C70000>☄ <player> llegó envuelto en llamas.</gradient>"
+    water:
+      name: "<gradient:#00F2FE:#0072FF>Agua</gradient>"
+      format: "<gradient:#00F2FE:#00C6FF:#0072FF>≈ <player> surgió de las profundidades del océano.</gradient>"
+    rainbow:
+      name: "<rainbow>Arcoíris</rainbow>"
+      format: "<rainbow>✦ <player> trajo color al servidor ✦</rainbow>"
+    event:
+      name: "<gold>Evento"
+      seasons:
+        christmas:
+          from: "11-15"
+          to: "01-06"
+          format: "<red>❄</red> <gradient:#FF3B3B:#FFFFFF:#2ECC40><player> llegó en el trineo de Santa. ¡Feliz Navidad!</gradient> <green>❄</green>"
+        halloween:
+          from: "10-15"
+          to: "11-02"
+          format: "<gradient:#FF7518:#8E44AD>☠ <player> salió de su tumba... ¡Feliz Halloween!</gradient>"
+    box:
+      name: "<red>Boxeo"
+      format: "<red><bold>¡DING DING!</bold></red> <white>En esta esquina, con cero derrotas... <gold><bold><player></bold></gold><white>!"
+    pc:
+      name: "<green>Computadora"
+      format: '<dark_gray>[<green>✔</green>]</dark_gray> <green>C:\Voidaris> <white>login <player></white><gray>... conexión establecida.'
+    hacker:
+      name: "<dark_green>Hacker"
+      format: "<dark_green><obfuscated>##</obfuscated></dark_green> <green>Inyectando <white>killaura.jar</white>... <white><player></white> entró con 300 CPS.</green> <dark_green><obfuscated>##</obfuscated></dark_green>"
+    void:
+      name: "<gradient:#B65CFF:#3A0A6B>Vacío</gradient>"
+      format: "<gradient:#B65CFF:#5B1E9E:#3A0A6B>✦ <player> emergió del vacío.</gradient>"
+    creeper:
+      name: "<green>Creeper"
+      format: "<green>Ssss...</green> <red><bold>¡BOOM!</bold></red> <white>Llegó <green><player></green>."
+    royal:
+      name: "<gradient:#FFD700:#DAA520>Realeza</gradient>"
+      format: "<gradient:#FFD700:#FFF3B0:#DAA520>♛ Su majestad <player> ha llegado.</gradient>"

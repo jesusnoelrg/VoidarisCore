@@ -24,7 +24,8 @@ con mensajes y estilo uniformes.
 | Utilidades | Mesas de trabajo virtuales, `/enderchest`, `/hat`, `/gamemode` |
 | Bienvenida | Anuncio y kit de primera entrada, MOTD |
 | Chat | Formato por grupo de LuckPerms, colores `&` y hexadecimales |
-| Entrada/salida | Mensajes de entrada, salida y primera entrada por grupo de LuckPerms, con PlaceholderAPI |
+| Entrada/salida | Mensajes de entrada (según el cosmético equipado) y primera entrada, con PlaceholderAPI |
+| Cosméticos | `/cosmetics joinmessage` para equipar mensajes de entrada desbloqueados por permiso |
 | Mensajes privados | `/msg`, `/r`, ignorar, desactivar y modo espía |
 | Anuncios | Anuncios automáticos con MiniMessage |
 | Carteles | Colores en carteles |
