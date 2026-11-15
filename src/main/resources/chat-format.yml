@@ -1,6 +1,7 @@
 # VoidarisCore - chat, private messages and join/quit formats (MiniMessage).
 # Placeholders: <player>, <displayname>, <message>, <prefix_lp>, <suffix_lp>, <target>.
 # PlaceholderAPI placeholders (%...%) are resolved when the integration is enabled.
+# LuckPerms prefixes and suffixes (<prefix_lp>, <suffix_lp>) are parsed as MiniMessage.
 
 chat:
   # Format for players whose LuckPerms primary group is not listed under groups.
@@ -19,6 +20,7 @@ private-messages:
   spy-format: "<dark_gray>[Spy] <gray><player> → <target>:</gray> <white><message>"
 
 join-quit:
+  # An empty format ("") hides the message. first-join replaces join on a player's first login.
   join: "<dark_gray>[<green>+</green>]</dark_gray> <gray><player>"
   quit: "<dark_gray>[<red>-</red>]</dark_gray> <gray><player>"
   first-join: "<prefix><light_purple><player></light_purple> <white>entró por primera vez a Voidaris."

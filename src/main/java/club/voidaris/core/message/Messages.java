@@ -19,8 +19,12 @@ public final class Messages {
     }
 
     public Component get(String key, TagResolver... resolvers) {
+        return parse(raw(key), resolvers);
+    }
+
+    public Component parse(String text, TagResolver... resolvers) {
         TagResolver prefix = Placeholder.parsed("prefix", raw(Keys.Message.PREFIX));
-        return MINI_MESSAGE.deserialize(raw(key), TagResolver.resolver(prefix, TagResolver.resolver(resolvers)));
+        return MINI_MESSAGE.deserialize(text, TagResolver.resolver(prefix, TagResolver.resolver(resolvers)));
     }
 
     public String raw(String key) {

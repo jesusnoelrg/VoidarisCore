@@ -5,6 +5,7 @@ api-version: '26.3'
 authors: [ NoDebuffing ]
 description: Plugin núcleo del servidor Voidaris (spawn, tpa, homes, chat, mensajes y más).
 website: https://web.voidaris.club
+softdepend: [ LuckPerms, PlaceholderAPI ]
 
 permissions:
   voidaris.core.reload:

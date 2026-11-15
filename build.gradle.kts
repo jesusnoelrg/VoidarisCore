@@ -12,10 +12,13 @@ val targetJava = 25
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/") { name = "papermc" }
+    maven("https://repo.extendedclip.com/releases/") { name = "placeholderapi" }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$paperVersion")
+    compileOnly("net.luckperms:api:5.4")
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 java {

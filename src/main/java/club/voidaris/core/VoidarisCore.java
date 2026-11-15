@@ -2,7 +2,10 @@ package club.voidaris.core;
 
 import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.integration.Integrations;
+import club.voidaris.core.joinquit.JoinQuitModule;
 import club.voidaris.core.message.Messages;
+import club.voidaris.core.message.PlayerFormatter;
 import club.voidaris.core.module.ModuleManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +14,7 @@ public final class VoidarisCore extends JavaPlugin {
 
     private ConfigManager configManager;
     private Messages messages;
+    private Integrations integrations;
     private ModuleManager moduleManager;
 
     @Override
@@ -18,6 +22,8 @@ public final class VoidarisCore extends JavaPlugin {
         configManager = new ConfigManager(this);
         configManager.reload();
         messages = new Messages(configManager);
+        integrations = new Integrations(this, configManager);
+        integrations.reload();
         moduleManager = new ModuleManager(this, configManager);
 
         registerModules();
@@ -35,11 +41,19 @@ public final class VoidarisCore extends JavaPlugin {
         getLogger().info("VoidarisCore deshabilitado.");
     }
 
+    public void reload() {
+        configManager.reload();
+        integrations.reload();
+        moduleManager.reload();
+    }
+
     private void registerModules() {
+        var formatter = new PlayerFormatter(messages, integrations);
+        moduleManager.register(new JoinQuitModule(configManager, integrations, formatter));
     }
 
     private void registerCommands() {
-        var voidarisCommand = new VoidarisCommand(configManager, moduleManager, messages);
+        var voidarisCommand = new VoidarisCommand(this::reload, messages);
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();
@@ -53,6 +67,10 @@ public final class VoidarisCore extends JavaPlugin {
 
     public Messages messages() {
         return messages;
+    }
+
+    public Integrations integrations() {
+        return integrations;
     }
 
     public ModuleManager moduleManager() {
