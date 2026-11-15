@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 /**
  * Applies {@code migrations/V1.sql}, {@code V2.sql}, ... from the jar in order, recording each in {@code schema_version}.
@@ -61,8 +62,12 @@ final class Migrations {
         // keep each file small and idempotent where possible (IF NOT EXISTS).
         connection.setAutoCommit(false);
         try (var statement = connection.createStatement()) {
-            // Naive split: migration files must not contain ';' inside string literals or routines.
-            for (String sql : script.split(";")) {
+            // Comments are dropped first so a ';' inside them cannot split a statement.
+            // The split is still naive: no ';' inside string literals or routines.
+            String code = script.lines()
+                    .filter(line -> !line.stripLeading().startsWith("--"))
+                    .collect(Collectors.joining("\n"));
+            for (String sql : code.split(";")) {
                 if (!sql.isBlank()) {
                     statement.execute(sql);
                 }
