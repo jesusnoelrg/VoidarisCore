@@ -12,6 +12,10 @@ public final class Keys {
 
         // core
         public static final String CORE_RELOAD = "voidaris.core.reload";
+
+        // join-quit
+        /** Followed by the format name under join-quit.groups in chat-format.yml. */
+        public static final String JOIN_QUIT_FORMAT = "voidaris.joinquit.";
     }
 
     public static final class Message {

@@ -11,3 +11,9 @@ permissions:
   voidaris.core.reload:
     description: Reload VoidarisCore configuration files.
     default: op
+  voidaris.joinquit.mvp:
+    description: Use the mvp join/quit format.
+    default: false
+  voidaris.joinquit.vip:
+    description: Use the vip join/quit format.
+    default: false

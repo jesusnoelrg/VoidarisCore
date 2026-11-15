@@ -1,7 +1,7 @@
 package club.voidaris.core.joinquit;
 
+import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
-import club.voidaris.core.integration.Integrations;
 import club.voidaris.core.message.PlayerFormatter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -13,14 +13,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 final class JoinQuitListener implements Listener {
 
     private static final String SECTION = "join-quit.";
+    static final String FORMATS = SECTION + "groups";
 
     private final ConfigManager configs;
-    private final Integrations integrations;
     private final PlayerFormatter formatter;
 
-    JoinQuitListener(ConfigManager configs, Integrations integrations, PlayerFormatter formatter) {
+    JoinQuitListener(ConfigManager configs, PlayerFormatter formatter) {
         this.configs = configs;
-        this.integrations = integrations;
         this.formatter = formatter;
     }
 
@@ -41,10 +40,25 @@ final class JoinQuitListener implements Listener {
 
     private String format(Player player, String type) {
         var config = configs.chatFormat().get();
-        var groupPath = integrations.primaryGroup(player).map(group -> SECTION + "groups." + group + "." + type);
-        // isSet() ignores the bundled defaults, so a group deleted from the file on disk stops overriding.
-        if (groupPath.isPresent() && config.isSet(groupPath.get())) {
-            return config.getString(groupPath.get());
+        // Read from the file on disk only (no bundled defaults), so a format deleted by the admin stops applying.
+        var formats = config.getConfigurationSection(FORMATS);
+        if (formats != null) {
+            String best = null;
+            int bestPriority = Integer.MAX_VALUE;
+            for (String name : formats.getKeys(false)) {
+                if (!formats.isSet(name + "." + type) || !player.hasPermission(Keys.Permission.JOIN_QUIT_FORMAT + name)) {
+                    continue;
+                }
+                int priority = formats.getInt(name + ".priority", Integer.MAX_VALUE);
+                // Strict comparison keeps the first listed format on ties.
+                if (best == null || priority < bestPriority) {
+                    best = formats.getString(name + "." + type);
+                    bestPriority = priority;
+                }
+            }
+            if (best != null) {
+                return best;
+            }
         }
         return config.getString(SECTION + type);
     }

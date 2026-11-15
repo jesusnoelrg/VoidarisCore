@@ -24,8 +24,14 @@ join-quit:
   join: "<dark_gray>[<green>+</green>]</dark_gray> <gray><player>"
   quit: "<dark_gray>[<red>-</red>]</dark_gray> <gray><player>"
   first-join: "<prefix><light_purple><player></light_purple> <white>entró por primera vez a Voidaris."
-  # Overrides by LuckPerms group; groups not listed use the formats above.
+  # Each player uses the format with the lowest priority among those they have voidaris.joinquit.<name> for
+  # (ties go to the first one listed, formats without priority go last). Players without any use the formats above.
   groups:
+    mvp:
+      priority: 1
+      join: "<dark_gray>[<green>+</green>]</dark_gray> <aqua>MVP <player></aqua> <white>se ha unido."
+      quit: "<dark_gray>[<red>-</red>]</dark_gray> <aqua>MVP <player></aqua> <white>se ha ido."
     vip:
+      priority: 2
       join: "<dark_gray>[<green>+</green>]</dark_gray> <gold>VIP <player></gold> <white>se ha unido."
       quit: "<dark_gray>[<red>-</red>]</dark_gray> <gold>VIP <player></gold> <white>se ha ido."
