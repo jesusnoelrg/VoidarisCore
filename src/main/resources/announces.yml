@@ -1,0 +1,19 @@
+# VoidarisCore - automatic announcements (MiniMessage).
+
+enabled: true
+interval-seconds: 300
+# sequential | random
+order: sequential
+min-players: 1
+
+sound:
+  enabled: true
+  key: "minecraft:block.note_block.pling"
+  volume: 1.0
+  pitch: 1.0
+
+announcements:
+  - lines:
+      - "<prefix><white>Visita nuestra web: <light_purple><click:open_url:'https://web.voidaris.club'>web.voidaris.club</click></light_purple>"
+  - lines:
+      - "<prefix><white>Usa <light_purple>/home</light_purple> para volver a tus casas."

@@ -1,0 +1,26 @@
+# VoidarisCore - kits.
+# Each kit requires voidaris.kits.use.<kit>. Cooldowns are stored in data/kits.yml.
+# cooldown-seconds: -1 means the kit can only be claimed once.
+
+first-join-kit: "starter"
+
+kits:
+  starter:
+    cooldown-seconds: -1
+    items:
+      - material: STONE_SWORD
+        amount: 1
+      - material: STONE_PICKAXE
+        amount: 1
+      - material: BREAD
+        amount: 16
+  daily:
+    cooldown-seconds: 86400
+    items:
+      - material: COOKED_BEEF
+        amount: 16
+      - material: IRON_INGOT
+        amount: 8
+        name: "<light_purple>Hierro diario"
+        lore:
+          - "<gray>Recompensa del kit diario"

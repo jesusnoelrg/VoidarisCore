@@ -1,0 +1,29 @@
+# VoidarisCore - chat, private messages and join/quit formats (MiniMessage).
+# Placeholders: <player>, <displayname>, <message>, <prefix_lp>, <suffix_lp>, <target>.
+# PlaceholderAPI placeholders (%...%) are resolved when the integration is enabled.
+
+chat:
+  # Format for players whose LuckPerms primary group is not listed under groups.
+  default-format: "<gray><player></gray> <dark_gray>»</dark_gray> <white><message>"
+  groups:
+    admin: "<prefix_lp><red><player></red> <dark_gray>»</dark_gray> <white><message>"
+    vip: "<prefix_lp><gold><player></gold> <dark_gray>»</dark_gray> <white><message>"
+  colors:
+    # Legacy & codes require voidaris.chat.color, hex (&#RRGGBB) requires voidaris.chat.hex.
+    legacy: true
+    hex: true
+
+private-messages:
+  sender-format: "<dark_gray>[<light_purple>Tú</light_purple> → <light_purple><target></light_purple>]</dark_gray> <white><message>"
+  receiver-format: "<dark_gray>[<light_purple><player></light_purple> → <light_purple>Tú</light_purple>]</dark_gray> <white><message>"
+  spy-format: "<dark_gray>[Spy] <gray><player> → <target>:</gray> <white><message>"
+
+join-quit:
+  join: "<dark_gray>[<green>+</green>]</dark_gray> <gray><player>"
+  quit: "<dark_gray>[<red>-</red>]</dark_gray> <gray><player>"
+  first-join: "<prefix><light_purple><player></light_purple> <white>entró por primera vez a Voidaris."
+  # Overrides by LuckPerms group; groups not listed use the formats above.
+  groups:
+    vip:
+      join: "<dark_gray>[<green>+</green>]</dark_gray> <gold>VIP <player></gold> <white>se ha unido."
+      quit: "<dark_gray>[<red>-</red>]</dark_gray> <gold>VIP <player></gold> <white>se ha ido."

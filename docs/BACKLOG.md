@@ -1,4 +1,1 @@
-# BACKLOG
-
-- **Proposito:** Deferred errors, improvements and new items found while working on another task.
-- **Redacta:** jesusnoelrg
+- **Config validation:** warn on missing or invalid keys when loading the YAML files, and use `config-version` to migrate old files.- **runServer build drift:** `runServer` downloads the latest Paper 26.3 build (252) instead of the build the API targets (248); consider pinning it with `serverJar`/`paperBuild`.
