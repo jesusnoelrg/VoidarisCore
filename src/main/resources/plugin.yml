@@ -5,8 +5,15 @@ api-version: '26.3'
 authors: [ NoDebuffing ]
 description: Plugin núcleo del servidor Voidaris (spawn, tpa, homes, chat, mensajes y más).
 website: https://web.voidaris.club
+softdepend: [ LuckPerms, PlaceholderAPI ]
 
 permissions:
   voidaris.core.reload:
     description: Reload VoidarisCore configuration files.
     default: op
+  voidaris.joinquit.mvp:
+    description: Use the mvp join/quit format.
+    default: false
+  voidaris.joinquit.vip:
+    description: Use the vip join/quit format.
+    default: false

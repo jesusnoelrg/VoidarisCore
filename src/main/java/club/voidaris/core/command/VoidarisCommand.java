@@ -1,9 +1,7 @@
 package club.voidaris.core.command;
 
 import club.voidaris.core.Keys;
-import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.message.Messages;
-import club.voidaris.core.module.ModuleManager;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -12,13 +10,11 @@ import io.papermc.paper.command.brigadier.Commands;
 
 public final class VoidarisCommand {
 
-    private final ConfigManager configs;
-    private final ModuleManager modules;
+    private final Runnable reloader;
     private final Messages messages;
 
-    public VoidarisCommand(ConfigManager configs, ModuleManager modules, Messages messages) {
-        this.configs = configs;
-        this.modules = modules;
+    public VoidarisCommand(Runnable reloader, Messages messages) {
+        this.reloader = reloader;
         this.messages = messages;
     }
 
@@ -35,8 +31,7 @@ public final class VoidarisCommand {
             messages.send(sender, Keys.Message.GENERAL_NO_PERMISSION);
             return 0;
         }
-        configs.reload();
-        modules.reload();
+        reloader.run();
         messages.send(sender, Keys.Message.GENERAL_RELOADED);
         return Command.SINGLE_SUCCESS;
     }
