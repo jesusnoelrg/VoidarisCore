@@ -13,9 +13,9 @@ public final class Keys {
         // core
         public static final String CORE_RELOAD = "voidaris.core.reload";
 
-        // join-quit
-        /** Followed by the format name under join-quit.groups in chat-format.yml. */
-        public static final String JOIN_QUIT_FORMAT = "voidaris.joinquit.";
+        // cosmetics
+        /** Followed by the cosmetic id under join-messages.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_JOIN_MESSAGE = "voidaris.cosmetics.joinmessage.";
     }
 
     public static final class Message {
@@ -27,9 +27,23 @@ public final class Keys {
 
         // general
         public static final String GENERAL_NO_PERMISSION = "general.no-permission";
+        public static final String GENERAL_PLAYER_ONLY = "general.player-only";
         public static final String GENERAL_RELOADED = "general.reloaded";
+        public static final String GENERAL_MODULE_DISABLED = "general.module-disabled";
 
         // commands
         public static final String COMMAND_VOIDARIS_DESCRIPTION = "commands.voidaris.description";
+        public static final String COMMAND_COSMETICS_DESCRIPTION = "commands.cosmetics.description";
+
+        // cosmetics
+        public static final String COSMETICS_UNAVAILABLE = "cosmetics.unavailable";
+        public static final String COSMETICS_JOIN_MESSAGE_SELECTED = "cosmetics.join-message.selected";
+        public static final String COSMETICS_JOIN_MESSAGE_NOT_FOUND = "cosmetics.join-message.not-found";
+        public static final String COSMETICS_JOIN_MESSAGE_LOCKED = "cosmetics.join-message.locked";
+        public static final String COSMETICS_JOIN_MESSAGE_LIST = "cosmetics.join-message.list";
+        public static final String COSMETICS_JOIN_MESSAGE_LIST_EMPTY = "cosmetics.join-message.list-empty";
+        public static final String COSMETICS_JOIN_MESSAGE_LIST_ENTRY = "cosmetics.join-message.list-entry";
+        public static final String COSMETICS_JOIN_MESSAGE_LIST_ENTRY_SELECTED = "cosmetics.join-message.list-entry-selected";
+        public static final String COSMETICS_JOIN_MESSAGE_PREVIEW_HIDDEN = "cosmetics.join-message.preview-hidden";
     }
 }

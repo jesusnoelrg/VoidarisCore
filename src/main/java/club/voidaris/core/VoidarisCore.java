@@ -2,6 +2,8 @@ package club.voidaris.core;
 
 import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.cosmetics.CosmeticsCommand;
+import club.voidaris.core.cosmetics.CosmeticsModule;
 import club.voidaris.core.integration.Integrations;
 import club.voidaris.core.joinquit.JoinQuitModule;
 import club.voidaris.core.message.Messages;
@@ -11,6 +13,7 @@ import club.voidaris.core.storage.Database;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.logging.Level;
 
 public final class VoidarisCore extends JavaPlugin {
@@ -20,6 +23,8 @@ public final class VoidarisCore extends JavaPlugin {
     private Integrations integrations;
     private Database database;
     private ModuleManager moduleManager;
+    private PlayerFormatter formatter;
+    private CosmeticsModule cosmeticsModule;
 
     @Override
     public void onEnable() {
@@ -70,16 +75,21 @@ public final class VoidarisCore extends JavaPlugin {
     }
 
     private void registerModules() {
-        var formatter = new PlayerFormatter(messages, integrations);
-        moduleManager.register(new JoinQuitModule(configManager, formatter, integrations));
+        formatter = new PlayerFormatter(messages, integrations);
+        cosmeticsModule = new CosmeticsModule(this, configManager, database);
+        moduleManager.register(cosmeticsModule);
+        moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
     }
 
     private void registerCommands() {
         var voidarisCommand = new VoidarisCommand(this::reload, messages);
+        var cosmeticsCommand = new CosmeticsCommand(cosmeticsModule, messages, formatter);
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();
             registrar.register(voidarisCommand.build(), messages.raw(Keys.Message.COMMAND_VOIDARIS_DESCRIPTION));
+            registrar.register(cosmeticsCommand.build(), messages.raw(Keys.Message.COMMAND_COSMETICS_DESCRIPTION),
+                    List.of("cosmeticos"));
         });
     }
 

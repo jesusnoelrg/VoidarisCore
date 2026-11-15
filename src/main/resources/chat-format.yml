@@ -1,4 +1,5 @@
 # VoidarisCore - chat, private messages and join formats (MiniMessage).
+# Placeholders below also apply to the join message cosmetics in cosmetics.yml.
 # Placeholders: <player>, <displayname>, <message>, <prefix_lp>, <suffix_lp>, <target>.
 # PlaceholderAPI placeholders (%...%) are resolved when the integration is enabled.
 # LuckPerms prefixes and suffixes (<prefix_lp>, <suffix_lp>) are parsed as MiniMessage.
@@ -21,18 +22,10 @@ private-messages:
 
 join-quit:
   # Quit messages are always hidden. An empty format ("") hides the message. first-join replaces join on a player's first login.
-  # join is empty so only players with a format under groups (VIPs and ranks) announce their arrival.
+  # Returning players use their equipped join message cosmetic (cosmetics.yml); join only applies to players who own none
+  # or when the cosmetics module is disabled. It is empty so only ranks announce their arrival.
   join: ""
   first-join: "<prefix><light_purple><player></light_purple> <white>entró por primera vez a Voidaris."
-  # Each player uses the format with the lowest priority among those they have voidaris.joinquit.<name> for
-  # (ties go to the first one listed, formats without priority go last). Players without any use the formats above.
-  groups:
-    mvp:
-      priority: 1
-      join: "<dark_gray>[<green>+</green>]</dark_gray> <aqua>MVP <player></aqua> <white>se ha unido."
-    vip:
-      priority: 2
-      join: "<dark_gray>[<green>+</green>]</dark_gray> <gold>VIP <player></gold> <white>se ha unido."
   # Shown when hovering over any join message. Remove all lines to disable it.
   # Extra placeholders: <group> (LuckPerms primary group), <first_join> (formatted with date-format).
   hover:

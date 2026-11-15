@@ -1,7 +1,7 @@
 package club.voidaris.core.joinquit;
 
-import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.cosmetics.CosmeticsModule;
 import club.voidaris.core.integration.Integrations;
 import club.voidaris.core.message.PlayerFormatter;
 import net.kyori.adventure.text.Component;
@@ -20,16 +20,17 @@ import java.time.format.DateTimeFormatter;
 final class JoinQuitListener implements Listener {
 
     private static final String SECTION = "join-quit.";
-    static final String FORMATS = SECTION + "groups";
 
     private final ConfigManager configs;
     private final PlayerFormatter formatter;
     private final Integrations integrations;
+    private final CosmeticsModule cosmetics;
 
-    JoinQuitListener(ConfigManager configs, PlayerFormatter formatter, Integrations integrations) {
+    JoinQuitListener(ConfigManager configs, PlayerFormatter formatter, Integrations integrations, CosmeticsModule cosmetics) {
         this.configs = configs;
         this.formatter = formatter;
         this.integrations = integrations;
+        this.cosmetics = cosmetics;
     }
 
     @EventHandler
@@ -47,28 +48,7 @@ final class JoinQuitListener implements Listener {
     }
 
     private String joinFormat(Player player) {
-        var config = configs.chatFormat().get();
-        // Read from the file on disk only (no bundled defaults), so a format deleted by the admin stops applying.
-        var formats = config.getConfigurationSection(FORMATS);
-        if (formats != null) {
-            String best = null;
-            int bestPriority = Integer.MAX_VALUE;
-            for (String name : formats.getKeys(false)) {
-                if (!formats.isSet(name + ".join") || !player.hasPermission(Keys.Permission.JOIN_QUIT_FORMAT + name)) {
-                    continue;
-                }
-                int priority = formats.getInt(name + ".priority", Integer.MAX_VALUE);
-                // Strict comparison keeps the first listed format on ties.
-                if (best == null || priority < bestPriority) {
-                    best = formats.getString(name + ".join");
-                    bestPriority = priority;
-                }
-            }
-            if (best != null) {
-                return best;
-            }
-        }
-        return config.getString(SECTION + "join");
+        return cosmetics.joinMessage(player).orElseGet(() -> configs.chatFormat().get().getString(SECTION + "join"));
     }
 
     private Component render(Player player, String raw) {

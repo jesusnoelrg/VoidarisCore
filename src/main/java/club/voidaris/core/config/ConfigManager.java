@@ -13,6 +13,7 @@ public final class ConfigManager {
     private final ConfigFile chatFormat;
     private final ConfigFile announces;
     private final ConfigFile database;
+    private final ConfigFile cosmetics;
 
     public ConfigManager(JavaPlugin plugin) {
         main = new ConfigFile(plugin, "config.yml");
@@ -24,10 +25,11 @@ public final class ConfigManager {
         chatFormat = new ConfigFile(plugin, "chat-format.yml");
         announces = new ConfigFile(plugin, "announces.yml");
         database = new ConfigFile(plugin, "database.yml");
+        cosmetics = new ConfigFile(plugin, "cosmetics.yml");
     }
 
     public void reload() {
-        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, database}) {
+        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, database, cosmetics}) {
             file.reload();
         }
     }
@@ -41,4 +43,5 @@ public final class ConfigManager {
     public ConfigFile chatFormat() { return chatFormat; }
     public ConfigFile announces() { return announces; }
     public ConfigFile database() { return database; }
+    public ConfigFile cosmetics() { return cosmetics; }
 }
