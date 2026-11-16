@@ -11,7 +11,12 @@ import club.voidaris.core.joinquit.JoinQuitModule;
 import club.voidaris.core.message.Messages;
 import club.voidaris.core.message.PlayerFormatter;
 import club.voidaris.core.module.ModuleManager;
+import club.voidaris.core.spawn.SpawnCommands;
+import club.voidaris.core.spawn.SpawnModule;
 import club.voidaris.core.storage.Database;
+import club.voidaris.core.teleport.Teleporter;
+import club.voidaris.core.warps.WarpCommands;
+import club.voidaris.core.warps.WarpsModule;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +32,9 @@ public final class VoidarisCore extends JavaPlugin {
     private ModuleManager moduleManager;
     private PlayerFormatter formatter;
     private CosmeticsModule cosmeticsModule;
+    private Teleporter teleporter;
+    private SpawnModule spawnModule;
+    private WarpsModule warpsModule;
 
     @Override
     public void onEnable() {
@@ -83,6 +91,12 @@ public final class VoidarisCore extends JavaPlugin {
         cosmeticsModule = new CosmeticsModule(this, configManager, database);
         moduleManager.register(cosmeticsModule);
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
+        teleporter = new Teleporter(this, messages);
+        getServer().getPluginManager().registerEvents(teleporter, this);
+        spawnModule = new SpawnModule(this, configManager);
+        moduleManager.register(spawnModule);
+        warpsModule = new WarpsModule(this, configManager);
+        moduleManager.register(warpsModule);
     }
 
     private void registerCommands() {
@@ -90,12 +104,18 @@ public final class VoidarisCore extends JavaPlugin {
         var menuLoader = new MenuLoader(formatter, getLogger());
         var cosmeticsCommand = new CosmeticsCommand(this, configManager, cosmeticsModule, messages, formatter, menuLoader);
         voidarisCommand.help().register(cosmeticsCommand.helpEntries());
+        var spawnCommands = new SpawnCommands(spawnModule, messages, teleporter);
+        voidarisCommand.help().register(spawnCommands.helpEntries());
+        var warpCommands = new WarpCommands(warpsModule, messages, teleporter);
+        voidarisCommand.help().register(warpCommands.helpEntries());
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();
             registrar.register(voidarisCommand.build(), messages.raw(Keys.Message.COMMAND_VOIDARIS_DESCRIPTION));
             registrar.register(cosmeticsCommand.build(), messages.raw(Keys.Message.COMMAND_COSMETICS_DESCRIPTION),
                     List.of("cosmeticos"));
+            spawnCommands.register(registrar);
+            warpCommands.register(registrar);
         });
     }
 

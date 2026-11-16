@@ -16,6 +16,18 @@ commands:
     description: "Ayuda y administración de VoidarisCore"
   cosmetics:
     description: "Equipa tus cosméticos"
+  spawn:
+    description: "Teletranspórtate al spawn"
+  setspawn:
+    description: "Establece el spawn del servidor"
+  delspawn:
+    description: "Elimina el spawn del servidor"
+  warp:
+    description: "Teletranspórtate a un warp"
+  setwarp:
+    description: "Crea o mueve un warp"
+  delwarp:
+    description: "Elimina un warp"
 
 help:
   # <page> and <pages> are the current page and the page count.
@@ -47,17 +59,35 @@ help:
     cosmetics-joinmessage:
       arguments: "\\<cosmético>"
       description: "Equipa un mensaje de entrada"
+    spawn:
+      description: "Teletranspórtate al spawn"
+    setspawn:
+      description: "Establece el spawn en tu posición"
+    delspawn:
+      description: "Elimina el spawn"
+    warp:
+      arguments: "[warp]"
+      description: "Lista los warps o teletranspórtate a uno"
+    setwarp:
+      arguments: "\\<warp>"
+      description: "Crea o mueve un warp a tu posición"
+    delwarp:
+      arguments: "\\<warp>"
+      description: "Elimina un warp"
 
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
   cancelled-move: "<prefix><white>Teletransporte cancelado porque te moviste."
   cancelled-damage: "<prefix><white>Teletransporte cancelado porque recibiste daño."
   cooldown: "<prefix><white>Debes esperar <light_purple><seconds></light_purple> segundos para teletransportarte de nuevo."
+  world-unavailable: "<prefix><white>El mundo de destino no está disponible en este momento."
+  failed: "<prefix><white>No se pudo completar el teletransporte."
 
 spawn:
   teleported: "<prefix><white>Has sido enviado al spawn."
   set: "<prefix><white>Spawn establecido en tu posición."
   not-set: "<prefix><white>El spawn todavía no ha sido establecido."
+  deleted: "<prefix><white>Spawn eliminado."
 
 tpa:
   sent: "<prefix><white>Solicitud enviada a <light_purple><player></light_purple>."
@@ -95,6 +125,11 @@ warps:
   not-found: "<prefix><white>No existe el warp <light_purple><warp></light_purple>."
   list: "<prefix><white>Warps disponibles: <warps>"
   list-empty: "<prefix><white>No hay warps disponibles."
+  invalid-name: "<prefix><white>El nombre del warp no es válido."
+  # Each warp in <warps>; clicking it teleports there.
+  list-entry: "<light_purple><warp>"
+  list-separator: "<dark_gray>, "
+  list-hover: "<gray>Clic para ir"
 
 kits:
   received: "<prefix><white>Has recibido el kit <light_purple><kit></light_purple>."
