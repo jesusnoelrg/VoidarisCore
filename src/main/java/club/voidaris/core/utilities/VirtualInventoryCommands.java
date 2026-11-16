@@ -15,11 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Commands that open a virtual workstation or a player's ender chest anywhere.
+ * Commands that open a virtual workstation, a player's ender chest or a player's inventory anywhere.
  */
 public final class VirtualInventoryCommands {
 
     private static final String ENDER_CHEST = "enderchest";
+    private static final String INVSEE = "invsee";
 
     private record Station(
             String command,
@@ -72,6 +73,12 @@ public final class VirtualInventoryCommands {
                         .then(CommandSupport.targetArgument().executes(context -> enderChest(context, true)))
                         .build(),
                 messages.raw(Keys.Message.COMMAND_ENDERCHEST_DESCRIPTION), List.of("ec", "echest"));
+        registrar.register(Commands.literal(INVSEE)
+                        .executes(context -> support.usage(context.getSource().getSender(),
+                                Keys.Permission.UTILITIES_INVSEE, "/" + INVSEE, Keys.Message.HELP_INVSEE_ARGUMENTS))
+                        .then(CommandSupport.targetArgument().executes(this::invsee))
+                        .build(),
+                messages.raw(Keys.Message.COMMAND_INVSEE_DESCRIPTION));
     }
 
     public List<HelpEntry> helpEntries() {
@@ -83,6 +90,8 @@ public final class VirtualInventoryCommands {
         }
         entries.add(new HelpEntry(HelpEntry.Category.PLAYER, "/" + ENDER_CHEST, Keys.Message.HELP_UTILITIES_TARGET_ARGUMENTS,
                 Keys.Message.HELP_ENDERCHEST_DESCRIPTION, Keys.Permission.UTILITIES_ENDERCHEST, module));
+        entries.add(new HelpEntry(HelpEntry.Category.ADMIN, "/" + INVSEE, Keys.Message.HELP_INVSEE_ARGUMENTS,
+                Keys.Message.HELP_INVSEE_DESCRIPTION, Keys.Permission.UTILITIES_INVSEE, module));
         return entries;
     }
 
@@ -97,6 +106,32 @@ public final class VirtualInventoryCommands {
                 .checkReachable(false)
                 .build(player);
         player.openInventory(view);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    // Opens the live inventory, so changes apply at once; like /enderchest, its title is the vanilla one.
+    private int invsee(CommandContext<CommandSourceStack> context) {
+        Player viewer = support.requirePlayer(context, Keys.Permission.UTILITIES_INVSEE);
+        if (viewer == null) {
+            return 0;
+        }
+        Player target = support.resolveTarget(context, Keys.Permission.UTILITIES_INVSEE,
+                Keys.Permission.UTILITIES_INVSEE, true);
+        if (target == null) {
+            return 0;
+        }
+        // The same inventory as both halves of the view would let items be moved onto themselves and duplicated.
+        if (target == viewer) {
+            support.messages().send(viewer, Keys.Message.UTILITIES_INVSEE_SELF);
+            return 0;
+        }
+        var inventory = target.getInventory();
+        if (viewer.openInventory(inventory) == null) {
+            return 0;
+        }
+        if (!viewer.hasPermission(Keys.Permission.UTILITIES_INVSEE_MODIFY)) {
+            support.module().addReadOnlyView(viewer, inventory);
+        }
         return Command.SINGLE_SUCCESS;
     }
 
