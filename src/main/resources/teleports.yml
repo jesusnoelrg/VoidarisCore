@@ -17,6 +17,7 @@ spawn:
     enabled: true
     # Y level below which the player is sent back to spawn.
     min-y: -70
+    # Empty means every world.
     worlds: []
 
 tpa:
