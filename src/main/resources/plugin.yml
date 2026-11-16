@@ -35,6 +35,127 @@ permissions:
   voidaris.warps.delete:
     description: Delete warps.
     default: op
+  voidaris.utilities.craft:
+    description: Open a virtual crafting table.
+    default: op
+  voidaris.utilities.anvil:
+    description: Open a virtual anvil.
+    default: op
+  voidaris.utilities.grindstone:
+    description: Open a virtual grindstone.
+    default: op
+  voidaris.utilities.stonecutter:
+    description: Open a virtual stonecutter.
+    default: op
+  voidaris.utilities.loom:
+    description: Open a virtual loom.
+    default: op
+  voidaris.utilities.cartography:
+    description: Open a virtual cartography table.
+    default: op
+  voidaris.utilities.smithing:
+    description: Open a virtual smithing table.
+    default: op
+  voidaris.utilities.enderchest:
+    description: Open your own ender chest.
+    default: op
+  voidaris.utilities.enderchest.others:
+    description: Open and edit another player's ender chest.
+    default: op
+  voidaris.utilities.gamemode.survival:
+    description: Switch to survival mode.
+    default: op
+  voidaris.utilities.gamemode.creative:
+    description: Switch to creative mode.
+    default: op
+  voidaris.utilities.gamemode.adventure:
+    description: Switch to adventure mode.
+    default: op
+  voidaris.utilities.gamemode.spectator:
+    description: Switch to spectator mode.
+    default: op
+  voidaris.utilities.gamemode.others:
+    description: Change another player's game mode (also needs the mode's node).
+    default: op
+  voidaris.utilities.heal:
+    description: Heal yourself.
+    default: op
+  voidaris.utilities.heal.others:
+    description: Heal another player.
+    default: op
+  voidaris.utilities.feed:
+    description: Feed yourself.
+    default: op
+  voidaris.utilities.feed.others:
+    description: Feed another player.
+    default: op
+  voidaris.utilities.fly:
+    description: Toggle your flight.
+    default: op
+  voidaris.utilities.fly.others:
+    description: Toggle another player's flight.
+    default: op
+  voidaris.utilities.god:
+    description: Toggle your invulnerability.
+    default: op
+  voidaris.utilities.god.others:
+    description: Toggle another player's invulnerability.
+    default: op
+  voidaris.utilities.speed:
+    description: Change your walk or fly speed.
+    default: op
+  voidaris.utilities.speed.others:
+    description: Change another player's speed.
+    default: op
+  voidaris.utilities.hat:
+    description: Wear the held item as a helmet.
+    default: op
+  voidaris.utilities.time:
+    description: Set day or night in your world.
+    default: op
+  voidaris.utilities.weather:
+    description: Set the weather in your world.
+    default: op
+  voidaris.utilities.gamemode.*:
+    description: Switch to any game mode.
+    default: op
+    children:
+      voidaris.utilities.gamemode.survival: true
+      voidaris.utilities.gamemode.creative: true
+      voidaris.utilities.gamemode.adventure: true
+      voidaris.utilities.gamemode.spectator: true
+  voidaris.utilities.*:
+    description: Every utilities command, including on other players.
+    default: op
+    children:
+      voidaris.utilities.craft: true
+      voidaris.utilities.anvil: true
+      voidaris.utilities.grindstone: true
+      voidaris.utilities.stonecutter: true
+      voidaris.utilities.loom: true
+      voidaris.utilities.cartography: true
+      voidaris.utilities.smithing: true
+      voidaris.utilities.enderchest: true
+      voidaris.utilities.enderchest.others: true
+      voidaris.utilities.gamemode.survival: true
+      voidaris.utilities.gamemode.creative: true
+      voidaris.utilities.gamemode.adventure: true
+      voidaris.utilities.gamemode.spectator: true
+      voidaris.utilities.gamemode.others: true
+      voidaris.utilities.heal: true
+      voidaris.utilities.heal.others: true
+      voidaris.utilities.feed: true
+      voidaris.utilities.feed.others: true
+      voidaris.utilities.fly: true
+      voidaris.utilities.fly.others: true
+      voidaris.utilities.god: true
+      voidaris.utilities.god.others: true
+      voidaris.utilities.speed: true
+      voidaris.utilities.speed.others: true
+      voidaris.utilities.hat: true
+      voidaris.utilities.time: true
+      voidaris.utilities.weather: true
+      voidaris.utilities.gamemode.*: true
   voidaris.cosmetics.joinmessage.silent:
     description: Equip the silent join message.
     default: true

@@ -22,7 +22,7 @@ con mensajes y estilo uniformes.
 | Warps | `/warp [warp]` (sin argumento, o con `/warps`, lista los warps clicables), `/setwarp`, `/delwarp`, con delay, cooldown y permiso opcional por warp |
 | Kits | `/kit`, `/kits` con cooldown y permiso por kit, kit de primera entrada |
 | Homes | `/home`, `/sethome`, `/delhome`, `/homes` con límites por permiso |
-| Utilidades | Mesas de trabajo virtuales, `/enderchest`, `/hat`, `/gamemode` |
+| Utilidades | Estaciones virtuales (`/craft`, `/anvil`, `/grindstone`, `/stonecutter`, `/loom`, `/cartography`, `/smithing`), `/enderchest [jugador]`, `/gm <modo\|0-3>` y atajos (`/gms`, `/gmc`, `/gma`, `/gmsp`), `/heal`, `/feed`, `/fly`, `/god`, `/speed`, `/hat`, `/day`, `/night`, `/sun`, `/rain`; todo bajo `voidaris.utilities.*` (OP por defecto) |
 | Bienvenida | Anuncio y kit de primera entrada, MOTD |
 | Chat | Formato por grupo de LuckPerms, colores `&` y hexadecimales |
 | Entrada/salida | Mensajes de entrada (según el cosmético equipado) y primera entrada, con PlaceholderAPI |

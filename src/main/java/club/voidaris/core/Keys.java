@@ -33,6 +33,36 @@ public final class Keys {
         public static final String WARPS_USE_WARP = "voidaris.warps.use.";
         public static final String WARPS_SET = "voidaris.warps.set";
         public static final String WARPS_DELETE = "voidaris.warps.delete";
+
+        // utilities
+        public static final String UTILITIES_CRAFT = "voidaris.utilities.craft";
+        public static final String UTILITIES_ANVIL = "voidaris.utilities.anvil";
+        public static final String UTILITIES_GRINDSTONE = "voidaris.utilities.grindstone";
+        public static final String UTILITIES_STONECUTTER = "voidaris.utilities.stonecutter";
+        public static final String UTILITIES_LOOM = "voidaris.utilities.loom";
+        public static final String UTILITIES_CARTOGRAPHY = "voidaris.utilities.cartography";
+        public static final String UTILITIES_SMITHING = "voidaris.utilities.smithing";
+        public static final String UTILITIES_ENDERCHEST = "voidaris.utilities.enderchest";
+        public static final String UTILITIES_ENDERCHEST_OTHERS = "voidaris.utilities.enderchest.others";
+        public static final String UTILITIES_GAMEMODE_ALL = "voidaris.utilities.gamemode.*";
+        public static final String UTILITIES_GAMEMODE_SURVIVAL = "voidaris.utilities.gamemode.survival";
+        public static final String UTILITIES_GAMEMODE_CREATIVE = "voidaris.utilities.gamemode.creative";
+        public static final String UTILITIES_GAMEMODE_ADVENTURE = "voidaris.utilities.gamemode.adventure";
+        public static final String UTILITIES_GAMEMODE_SPECTATOR = "voidaris.utilities.gamemode.spectator";
+        public static final String UTILITIES_GAMEMODE_OTHERS = "voidaris.utilities.gamemode.others";
+        public static final String UTILITIES_HEAL = "voidaris.utilities.heal";
+        public static final String UTILITIES_HEAL_OTHERS = "voidaris.utilities.heal.others";
+        public static final String UTILITIES_FEED = "voidaris.utilities.feed";
+        public static final String UTILITIES_FEED_OTHERS = "voidaris.utilities.feed.others";
+        public static final String UTILITIES_FLY = "voidaris.utilities.fly";
+        public static final String UTILITIES_FLY_OTHERS = "voidaris.utilities.fly.others";
+        public static final String UTILITIES_GOD = "voidaris.utilities.god";
+        public static final String UTILITIES_GOD_OTHERS = "voidaris.utilities.god.others";
+        public static final String UTILITIES_SPEED = "voidaris.utilities.speed";
+        public static final String UTILITIES_SPEED_OTHERS = "voidaris.utilities.speed.others";
+        public static final String UTILITIES_HAT = "voidaris.utilities.hat";
+        public static final String UTILITIES_TIME = "voidaris.utilities.time";
+        public static final String UTILITIES_WEATHER = "voidaris.utilities.weather";
     }
 
     public static final class Message {
@@ -45,6 +75,7 @@ public final class Keys {
         // general
         public static final String GENERAL_NO_PERMISSION = "general.no-permission";
         public static final String GENERAL_PLAYER_ONLY = "general.player-only";
+        public static final String GENERAL_PLAYER_NOT_FOUND = "general.player-not-found";
         public static final String GENERAL_RELOADED = "general.reloaded";
         public static final String GENERAL_MODULE_DISABLED = "general.module-disabled";
 
@@ -57,6 +88,25 @@ public final class Keys {
         public static final String COMMAND_WARP_DESCRIPTION = "commands.warp.description";
         public static final String COMMAND_SETWARP_DESCRIPTION = "commands.setwarp.description";
         public static final String COMMAND_DELWARP_DESCRIPTION = "commands.delwarp.description";
+        public static final String COMMAND_CRAFT_DESCRIPTION = "commands.craft.description";
+        public static final String COMMAND_ANVIL_DESCRIPTION = "commands.anvil.description";
+        public static final String COMMAND_GRINDSTONE_DESCRIPTION = "commands.grindstone.description";
+        public static final String COMMAND_STONECUTTER_DESCRIPTION = "commands.stonecutter.description";
+        public static final String COMMAND_LOOM_DESCRIPTION = "commands.loom.description";
+        public static final String COMMAND_CARTOGRAPHY_DESCRIPTION = "commands.cartography.description";
+        public static final String COMMAND_SMITHING_DESCRIPTION = "commands.smithing.description";
+        public static final String COMMAND_ENDERCHEST_DESCRIPTION = "commands.enderchest.description";
+        public static final String COMMAND_GM_DESCRIPTION = "commands.gm.description";
+        public static final String COMMAND_HEAL_DESCRIPTION = "commands.heal.description";
+        public static final String COMMAND_FEED_DESCRIPTION = "commands.feed.description";
+        public static final String COMMAND_FLY_DESCRIPTION = "commands.fly.description";
+        public static final String COMMAND_GOD_DESCRIPTION = "commands.god.description";
+        public static final String COMMAND_SPEED_DESCRIPTION = "commands.speed.description";
+        public static final String COMMAND_HAT_DESCRIPTION = "commands.hat.description";
+        public static final String COMMAND_DAY_DESCRIPTION = "commands.day.description";
+        public static final String COMMAND_NIGHT_DESCRIPTION = "commands.night.description";
+        public static final String COMMAND_SUN_DESCRIPTION = "commands.sun.description";
+        public static final String COMMAND_RAIN_DESCRIPTION = "commands.rain.description";
 
         // help
         public static final String HELP_HEADER = "help.header";
@@ -89,6 +139,28 @@ public final class Keys {
         public static final String HELP_SETWARP_DESCRIPTION = "help.commands.setwarp.description";
         public static final String HELP_DELWARP_ARGUMENTS = "help.commands.delwarp.arguments";
         public static final String HELP_DELWARP_DESCRIPTION = "help.commands.delwarp.description";
+        public static final String HELP_UTILITIES_TARGET_ARGUMENTS = "help.commands.utilities-target.arguments";
+        public static final String HELP_GM_ARGUMENTS = "help.commands.gm.arguments";
+        public static final String HELP_SPEED_ARGUMENTS = "help.commands.speed.arguments";
+        public static final String HELP_CRAFT_DESCRIPTION = "help.commands.craft.description";
+        public static final String HELP_ANVIL_DESCRIPTION = "help.commands.anvil.description";
+        public static final String HELP_GRINDSTONE_DESCRIPTION = "help.commands.grindstone.description";
+        public static final String HELP_STONECUTTER_DESCRIPTION = "help.commands.stonecutter.description";
+        public static final String HELP_LOOM_DESCRIPTION = "help.commands.loom.description";
+        public static final String HELP_CARTOGRAPHY_DESCRIPTION = "help.commands.cartography.description";
+        public static final String HELP_SMITHING_DESCRIPTION = "help.commands.smithing.description";
+        public static final String HELP_ENDERCHEST_DESCRIPTION = "help.commands.enderchest.description";
+        public static final String HELP_GM_DESCRIPTION = "help.commands.gm.description";
+        public static final String HELP_HEAL_DESCRIPTION = "help.commands.heal.description";
+        public static final String HELP_FEED_DESCRIPTION = "help.commands.feed.description";
+        public static final String HELP_FLY_DESCRIPTION = "help.commands.fly.description";
+        public static final String HELP_GOD_DESCRIPTION = "help.commands.god.description";
+        public static final String HELP_SPEED_DESCRIPTION = "help.commands.speed.description";
+        public static final String HELP_HAT_DESCRIPTION = "help.commands.hat.description";
+        public static final String HELP_DAY_DESCRIPTION = "help.commands.day.description";
+        public static final String HELP_NIGHT_DESCRIPTION = "help.commands.night.description";
+        public static final String HELP_SUN_DESCRIPTION = "help.commands.sun.description";
+        public static final String HELP_RAIN_DESCRIPTION = "help.commands.rain.description";
 
         // teleport
         public static final String TELEPORT_WARMUP = "teleport.warmup";
@@ -116,6 +188,44 @@ public final class Keys {
         public static final String WARPS_LIST_ENTRY = "warps.list-entry";
         public static final String WARPS_LIST_SEPARATOR = "warps.list-separator";
         public static final String WARPS_LIST_HOVER = "warps.list-hover";
+
+        // utilities
+        public static final String UTILITIES_TITLE_CRAFT = "utilities.titles.craft";
+        public static final String UTILITIES_TITLE_ANVIL = "utilities.titles.anvil";
+        public static final String UTILITIES_TITLE_GRINDSTONE = "utilities.titles.grindstone";
+        public static final String UTILITIES_TITLE_STONECUTTER = "utilities.titles.stonecutter";
+        public static final String UTILITIES_TITLE_LOOM = "utilities.titles.loom";
+        public static final String UTILITIES_TITLE_CARTOGRAPHY = "utilities.titles.cartography";
+        public static final String UTILITIES_TITLE_SMITHING = "utilities.titles.smithing";
+        public static final String UTILITIES_GAMEMODE_CHANGED = "utilities.gamemode.changed";
+        public static final String UTILITIES_GAMEMODE_CHANGED_OTHER = "utilities.gamemode.changed-other";
+        public static final String UTILITIES_GAMEMODE_NAME_SURVIVAL = "utilities.gamemode.names.survival";
+        public static final String UTILITIES_GAMEMODE_NAME_CREATIVE = "utilities.gamemode.names.creative";
+        public static final String UTILITIES_GAMEMODE_NAME_ADVENTURE = "utilities.gamemode.names.adventure";
+        public static final String UTILITIES_GAMEMODE_NAME_SPECTATOR = "utilities.gamemode.names.spectator";
+        public static final String UTILITIES_HEAL_SELF = "utilities.heal.self";
+        public static final String UTILITIES_HEAL_OTHER = "utilities.heal.other";
+        public static final String UTILITIES_FEED_SELF = "utilities.feed.self";
+        public static final String UTILITIES_FEED_OTHER = "utilities.feed.other";
+        public static final String UTILITIES_FLY_ENABLED = "utilities.fly.enabled";
+        public static final String UTILITIES_FLY_ENABLED_OTHER = "utilities.fly.enabled-other";
+        public static final String UTILITIES_FLY_DISABLED = "utilities.fly.disabled";
+        public static final String UTILITIES_FLY_DISABLED_OTHER = "utilities.fly.disabled-other";
+        public static final String UTILITIES_GOD_ENABLED = "utilities.god.enabled";
+        public static final String UTILITIES_GOD_ENABLED_OTHER = "utilities.god.enabled-other";
+        public static final String UTILITIES_GOD_DISABLED = "utilities.god.disabled";
+        public static final String UTILITIES_GOD_DISABLED_OTHER = "utilities.god.disabled-other";
+        public static final String UTILITIES_SPEED_WALK = "utilities.speed.walk";
+        public static final String UTILITIES_SPEED_WALK_OTHER = "utilities.speed.walk-other";
+        public static final String UTILITIES_SPEED_FLY = "utilities.speed.fly";
+        public static final String UTILITIES_SPEED_FLY_OTHER = "utilities.speed.fly-other";
+        public static final String UTILITIES_HAT_EQUIPPED = "utilities.hat.equipped";
+        public static final String UTILITIES_HAT_EMPTY_HAND = "utilities.hat.empty-hand";
+        public static final String UTILITIES_HAT_BOUND = "utilities.hat.bound";
+        public static final String UTILITIES_TIME_DAY = "utilities.time.day";
+        public static final String UTILITIES_TIME_NIGHT = "utilities.time.night";
+        public static final String UTILITIES_WEATHER_SUN = "utilities.weather.sun";
+        public static final String UTILITIES_WEATHER_RAIN = "utilities.weather.rain";
 
         // cosmetics
         public static final String COSMETICS_UNAVAILABLE = "cosmetics.unavailable";
