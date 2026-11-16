@@ -1,4 +1,4 @@
-- **Config validation:** warn on missing or invalid keys when loading the YAML files, and use `config-version` to migrate old files.- **runServer build drift:** `runServer` downloads the latest Paper 26.3 build (252) instead of the build the API targets (248); consider pinning it with `serverJar`/`paperBuild`.
+- **runServer build drift:** `runServer` downloads the latest Paper 26.3 build (252) instead of the build the API targets (248); consider pinning it with `serverJar`/`paperBuild`.
 
 - **Disabled module commands:** Brigadier commands cannot be unregistered at runtime, so commands of a disabled module stay registered; they should check `ModuleManager#isEnabled` and reply with `general.module-disabled`.
 - **runServer integrations:** the test server downloads LuckPerms but not PlaceholderAPI, so placeholders cannot be tested there; add it to `downloadPlugins` in `runServer`.
