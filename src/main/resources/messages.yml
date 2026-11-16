@@ -86,6 +86,10 @@ commands:
     description: "Despeja el clima de tu mundo"
   rain:
     description: "Hace llover en tu mundo"
+  time:
+    description: "Cambia la hora de tu mundo"
+  weather:
+    description: "Cambia el clima de tu mundo"
   motd:
     description: "Muestra el mensaje de bienvenida"
   message:
@@ -244,6 +248,12 @@ help:
       description: "Despeja el clima de tu mundo"
     rain:
       description: "Hace llover en tu mundo"
+    time:
+      arguments: "\\<day|noon|night|midnight|0-23999>"
+      description: "Cambia la hora de tu mundo"
+    weather:
+      arguments: "\\<sun|rain|thunder>"
+      description: "Cambia el clima de tu mundo"
     motd:
       description: "Muestra el mensaje de bienvenida"
     message:
@@ -381,9 +391,12 @@ utilities:
   time:
     day: "<prefix><white>Ahora es de día en <light_purple><world></light_purple>."
     night: "<prefix><white>Ahora es de noche en <light_purple><world></light_purple>."
+    # /time <value>; <time> is the value typed (day, noon, night, midnight or ticks).
+    set: "<prefix><white>Hora de <light_purple><world></light_purple> establecida en <light_purple><time></light_purple>."
   weather:
     sun: "<prefix><white>El clima se despejó en <light_purple><world></light_purple>."
     rain: "<prefix><white>Comenzó a llover en <light_purple><world></light_purple>."
+    thunder: "<prefix><white>Comenzó una tormenta eléctrica en <light_purple><world></light_purple>."
 
 motd:
   empty: "<prefix><white>No hay ningún mensaje de bienvenida configurado."

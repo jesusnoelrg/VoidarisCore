@@ -157,6 +157,8 @@ public final class Keys {
         public static final String COMMAND_NIGHT_DESCRIPTION = "commands.night.description";
         public static final String COMMAND_SUN_DESCRIPTION = "commands.sun.description";
         public static final String COMMAND_RAIN_DESCRIPTION = "commands.rain.description";
+        public static final String COMMAND_TIME_DESCRIPTION = "commands.time.description";
+        public static final String COMMAND_WEATHER_DESCRIPTION = "commands.weather.description";
         public static final String COMMAND_MOTD_DESCRIPTION = "commands.motd.description";
         public static final String COMMAND_MESSAGE_DESCRIPTION = "commands.message.description";
         public static final String COMMAND_REPLY_DESCRIPTION = "commands.reply.description";
@@ -248,6 +250,10 @@ public final class Keys {
         public static final String HELP_NIGHT_DESCRIPTION = "help.commands.night.description";
         public static final String HELP_SUN_DESCRIPTION = "help.commands.sun.description";
         public static final String HELP_RAIN_DESCRIPTION = "help.commands.rain.description";
+        public static final String HELP_TIME_ARGUMENTS = "help.commands.time.arguments";
+        public static final String HELP_TIME_DESCRIPTION = "help.commands.time.description";
+        public static final String HELP_WEATHER_ARGUMENTS = "help.commands.weather.arguments";
+        public static final String HELP_WEATHER_DESCRIPTION = "help.commands.weather.description";
         public static final String HELP_MOTD_DESCRIPTION = "help.commands.motd.description";
         public static final String HELP_MESSAGE_ARGUMENTS = "help.commands.message.arguments";
         public static final String HELP_MESSAGE_DESCRIPTION = "help.commands.message.description";
@@ -407,6 +413,8 @@ public final class Keys {
         public static final String UTILITIES_TIME_NIGHT = "utilities.time.night";
         public static final String UTILITIES_WEATHER_SUN = "utilities.weather.sun";
         public static final String UTILITIES_WEATHER_RAIN = "utilities.weather.rain";
+        public static final String UTILITIES_WEATHER_THUNDER = "utilities.weather.thunder";
+        public static final String UTILITIES_TIME_SET = "utilities.time.set";
 
         // cosmetics
         public static final String COSMETICS_UNAVAILABLE = "cosmetics.unavailable";
