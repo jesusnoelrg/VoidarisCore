@@ -93,6 +93,13 @@ public final class Keys {
         public static final String UTILITIES_SPEED = "voidaris.utilities.speed";
         public static final String UTILITIES_SPEED_OTHERS = "voidaris.utilities.speed.others";
         public static final String UTILITIES_HAT = "voidaris.utilities.hat";
+        public static final String UTILITIES_REPAIR = "voidaris.utilities.repair";
+        public static final String UTILITIES_REPAIR_ALL = "voidaris.utilities.repair.all";
+        public static final String UTILITIES_CLEAR = "voidaris.utilities.clear";
+        public static final String UTILITIES_CLEAR_OTHERS = "voidaris.utilities.clear.others";
+        public static final String UTILITIES_PING = "voidaris.utilities.ping";
+        public static final String UTILITIES_PING_OTHERS = "voidaris.utilities.ping.others";
+        public static final String UTILITIES_TOP = "voidaris.utilities.top";
         public static final String UTILITIES_TIME = "voidaris.utilities.time";
         public static final String UTILITIES_WEATHER = "voidaris.utilities.weather";
 
@@ -157,6 +164,10 @@ public final class Keys {
         public static final String COMMAND_GOD_DESCRIPTION = "commands.god.description";
         public static final String COMMAND_SPEED_DESCRIPTION = "commands.speed.description";
         public static final String COMMAND_HAT_DESCRIPTION = "commands.hat.description";
+        public static final String COMMAND_REPAIR_DESCRIPTION = "commands.repair.description";
+        public static final String COMMAND_CLEAR_DESCRIPTION = "commands.clear.description";
+        public static final String COMMAND_PING_DESCRIPTION = "commands.ping.description";
+        public static final String COMMAND_TOP_DESCRIPTION = "commands.top.description";
         public static final String COMMAND_DAY_DESCRIPTION = "commands.day.description";
         public static final String COMMAND_NIGHT_DESCRIPTION = "commands.night.description";
         public static final String COMMAND_SUN_DESCRIPTION = "commands.sun.description";
@@ -252,6 +263,11 @@ public final class Keys {
         public static final String HELP_GOD_DESCRIPTION = "help.commands.god.description";
         public static final String HELP_SPEED_DESCRIPTION = "help.commands.speed.description";
         public static final String HELP_HAT_DESCRIPTION = "help.commands.hat.description";
+        public static final String HELP_REPAIR_ARGUMENTS = "help.commands.repair.arguments";
+        public static final String HELP_REPAIR_DESCRIPTION = "help.commands.repair.description";
+        public static final String HELP_CLEAR_DESCRIPTION = "help.commands.clear.description";
+        public static final String HELP_PING_DESCRIPTION = "help.commands.ping.description";
+        public static final String HELP_TOP_DESCRIPTION = "help.commands.top.description";
         public static final String HELP_DAY_DESCRIPTION = "help.commands.day.description";
         public static final String HELP_NIGHT_DESCRIPTION = "help.commands.night.description";
         public static final String HELP_SUN_DESCRIPTION = "help.commands.sun.description";
@@ -415,6 +431,16 @@ public final class Keys {
         public static final String UTILITIES_HAT_EQUIPPED = "utilities.hat.equipped";
         public static final String UTILITIES_HAT_EMPTY_HAND = "utilities.hat.empty-hand";
         public static final String UTILITIES_HAT_BOUND = "utilities.hat.bound";
+        public static final String UTILITIES_REPAIR_HAND = "utilities.repair.hand";
+        public static final String UTILITIES_REPAIR_ALL = "utilities.repair.all";
+        public static final String UTILITIES_REPAIR_NOTHING = "utilities.repair.nothing";
+        public static final String UTILITIES_REPAIR_NOTHING_ALL = "utilities.repair.nothing-all";
+        public static final String UTILITIES_CLEAR_SELF = "utilities.clear.self";
+        public static final String UTILITIES_CLEAR_OTHER = "utilities.clear.other";
+        public static final String UTILITIES_PING_SELF = "utilities.ping.self";
+        public static final String UTILITIES_PING_OTHER = "utilities.ping.other";
+        public static final String UTILITIES_TOP_TELEPORTED = "utilities.top.teleported";
+        public static final String UTILITIES_TOP_CEILING = "utilities.top.ceiling";
         public static final String UTILITIES_INVSEE_SELF = "utilities.invsee.self";
         public static final String UTILITIES_TIME_DAY = "utilities.time.day";
         public static final String UTILITIES_TIME_NIGHT = "utilities.time.night";

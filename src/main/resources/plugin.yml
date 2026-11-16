@@ -197,6 +197,27 @@ permissions:
   voidaris.utilities.hat:
     description: Wear the held item as a helmet.
     default: op
+  voidaris.utilities.repair:
+    description: Repair the held item with /repair.
+    default: op
+  voidaris.utilities.repair.all:
+    description: Repair every item of your inventory with /repair all.
+    default: op
+  voidaris.utilities.clear:
+    description: Clear your inventory with /clear.
+    default: op
+  voidaris.utilities.clear.others:
+    description: Clear another player's inventory.
+    default: op
+  voidaris.utilities.ping:
+    description: Show your ping with /ping.
+    default: true
+  voidaris.utilities.ping.others:
+    description: Show another player's ping.
+    default: true
+  voidaris.utilities.top:
+    description: Teleport to the highest block above you with /top.
+    default: op
   voidaris.utilities.time:
     description: Set the time of your world with /day, /night and /time.
     default: op
@@ -242,6 +263,13 @@ permissions:
       voidaris.utilities.speed: true
       voidaris.utilities.speed.others: true
       voidaris.utilities.hat: true
+      voidaris.utilities.repair: true
+      voidaris.utilities.repair.all: true
+      voidaris.utilities.clear: true
+      voidaris.utilities.clear.others: true
+      voidaris.utilities.ping: true
+      voidaris.utilities.ping.others: true
+      voidaris.utilities.top: true
       voidaris.utilities.time: true
       voidaris.utilities.weather: true
       voidaris.utilities.gamemode.*: true

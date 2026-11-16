@@ -80,6 +80,14 @@ commands:
     description: "Cambia la velocidad de caminar o volar"
   hat:
     description: "Ponte el ítem de tu mano como sombrero"
+  repair:
+    description: "Repara el ítem de tu mano o todo tu inventario"
+  clear:
+    description: "Vacía tu inventario o el de otro jugador"
+  ping:
+    description: "Muestra tu ping o el de otro jugador"
+  top:
+    description: "Teletranspórtate a la superficie"
   day:
     description: "Hace de día en tu mundo"
   night:
@@ -245,6 +253,15 @@ help:
       description: "Velocidad de caminar o volar (1 es la normal)"
     hat:
       description: "Ponte el ítem de tu mano como sombrero"
+    repair:
+      arguments: "[all]"
+      description: "Repara el ítem de tu mano, o todo tu inventario con all (también /fix)"
+    clear:
+      description: "Vacía el inventario, armadura incluida (también /ci)"
+    ping:
+      description: "Muestra tu ping o el de otro jugador"
+    top:
+      description: "Teletranspórtate al bloque más alto sobre ti"
     day:
       description: "Hace de día en tu mundo"
     night:
@@ -395,6 +412,22 @@ utilities:
     bound: "<prefix><white>No puedes quitarte un casco con Maldición de ligamiento."
   invsee:
     self: "<prefix><white>No puedes abrir tu propio inventario con este comando."
+  repair:
+    hand: "<prefix><white>Ítem reparado."
+    # <count> is the number of items repaired.
+    all: "<prefix><white>Se repararon <light_purple><count></light_purple> ítems."
+    nothing: "<prefix><white>El ítem de tu mano no tiene daño que reparar."
+    nothing-all: "<prefix><white>No tienes ítems dañados."
+  clear:
+    self: "<prefix><white>Tu inventario ha sido vaciado."
+    other: "<prefix><white>Vaciaste el inventario de <light_purple><player></light_purple>."
+  # <ping> is in milliseconds.
+  ping:
+    self: "<prefix><white>Tu ping es de <light_purple><ping></light_purple> ms."
+    other: "<prefix><white>El ping de <light_purple><player></light_purple> es de <light_purple><ping></light_purple> ms."
+  top:
+    teleported: "<prefix><white>Teletransportado a la superficie."
+    ceiling: "<prefix><white>No puedes usar este comando en un mundo con techo."
   time:
     day: "<prefix><white>Ahora es de día en <light_purple><world></light_purple>."
     night: "<prefix><white>Ahora es de noche en <light_purple><world></light_purple>."
