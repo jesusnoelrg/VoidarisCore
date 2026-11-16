@@ -66,6 +66,8 @@ commands:
     description: "Despeja el clima de tu mundo"
   rain:
     description: "Hace llover en tu mundo"
+  motd:
+    description: "Muestra el mensaje de bienvenida"
 
 help:
   # <page> and <pages> are the current page and the page count.
@@ -158,6 +160,8 @@ help:
       description: "Despeja el clima de tu mundo"
     rain:
       description: "Hace llover en tu mundo"
+    motd:
+      description: "Muestra el mensaje de bienvenida"
 
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
@@ -267,6 +271,9 @@ utilities:
   weather:
     sun: "<prefix><white>El clima se despejó en <light_purple><world></light_purple>."
     rain: "<prefix><white>Comenzó a llover en <light_purple><world></light_purple>."
+
+motd:
+  empty: "<prefix><white>No hay ningún mensaje de bienvenida configurado."
 
 kits:
   received: "<prefix><white>Has recibido el kit <light_purple><kit></light_purple>."

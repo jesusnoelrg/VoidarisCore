@@ -34,6 +34,9 @@ public final class Keys {
         public static final String WARPS_SET = "voidaris.warps.set";
         public static final String WARPS_DELETE = "voidaris.warps.delete";
 
+        // motd
+        public static final String MOTD_USE = "voidaris.motd.use";
+
         // utilities
         public static final String UTILITIES_CRAFT = "voidaris.utilities.craft";
         public static final String UTILITIES_ANVIL = "voidaris.utilities.anvil";
@@ -107,6 +110,7 @@ public final class Keys {
         public static final String COMMAND_NIGHT_DESCRIPTION = "commands.night.description";
         public static final String COMMAND_SUN_DESCRIPTION = "commands.sun.description";
         public static final String COMMAND_RAIN_DESCRIPTION = "commands.rain.description";
+        public static final String COMMAND_MOTD_DESCRIPTION = "commands.motd.description";
 
         // help
         public static final String HELP_HEADER = "help.header";
@@ -161,6 +165,7 @@ public final class Keys {
         public static final String HELP_NIGHT_DESCRIPTION = "help.commands.night.description";
         public static final String HELP_SUN_DESCRIPTION = "help.commands.sun.description";
         public static final String HELP_RAIN_DESCRIPTION = "help.commands.rain.description";
+        public static final String HELP_MOTD_DESCRIPTION = "help.commands.motd.description";
 
         // teleport
         public static final String TELEPORT_WARMUP = "teleport.warmup";
@@ -188,6 +193,9 @@ public final class Keys {
         public static final String WARPS_LIST_ENTRY = "warps.list-entry";
         public static final String WARPS_LIST_SEPARATOR = "warps.list-separator";
         public static final String WARPS_LIST_HOVER = "warps.list-hover";
+
+        // motd
+        public static final String MOTD_EMPTY = "motd.empty";
 
         // utilities
         public static final String UTILITIES_TITLE_CRAFT = "utilities.titles.craft";

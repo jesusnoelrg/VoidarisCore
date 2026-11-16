@@ -12,6 +12,7 @@ modules:
   kits: true
   chat: true
   join-quit: true
+  motd: true
   cosmetics: true
   private-messages: true
   announcements: true

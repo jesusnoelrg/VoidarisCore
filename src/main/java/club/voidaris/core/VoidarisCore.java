@@ -11,6 +11,8 @@ import club.voidaris.core.joinquit.JoinQuitModule;
 import club.voidaris.core.message.Messages;
 import club.voidaris.core.message.PlayerFormatter;
 import club.voidaris.core.module.ModuleManager;
+import club.voidaris.core.motd.MotdCommand;
+import club.voidaris.core.motd.MotdModule;
 import club.voidaris.core.spawn.SpawnCommands;
 import club.voidaris.core.spawn.SpawnModule;
 import club.voidaris.core.storage.Database;
@@ -43,6 +45,7 @@ public final class VoidarisCore extends JavaPlugin {
     private SpawnModule spawnModule;
     private WarpsModule warpsModule;
     private UtilitiesModule utilitiesModule;
+    private MotdModule motdModule;
     private BukkitTask autosaveTask;
 
     @Override
@@ -123,6 +126,8 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(new TeleportEffectsModule(this, configManager, cosmeticsModule));
         utilitiesModule = new UtilitiesModule();
         moduleManager.register(utilitiesModule);
+        motdModule = new MotdModule(configManager, formatter);
+        moduleManager.register(motdModule);
     }
 
     private void registerCommands() {
@@ -142,6 +147,8 @@ public final class VoidarisCore extends JavaPlugin {
         voidarisCommand.help().register(playerCommands.helpEntries());
         var worldCommands = new WorldCommands(utilitiesModule, messages);
         voidarisCommand.help().register(worldCommands.helpEntries());
+        var motdCommand = new MotdCommand(motdModule, messages);
+        voidarisCommand.help().register(motdCommand.helpEntries());
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();
@@ -154,6 +161,7 @@ public final class VoidarisCore extends JavaPlugin {
             gameModeCommands.register(registrar);
             playerCommands.register(registrar);
             worldCommands.register(registrar);
+            motdCommand.register(registrar);
         });
     }
 
