@@ -4,4 +4,4 @@
 
 - private-messages: `/msgtoggle` (keys `private-messages.disabled-self`, `enabled-self`, `target-disabled` already exist but are unused) and sending `/msg` from the console.
 
-- **kits:** claiming kits from signs. `messages.yml` reports `kits.list` (and `homes.list`) as unknown keys on servers with an old file; it needs a `config-version` + migration to remove them.
+- **messages:** `messages.yml` reports `kits.list` (and `homes.list`) as unknown keys on servers with an old file; it needs a `config-version` + migration to remove them.
