@@ -1,5 +1,3 @@
-
-- **Disabled module commands:** Brigadier commands cannot be unregistered at runtime, so commands of a disabled module stay registered; they should check `ModuleManager#isEnabled` and reply with `general.module-disabled`.
 - **runServer integrations:** the test server downloads LuckPerms but not PlaceholderAPI, so placeholders cannot be tested there; add it to `downloadPlugins` in `runServer`.
 - **Storage migrations untested against MariaDB:** the runner was only validated up to the connection attempt (no MariaDB available while building feat/database_storage); run a V1 migration against a real instance before the first schema ships.
 - **Redis cache:** add a Lettuce-backed `Cache` implementation if Voidaris becomes a multi-server network.
