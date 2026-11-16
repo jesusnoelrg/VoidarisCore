@@ -18,6 +18,7 @@ con mensajes y estilo uniformes.
 |---|---|
 | Spawn | `/spawn`, `/setspawn`, `/delspawn` con delay y cooldown, envío al spawn en la primera entrada y al reaparecer (respetando cama/ancla) y retorno al caer al vacío |
 | Teletransporte | `/tpa`, `/tpaccept`, `/tpdeny`, `/tpacancel` con delay y cooldown |
+| Efectos de teletransporte | Sonido para todos (cada jugador oye solo el suyo) y partículas elegidas como cosmético, por causa configurable |
 | Warps | `/warp [warp]` (sin argumento lista los warps clicables), `/setwarp`, `/delwarp`, con delay, cooldown y permiso opcional por warp |
 | Kits | `/kit`, `/kits` con cooldown y permiso por kit, kit de primera entrada |
 | Homes | `/home`, `/sethome`, `/delhome`, `/homes` con límites por permiso |
@@ -25,7 +26,7 @@ con mensajes y estilo uniformes.
 | Bienvenida | Anuncio y kit de primera entrada, MOTD |
 | Chat | Formato por grupo de LuckPerms, colores `&` y hexadecimales |
 | Entrada/salida | Mensajes de entrada (según el cosmético equipado) y primera entrada, con PlaceholderAPI |
-| Cosméticos | `/cosmetics` abre un menú (definido en `guis/`) para equipar mensajes de entrada desbloqueados por permiso |
+| Cosméticos | `/cosmetics` abre un menú (definido en `guis/`) para equipar mensajes de entrada y partículas de teletransporte desbloqueados por permiso |
 | Mensajes privados | `/msg`, `/r`, ignorar, desactivar y modo espía |
 | Anuncios | Anuncios automáticos con MiniMessage |
 | Carteles | Colores en carteles |
