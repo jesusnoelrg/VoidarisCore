@@ -35,6 +35,27 @@ public final class Keys {
         public static final String COMMAND_VOIDARIS_DESCRIPTION = "commands.voidaris.description";
         public static final String COMMAND_COSMETICS_DESCRIPTION = "commands.cosmetics.description";
 
+        // help
+        public static final String HELP_HEADER = "help.header";
+        public static final String HELP_SECTION_PLAYER = "help.section.player";
+        public static final String HELP_SECTION_ADMIN = "help.section.admin";
+        public static final String HELP_ENTRY = "help.entry";
+        public static final String HELP_HOVER_RUN = "help.hover.run";
+        public static final String HELP_HOVER_SUGGEST = "help.hover.suggest";
+        public static final String HELP_HOVER_PAGE = "help.hover.page";
+        public static final String HELP_FOOTER = "help.footer";
+        public static final String HELP_PREVIOUS = "help.previous";
+        public static final String HELP_PREVIOUS_UNAVAILABLE = "help.previous-unavailable";
+        public static final String HELP_NEXT = "help.next";
+        public static final String HELP_NEXT_UNAVAILABLE = "help.next-unavailable";
+        public static final String HELP_INVALID_PAGE = "help.invalid-page";
+        public static final String HELP_VOIDARIS_HELP_ARGUMENTS = "help.commands.voidaris-help.arguments";
+        public static final String HELP_VOIDARIS_HELP_DESCRIPTION = "help.commands.voidaris-help.description";
+        public static final String HELP_VOIDARIS_RELOAD_DESCRIPTION = "help.commands.voidaris-reload.description";
+        public static final String HELP_COSMETICS_DESCRIPTION = "help.commands.cosmetics.description";
+        public static final String HELP_COSMETICS_JOIN_MESSAGE_ARGUMENTS = "help.commands.cosmetics-joinmessage.arguments";
+        public static final String HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION = "help.commands.cosmetics-joinmessage.description";
+
         // cosmetics
         public static final String COSMETICS_UNAVAILABLE = "cosmetics.unavailable";
         public static final String COSMETICS_JOIN_MESSAGE_SELECTED = "cosmetics.join-message.selected";
