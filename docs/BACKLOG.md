@@ -1,2 +1,1 @@
 - **Redis cache:** add a Lettuce-backed `Cache` implementation if Voidaris becomes a multi-server network.
-- **Stale test server config:** the test server's `messages.yml` and `guis/join-messages.yml` keep removed keys (`cosmetics.join-message.list*`, `join_messages.locked_material`) and log "Unknown keys" warnings on startup; regenerate or clean them.
