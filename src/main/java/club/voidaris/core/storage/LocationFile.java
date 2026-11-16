@@ -9,17 +9,18 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.logging.Level;
 
 /**
  * Named locations persisted in {@code plugins/VoidarisCore/data/<name>}. Names are case-insensitive.
+ * Reads are safe from async events such as the spawn location lookup on login.
  */
 public final class LocationFile {
 
     private final JavaPlugin plugin;
     private final File file;
-    private final Map<String, StoredLocation> locations = new TreeMap<>();
+    private final Map<String, StoredLocation> locations = new ConcurrentSkipListMap<>();
 
     public LocationFile(JavaPlugin plugin, String name) {
         this.plugin = plugin;

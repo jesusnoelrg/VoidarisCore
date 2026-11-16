@@ -99,6 +99,7 @@ public final class Keys {
         public static final String SPAWN_SET = "spawn.set";
         public static final String SPAWN_NOT_SET = "spawn.not-set";
         public static final String SPAWN_DELETED = "spawn.deleted";
+        public static final String SPAWN_VOID_RETURN = "spawn.void-return";
 
         // warps
         public static final String WARPS_TELEPORTED = "warps.teleported";

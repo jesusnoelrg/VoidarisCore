@@ -88,6 +88,7 @@ spawn:
   set: "<prefix><white>Spawn establecido en tu posición."
   not-set: "<prefix><white>El spawn todavía no ha sido establecido."
   deleted: "<prefix><white>Spawn eliminado."
+  void-return: "<prefix><white>Caíste al vacío y fuiste devuelto al spawn."
 
 tpa:
   sent: "<prefix><white>Solicitud enviada a <light_purple><player></light_purple>."

@@ -93,7 +93,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
         teleporter = new Teleporter(this, messages);
         getServer().getPluginManager().registerEvents(teleporter, this);
-        spawnModule = new SpawnModule(this, configManager);
+        spawnModule = new SpawnModule(this, configManager, messages);
         moduleManager.register(spawnModule);
         warpsModule = new WarpsModule(this, configManager);
         moduleManager.register(warpsModule);
