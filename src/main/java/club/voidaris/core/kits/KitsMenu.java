@@ -63,7 +63,7 @@ final class KitsMenu {
      */
     void openPreview(Player viewer, Kit kit) {
         var file = configs.kitPreviewGui().get();
-        var menu = loader.load(file, viewer, Placeholder.unparsed("kit", kit.name()));
+        var menu = loader.load(file, viewer, kit.placeholders());
         List<MenuEntry> entries = new TreeMap<>(kit.items()).values().stream()
                 .map(item -> new MenuEntry(item.clone(), null))
                 .toList();
@@ -131,7 +131,7 @@ final class KitsMenu {
             }
             long remaining = module.remaining(viewer, kit);
             TagResolver resolvers = TagResolver.resolver(
-                    Placeholder.unparsed("kit", kit.name()),
+                    kit.placeholders(),
                     Placeholder.component("cooldown", KitTime.describe(messages, kit)),
                     Placeholder.component("time", KitTime.format(messages, remaining == Long.MAX_VALUE ? 0 : remaining)),
                     Placeholder.unparsed("items", String.valueOf(kit.items().size())));

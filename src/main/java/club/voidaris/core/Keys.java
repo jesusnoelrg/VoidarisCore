@@ -196,6 +196,7 @@ public final class Keys {
         public static final String HELP_EDITKIT_ARGUMENTS = "help.commands.editkit.arguments";
         public static final String HELP_EDITKIT_DESCRIPTION = "help.commands.editkit.description";
         public static final String HELP_EDITKIT_COOLDOWN_ARGUMENTS = "help.commands.editkit-cooldown.arguments";
+        public static final String HELP_EDITKIT_DISPLAYNAME_ARGUMENTS = "help.commands.editkit-displayname.arguments";
         public static final String HELP_EDITKIT_PERMISSION_ARGUMENTS = "help.commands.editkit-permission.arguments";
         public static final String HELP_EDITKIT_RESET_ARGUMENTS = "help.commands.editkit-reset.arguments";
         public static final String HELP_DELKIT_ARGUMENTS = "help.commands.delkit.arguments";
@@ -307,6 +308,8 @@ public final class Keys {
         public static final String KITS_ITEMS_UPDATED = "kits.items-updated";
         public static final String KITS_ICON_SET = "kits.icon-set";
         public static final String KITS_ICON_EMPTY_HAND = "kits.icon-empty-hand";
+        public static final String KITS_DISPLAY_NAME_SET = "kits.display-name-set";
+        public static final String KITS_DISPLAY_NAME_RESET = "kits.display-name-reset";
         public static final String KITS_COOLDOWN_SET = "kits.cooldown-set";
         public static final String KITS_PERMISSION_ENABLED = "kits.permission-enabled";
         public static final String KITS_PERMISSION_DISABLED = "kits.permission-disabled";

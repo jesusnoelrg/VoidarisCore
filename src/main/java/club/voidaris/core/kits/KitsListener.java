@@ -2,7 +2,6 @@ package club.voidaris.core.kits;
 
 import club.voidaris.core.Keys;
 import club.voidaris.core.message.Messages;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -26,7 +25,7 @@ final class KitsListener implements Listener {
         }
         module.firstJoinKit().ifPresent(kit -> {
             module.give(player, kit, true);
-            messages.send(player, Keys.Message.KITS_RECEIVED, Placeholder.unparsed("kit", kit.name()));
+            messages.send(player, Keys.Message.KITS_RECEIVED, kit.placeholders());
             module.storage().claim(player.getUniqueId(), kit, System.currentTimeMillis());
         });
     }

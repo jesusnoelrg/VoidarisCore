@@ -36,6 +36,7 @@ final class KitStorage {
     private static final String PERMISSION = "permission";
     private static final String ICON = "icon";
     private static final String CREATED = "created";
+    private static final String DISPLAY_NAME = "display-name";
     private static final String ITEMS = "items";
 
     private final JavaPlugin plugin;
@@ -93,6 +94,9 @@ final class KitStorage {
             yaml.set(ICON, kit.icon());
         }
         yaml.set(CREATED, kit.created());
+        if (kit.displayName() != null) {
+            yaml.set(DISPLAY_NAME, kit.displayName());
+        }
         kit.items().forEach((slot, item) -> yaml.set(ITEMS + "." + slot, item));
         // Serialized here because item stacks must not be read off the main thread.
         String content = yaml.saveToString();
@@ -160,7 +164,7 @@ final class KitStorage {
                 }
             }
             kits.put(name, new Kit(name, yaml.getLong(COOLDOWN), yaml.getBoolean(PERMISSION), yaml.getString(ICON),
-                    items, yaml.getLong(CREATED)));
+                    items, yaml.getLong(CREATED), yaml.getString(DISPLAY_NAME)));
         }
     }
 

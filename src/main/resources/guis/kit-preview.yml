@@ -14,7 +14,7 @@
 #                35          close
 #   content      11-15 20-24 29-33 38-42
 
-# <kit> is the kit's name, also available in the static items.
+# <kit> is the kit's display name (or its id when it has none) and <id> its id; both also work in the static items.
 menu_title: '<light_purple>↶ <dark_purple><bold>Kit <kit></bold> <light_purple>↷'
 size: 54
 

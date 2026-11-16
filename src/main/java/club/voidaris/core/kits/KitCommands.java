@@ -37,6 +37,9 @@ public final class KitCommands {
     private static final String DEL_KIT = "delkit";
     private static final String ITEMS = "items";
     private static final String ICON = "icon";
+    private static final String DISPLAY_NAME = "displayname";
+    /** Value of /editkit <kit> displayname that removes the display name. */
+    private static final String RESET_VALUE = "reset";
     private static final String COOLDOWN = "cooldown";
     private static final String PERMISSION = "permission";
     private static final String RESET = "reset";
@@ -88,6 +91,11 @@ public final class KitCommands {
                                 .executes(this::editUsage)
                                 .then(Commands.literal(ITEMS).executes(this::setItems))
                                 .then(Commands.literal(ICON).executes(this::setIcon))
+                                .then(Commands.literal(DISPLAY_NAME)
+                                        .executes(context -> usage(context, Keys.Permission.KITS_EDIT, EDIT_KIT,
+                                                Keys.Message.HELP_EDITKIT_DISPLAYNAME_ARGUMENTS))
+                                        .then(Commands.argument(VALUE_ARGUMENT, StringArgumentType.greedyString())
+                                                .executes(this::setDisplayName)))
                                 .then(Commands.literal(COOLDOWN)
                                         .executes(context -> usage(context, Keys.Permission.KITS_EDIT, EDIT_KIT,
                                                 Keys.Message.HELP_EDITKIT_COOLDOWN_ARGUMENTS))
@@ -165,7 +173,7 @@ public final class KitCommands {
     }
 
     private boolean claim(Player player, Kit kit) {
-        var kitName = kitPlaceholder(kit);
+        var kitName = kit.placeholders();
         switch (module.status(player, kit)) {
             case LOCKED -> {
                 messages.send(player, Keys.Message.KITS_LOCKED, kitName);
@@ -215,7 +223,7 @@ public final class KitCommands {
             return 0;
         }
         var result = module.give(target, kit, true);
-        messages.send(target, Keys.Message.KITS_RECEIVED, kitPlaceholder(kit));
+        messages.send(target, Keys.Message.KITS_RECEIVED, kit.placeholders());
         if (result == KitsModule.GiveResult.DROPPED) {
             messages.send(target, Keys.Message.KITS_INVENTORY_FULL);
         }
@@ -237,7 +245,7 @@ public final class KitCommands {
         }
         String kitName = KitStorage.normalize(name);
         if (module.storage().find(kitName).isPresent()) {
-            messages.send(player, Keys.Message.KITS_ALREADY_EXISTS, Placeholder.unparsed("kit", kitName));
+            messages.send(player, Keys.Message.KITS_ALREADY_EXISTS, module.storage().find(kitName).get().placeholders());
             return 0;
         }
         var items = capture(player);
@@ -246,10 +254,10 @@ public final class KitCommands {
             return 0;
         }
         var kit = new Kit(kitName, module.defaultCooldown(), module.defaultPermission(), null, items,
-                System.currentTimeMillis());
+                System.currentTimeMillis(), null);
         module.storage().put(kit);
         KitsModule.registerPermission(kit);
-        messages.send(player, Keys.Message.KITS_CREATED, kitPlaceholder(kit),
+        messages.send(player, Keys.Message.KITS_CREATED, kit.placeholders(),
                 Placeholder.unparsed("items", String.valueOf(items.size())),
                 Placeholder.component("cooldown", KitTime.describe(messages, kit)));
         return Command.SINGLE_SUCCESS;
@@ -265,7 +273,7 @@ public final class KitCommands {
             return 0;
         }
         module.storage().remove(kit.name());
-        messages.send(sender, Keys.Message.KITS_DELETED, kitPlaceholder(kit));
+        messages.send(sender, Keys.Message.KITS_DELETED, kit.placeholders());
         return Command.SINGLE_SUCCESS;
     }
 
@@ -285,7 +293,7 @@ public final class KitCommands {
             return 0;
         }
         module.storage().put(kit.withItems(items));
-        messages.send(player, Keys.Message.KITS_ITEMS_UPDATED, kitPlaceholder(kit),
+        messages.send(player, Keys.Message.KITS_ITEMS_UPDATED, kit.placeholders(),
                 Placeholder.unparsed("items", String.valueOf(items.size())));
         return Command.SINGLE_SUCCESS;
     }
@@ -303,8 +311,26 @@ public final class KitCommands {
         }
         // Only the item type is kept, like home icons; the menu draws the name and lore from guis/kits.yml.
         module.storage().put(kit.withIcon(item.getType().key().asString()));
-        messages.send(player, Keys.Message.KITS_ICON_SET, kitPlaceholder(kit),
+        messages.send(player, Keys.Message.KITS_ICON_SET, kit.placeholders(),
                 Placeholder.component("item", Component.translatable(item.getType().translationKey())));
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int setDisplayName(CommandContext<CommandSourceStack> context) {
+        var sender = context.getSource().getSender();
+        if (!checkAccess(sender, Keys.Permission.KITS_EDIT)) {
+            return 0;
+        }
+        var kit = findKit(sender, context);
+        if (kit == null) {
+            return 0;
+        }
+        String value = StringArgumentType.getString(context, VALUE_ARGUMENT).strip();
+        boolean reset = value.equalsIgnoreCase(RESET_VALUE);
+        var edited = kit.withDisplayName(reset ? null : value);
+        module.storage().put(edited);
+        messages.send(sender, reset ? Keys.Message.KITS_DISPLAY_NAME_RESET : Keys.Message.KITS_DISPLAY_NAME_SET,
+                edited.placeholders());
         return Command.SINGLE_SUCCESS;
     }
 
@@ -323,7 +349,7 @@ public final class KitCommands {
         }
         var edited = kit.withCooldown(cooldown.getAsLong());
         module.storage().put(edited);
-        messages.send(sender, Keys.Message.KITS_COOLDOWN_SET, kitPlaceholder(kit),
+        messages.send(sender, Keys.Message.KITS_COOLDOWN_SET, kit.placeholders(),
                 Placeholder.component("cooldown", KitTime.describe(messages, edited)));
         return Command.SINGLE_SUCCESS;
     }
@@ -344,7 +370,7 @@ public final class KitCommands {
         boolean required = Boolean.parseBoolean(value);
         module.storage().put(kit.withPermission(required));
         messages.send(sender, required ? Keys.Message.KITS_PERMISSION_ENABLED : Keys.Message.KITS_PERMISSION_DISABLED,
-                kitPlaceholder(kit), Placeholder.unparsed("permission", Keys.Permission.KITS_KIT + kit.name()));
+                kit.placeholders(), Placeholder.unparsed("permission", Keys.Permission.KITS_KIT + kit.name()));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -437,12 +463,8 @@ public final class KitCommands {
         return checkAccess(sender, permission) ? CommandUsage.send(messages, sender, "/" + command, argumentsKey) : 0;
     }
 
-    private static TagResolver kitPlaceholder(Kit kit) {
-        return Placeholder.unparsed("kit", kit.name());
-    }
-
     private static TagResolver kitAndPlayer(Kit kit, String player) {
-        return TagResolver.resolver(kitPlaceholder(kit), Placeholder.unparsed("player", player));
+        return TagResolver.resolver(kit.placeholders(), Placeholder.unparsed("player", player));
     }
 
     private Player requirePlayer(CommandContext<CommandSourceStack> context, String permission) {

@@ -183,11 +183,13 @@ help:
       arguments: "\\<kit>"
       description: "Crea un kit con tu inventario, armadura y mano secundaria"
     editkit:
-      arguments: "\\<kit> \\<items|icon|cooldown|permission|reset>"
-      description: "Cambia los ítems, el icono, el cooldown o el permiso de un kit, o reinicia el reclamo de un jugador"
+      arguments: "\\<kit> \\<items|icon|displayname|cooldown|permission|reset>"
+      description: "Cambia los ítems, el icono, el nombre visible, el cooldown o el permiso de un kit, o reinicia el reclamo de un jugador"
     # Only shown in the usage message of each /editkit option.
     editkit-cooldown:
       arguments: "\\<kit> cooldown \\<0|once|30m|1h30m|7d>"
+    editkit-displayname:
+      arguments: "\\<kit> displayname \\<nombre|reset>"
     editkit-permission:
       arguments: "\\<kit> permission \\<true|false>"
     editkit-reset:
@@ -381,6 +383,7 @@ motd:
   empty: "<prefix><white>No hay ningún mensaje de bienvenida configurado."
 
 kits:
+  # <kit> is the kit's display name (/editkit <kit> displayname), or its id when it has none; <id> is always the id.
   received: "<prefix><white>Has recibido el kit <light_purple><kit></light_purple>."
   # Sent to whoever gave the kit with /kit <kit> <player>.
   given: "<prefix><white>Le diste el kit <light_purple><kit></light_purple> a <light_purple><player></light_purple>."
@@ -393,14 +396,16 @@ kits:
   inventory-full-denied: "<prefix><white>No tienes espacio suficiente para el kit <light_purple><kit></light_purple>. Libera tu inventario e inténtalo de nuevo."
   list-empty: "<prefix><white>No hay kits disponibles."
   # <items> is the number of item stacks saved; <cooldown> as in the menu.
-  created: "<prefix><white>Kit <light_purple><kit></light_purple> creado con <light_purple><items></light_purple> ítems y cooldown <light_purple><cooldown></light_purple>. Ajústalo con <light_purple>/editkit <kit></light_purple>."
-  already-exists: "<prefix><white>Ya existe el kit <light_purple><kit></light_purple>. Usa <light_purple>/editkit <kit> items</light_purple> para cambiar sus ítems."
+  created: "<prefix><white>Kit <light_purple><kit></light_purple> creado con <light_purple><items></light_purple> ítems y cooldown <light_purple><cooldown></light_purple>. Ajústalo con <light_purple>/editkit <id></light_purple>."
+  already-exists: "<prefix><white>Ya existe el kit <light_purple><kit></light_purple>. Usa <light_purple>/editkit <id> items</light_purple> para cambiar sus ítems."
   invalid-name: "<prefix><white>El nombre del kit no es válido."
   empty-inventory: "<prefix><white>Tu inventario está vacío; pon en él los ítems del kit."
   deleted: "<prefix><white>Kit <light_purple><kit></light_purple> eliminado."
   items-updated: "<prefix><white>Ítems del kit <light_purple><kit></light_purple> actualizados (<light_purple><items></light_purple> ítems)."
   icon-set: "<prefix><white>Icono del kit <light_purple><kit></light_purple> cambiado a <light_purple><item></light_purple>."
   icon-empty-hand: "<prefix><white>Debes tener un objeto en la mano."
+  display-name-set: "<prefix><white>El kit <light_purple><id></light_purple> ahora se muestra como <light_purple><kit></light_purple><white>."
+  display-name-reset: "<prefix><white>El kit <light_purple><id></light_purple> vuelve a mostrarse con su nombre."
   cooldown-set: "<prefix><white>Cooldown del kit <light_purple><kit></light_purple> cambiado a <light_purple><cooldown></light_purple>."
   # <permission> is the node players need.
   permission-enabled: "<prefix><white>El kit <light_purple><kit></light_purple> ahora requiere el permiso <light_purple><permission></light_purple>."

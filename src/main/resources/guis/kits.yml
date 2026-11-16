@@ -145,7 +145,7 @@ pagination:
 # One icon per kit, drawn with the section of its status. The material is the one set with /editkit <kit> icon, or
 # default_icon when there is none. A left click tries to claim the kit (and explains why it cannot be claimed); a right
 # click opens guis/kit-preview.yml with its items.
-# Placeholders: <kit>, <cooldown> (the kit's cooldown, "Único uso" or "Sin cooldown"), <time> (time left until it can
+# Placeholders: <kit> (display name set with /editkit <kit> displayname, or the id), <id>, <cooldown> (the kit's cooldown, "Único uso" or "Sin cooldown"), <time> (time left until it can
 # be claimed again) and <items> (number of item stacks).
 kits:
   default_icon: 'chest'
