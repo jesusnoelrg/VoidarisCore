@@ -2,6 +2,13 @@ package club.voidaris.core.config;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Every YAML file of the plugin. A file whose structure changes in a way that cannot be fixed by adding the new
+ * keys bumps its {@code config-version} and registers a {@link ConfigMigration} here.
+ */
 public final class ConfigManager {
 
     private final ConfigFile main;
@@ -21,15 +28,18 @@ public final class ConfigManager {
         main = new ConfigFile(plugin, "config.yml");
         messages = new ConfigFile(plugin, "messages.yml");
         teleports = new ConfigFile(plugin, "teleports.yml");
-        homes = new ConfigFile(plugin, "homes.yml");
+        homes = new ConfigFile(plugin, "homes.yml", Set.of("limits"), List.of());
         warps = new ConfigFile(plugin, "warps.yml");
-        kits = new ConfigFile(plugin, "kits.yml");
-        chatFormat = new ConfigFile(plugin, "chat-format.yml");
+        kits = new ConfigFile(plugin, "kits.yml", Set.of("kits"), List.of());
+        chatFormat = new ConfigFile(plugin, "chat-format.yml", Set.of("chat.groups"), List.of());
         announces = new ConfigFile(plugin, "announces.yml");
         database = new ConfigFile(plugin, "database.yml");
-        cosmetics = new ConfigFile(plugin, "cosmetics.yml");
-        joinMessagesGui = new ConfigFile(plugin, "guis/join-messages.yml");
-        teleportParticlesGui = new ConfigFile(plugin, "guis/teleport-particles.yml");
+        cosmetics = new ConfigFile(plugin, "cosmetics.yml",
+                Set.of("join-messages.cosmetics", "teleport-particles.cosmetics"), List.of());
+        joinMessagesGui = new ConfigFile(plugin, "guis/join-messages.yml",
+                Set.of("items", "join_messages.icons"), List.of());
+        teleportParticlesGui = new ConfigFile(plugin, "guis/teleport-particles.yml",
+                Set.of("items", "teleport_particles.icons"), List.of());
     }
 
     public void reload() {
