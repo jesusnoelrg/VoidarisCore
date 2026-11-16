@@ -120,3 +120,6 @@ runs/
 
 # Claude Code (personal settings)
 .claude/settings.local.json
+
+# Machine-specific paths (e.g. deploy.dir for ./gradlew deployPlugin)
+local.properties

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     java
     id("xyz.jpenilla.run-paper") version "3.1.0"
@@ -11,6 +13,12 @@ val targetJava = 25
 // Resolved at runtime through plugin.yml "libraries", so they are not shaded into the jar.
 val hikariVersion = "7.1.0"
 val mariadbVersion = "3.5.11"
+
+// Machine-specific paths live in local.properties (ignored by git), so each developer can point at their own server.
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.reader(Charsets.UTF_8).use(::load)
+}
 
 repositories {
     mavenCentral()
@@ -48,5 +56,15 @@ tasks {
 
     runServer {
         minecraftVersion("26.3")
+    }
+
+    register<Copy>("deployPlugin") {
+        group = "voidaris"
+        description = "Builds the plugin jar and copies it into deploy.dir from local.properties."
+        from(jar)
+        into(provider {
+            localProperties.getProperty("deploy.dir")
+                ?: throw GradleException("Set deploy.dir in local.properties to the server's plugins folder.")
+        })
     }
 }
