@@ -1,6 +1,7 @@
 package club.voidaris.core;
 
 import club.voidaris.core.chat.ChatModule;
+import club.voidaris.core.command.ExtraArguments;
 import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.cosmetics.CosmeticsCommand;
@@ -163,7 +164,7 @@ public final class VoidarisCore extends JavaPlugin {
         voidarisCommand.help().register(ignoreCommands.helpEntries());
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
-            var registrar = event.registrar();
+            var registrar = ExtraArguments.ignoredBy(event.registrar());
             registrar.register(voidarisCommand.build(), messages.raw(Keys.Message.COMMAND_VOIDARIS_DESCRIPTION));
             registrar.register(cosmeticsCommand.build(), messages.raw(Keys.Message.COMMAND_COSMETICS_DESCRIPTION),
                     List.of("cosmeticos"));
