@@ -42,15 +42,17 @@ public final class MenuLoader {
 
     /**
      * Creates the menu with its title, size and the static entries under items.
+     *
+     * @param resolvers placeholders available in the title and the static items
      */
-    public Menu load(ConfigurationSection file, Player player) {
+    public Menu load(ConfigurationSection file, Player player, TagResolver... resolvers) {
         int size = file.getInt("size", DEFAULT_SIZE);
         // Inventories only accept full rows of 9, up to 6 rows.
         if (size <= 0 || size > 54 || size % 9 != 0) {
             logger.warning("Invalid menu size " + size + " in " + file.getName() + "; using " + DEFAULT_SIZE + ".");
             size = DEFAULT_SIZE;
         }
-        var menu = new Menu(formatter.format(player, file.getString("menu_title", "")), size);
+        var menu = new Menu(formatter.format(player, file.getString("menu_title", ""), resolvers), size);
         var items = file.getConfigurationSection("items");
         if (items != null) {
             for (String name : items.getKeys(false)) {
@@ -58,7 +60,7 @@ public final class MenuLoader {
                 if (section == null) {
                     continue;
                 }
-                item(section, section.getString("material"), player).ifPresent(item -> {
+                item(section, section.getString("material"), player, resolvers).ifPresent(item -> {
                     for (int slot : slots(section)) {
                         menu.set(slot, item, event -> run(player, section.getStringList(
                                 event.isRightClick() ? "right_click_commands" : "left_click_commands")));

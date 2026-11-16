@@ -143,11 +143,15 @@ pagination:
     display_name: '<gray>No aplica'
 
 # One icon per kit, drawn with the section of its status. The material is the one set with /editkit <kit> icon, or
-# default_icon when there is none. Clicking any of them tries to claim the kit (and explains why it cannot be claimed).
+# default_icon when there is none. A left click tries to claim the kit (and explains why it cannot be claimed); a right
+# click opens guis/kit-preview.yml with its items.
 # Placeholders: <kit>, <cooldown> (the kit's cooldown, "Único uso" or "Sin cooldown"), <time> (time left until it can
 # be claimed again) and <items> (number of item stacks).
 kits:
   default_icon: 'chest'
+  # Actions run before opening the preview of a kit with a right click.
+  preview_click_commands:
+  - '[sound]ITEM_BOOK_PAGE_TURN'
   available:
     display_name: '<light_purple>✦ <dark_purple><bold><kit></bold> <light_purple>✦'
     glow: true
@@ -157,6 +161,7 @@ kits:
     - '<white> Cooldown: <light_purple><cooldown>'
     - ''
     - '<green>✔ Click para reclamar'
+    - '<gray>Click derecho para ver el contenido'
     click_commands:
     - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
   cooldown:
@@ -167,6 +172,7 @@ kits:
     - '<white> Cooldown: <light_purple><cooldown>'
     - ''
     - '<red>✘ Disponible en <light_purple><time>'
+    - '<gray>Click derecho para ver el contenido'
     click_commands:
     - '[sound]ENTITY_VILLAGER_NO'
   # A one-time kit the player already claimed.
@@ -177,6 +183,7 @@ kits:
     - '<white> Ítems: <light_purple><items>'
     - ''
     - '<red>✘ Ya reclamaste este kit'
+    - '<gray>Click derecho para ver el contenido'
     click_commands:
     - '[sound]ENTITY_VILLAGER_NO'
   # The player lacks voidaris.kits.kit.<kit>; hidden instead when show-locked is false in kits.yml.
@@ -188,5 +195,6 @@ kits:
     - '<white> Cooldown: <light_purple><cooldown>'
     - ''
     - '<red>✘ No tienes acceso a este kit'
+    - '<gray>Click derecho para ver el contenido'
     click_commands:
     - '[sound]ENTITY_VILLAGER_NO'

@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
 /**
  * guis/kits.yml: the static items plus one paginated icon per kit, drawn with the template of its status and redrawn
- * every {@code refresh_ticks} while the menu stays open, so cooldowns count down live.
+ * every {@code refresh_ticks} while the menu stays open, so cooldowns count down live. A right click on an icon opens
+ * guis/kit-preview.yml with the kit's items.
  */
 final class KitsMenu {
 
@@ -53,6 +55,24 @@ final class KitsMenu {
         viewer.openInventory(view.menu.getInventory());
         long ticks = Math.max(1, file.getLong("refresh_ticks", 20));
         view.task = plugin.getServer().getScheduler().runTaskTimer(plugin, view::refresh, ticks, ticks);
+    }
+
+    /**
+     * Shows copies of the kit's items in slot order (hotbar, inventory, armor, offhand) with all their data, so players
+     * can read enchantments and lore; menu clicks are cancelled, so nothing can be taken out.
+     */
+    void openPreview(Player viewer, Kit kit) {
+        var file = configs.kitPreviewGui().get();
+        var menu = loader.load(file, viewer, Placeholder.unparsed("kit", kit.name()));
+        List<MenuEntry> entries = new TreeMap<>(kit.items()).values().stream()
+                .map(item -> new MenuEntry(item.clone(), null))
+                .toList();
+        renderPreview(menu, file, viewer, entries, 0);
+        viewer.openInventory(menu.getInventory());
+    }
+
+    private void renderPreview(Menu menu, FileConfiguration file, Player viewer, List<MenuEntry> entries, int page) {
+        loader.page(menu, file, viewer, entries, page, newPage -> renderPreview(menu, file, viewer, entries, newPage));
     }
 
     private final class View {
@@ -120,6 +140,14 @@ final class KitsMenu {
             var item = kit.icon() == null ? Optional.<ItemStack>empty() : loader.item(look, kit.icon(), viewer, resolvers);
             return item.or(() -> loader.item(look, defaultIcon, viewer, resolvers))
                     .map(icon -> new MenuEntry(icon, event -> {
+                        if (event.isRightClick()) {
+                            loader.run(viewer, template.getStringList("preview_click_commands"));
+                            module.storage().find(kit.name()).ifPresentOrElse(
+                                    current -> openPreview(viewer, current),
+                                    () -> messages.send(viewer, Keys.Message.KITS_NOT_FOUND,
+                                            Placeholder.unparsed("kit", kit.name())));
+                            return;
+                        }
                         loader.run(viewer, look.getStringList("click_commands"));
                         // Looked up again because the kit may have been edited or deleted while the menu was open.
                         module.storage().find(kit.name()).ifPresentOrElse(
