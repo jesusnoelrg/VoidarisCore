@@ -42,7 +42,7 @@ public final class ConfigManager {
         // Version 2 moved kits to data/kits/, created in-game with /createkit; the old item lists cannot be converted.
         kits = new ConfigFile(plugin, "kits.yml", Set.of(), List.of(disk -> disk.set("kits", null)));
         chatFormat = new ConfigFile(plugin, "chat-format.yml", Set.of("chat.groups"), List.of());
-        announces = new ConfigFile(plugin, "announces.yml");
+        announces = new ConfigFile(plugin, "announces.yml", Set.of("announcements"), List.of());
         motd = new ConfigFile(plugin, "motd.yml");
         privateMessages = new ConfigFile(plugin, "private-messages.yml");
         database = new ConfigFile(plugin, "database.yml");
