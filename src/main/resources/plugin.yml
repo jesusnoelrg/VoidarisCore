@@ -65,6 +65,24 @@ permissions:
   voidaris.warps.delete:
     description: Delete warps.
     default: op
+  voidaris.kits.use:
+    description: Open the kits menu and claim kits.
+    default: true
+  voidaris.kits.cooldown.bypass:
+    description: Claim kits while they are on cooldown (one-time kits stay one-time).
+    default: op
+  voidaris.kits.give:
+    description: Give any kit to a player with /kit <kit> <player>, ignoring its permission and cooldown.
+    default: op
+  voidaris.kits.create:
+    description: Create kits from your inventory with /createkit.
+    default: op
+  voidaris.kits.edit:
+    description: Change the items, icon, cooldown and permission of kits and reset claims with /editkit.
+    default: op
+  voidaris.kits.delete:
+    description: Delete kits with /delkit.
+    default: op
   voidaris.chat.color:
     description: Use legacy & color and format codes in chat.
     default: op

@@ -1,26 +1,24 @@
-# VoidarisCore - kits.
-# Each kit requires voidaris.kits.use.<kit>. Cooldowns are stored in data/kits.yml.
-# cooldown-seconds: -1 means the kit can only be claimed once.
+# VoidarisCore - kits settings.
+# Kits are created in-game with /createkit <kit> from the inventory, armor and offhand of the player (enchantments,
+# names, lore and any other item data included) and changed with /editkit. They are stored in data/kits/<kit>.yml and
+# the claims of each player in data/kit-claims/<uuid>.yml, not here.
 
+config-version: 2
+
+# Kit given the first time a player joins, ignoring its permission; it counts as a claim, so a one-time starter kit
+# cannot be claimed again from the menu. "" disables it.
 first-join-kit: "starter"
+name-pattern: "^[a-zA-Z0-9_-]{1,16}$"
 
-kits:
-  starter:
-    cooldown-seconds: -1
-    items:
-      - material: STONE_SWORD
-        amount: 1
-      - material: STONE_PICKAXE
-        amount: 1
-      - material: BREAD
-        amount: 16
-  daily:
-    cooldown-seconds: 86400
-    items:
-      - material: COOKED_BEEF
-        amount: 16
-      - material: IRON_INGOT
-        amount: 8
-        name: "<light_purple>Hierro diario"
-        lore:
-          - "<gray>Recompensa del kit diario"
+# Settings of the kits created with /createkit. cooldown uses the same format as /editkit <kit> cooldown:
+# "0" (no cooldown), "once" (one-time kit) or a time such as "90" (seconds), "30m", "1h30m" or "7d".
+# permission: true requires voidaris.kits.kit.<kit> to claim the kit.
+defaults:
+  cooldown: "1d"
+  permission: false
+
+# true: items that do not fit in the inventory are dropped at the player's feet.
+# false: the kit is not given (nor its cooldown started) until there is room for everything.
+drop-when-full: false
+# Kits the player has no permission for are shown in /kits as locked; false hides them.
+show-locked: true
