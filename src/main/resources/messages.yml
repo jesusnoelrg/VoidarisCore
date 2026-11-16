@@ -93,9 +93,5 @@ cosmetics:
     selected: "<prefix><white>Equipaste el mensaje de entrada <cosmetic><white>."
     not-found: "<prefix><white>No existe el mensaje de entrada <light_purple><id></light_purple>."
     locked: "<prefix><white>No tienes desbloqueado el mensaje de entrada <cosmetic><white>."
-    list: "<prefix><white>Tus mensajes de entrada (pasa el ratón para verlos, clic para equipar): <cosmetics>"
-    list-empty: "<prefix><white>No tienes mensajes de entrada desbloqueados."
-    list-entry: "<dark_gray>[<cosmetic><dark_gray>]"
-    list-entry-selected: "<dark_gray>[<green>✔</green> <cosmetic><dark_gray>]"
-    # Hover preview of a cosmetic whose format is empty (such as silent).
+    # Menu preview of a cosmetic whose format is empty (such as silent).
     preview-hidden: "<gray>Tu entrada no se anunciará."

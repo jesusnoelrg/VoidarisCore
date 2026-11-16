@@ -4,6 +4,8 @@ import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.cosmetics.CosmeticsCommand;
 import club.voidaris.core.cosmetics.CosmeticsModule;
+import club.voidaris.core.gui.MenuListener;
+import club.voidaris.core.gui.MenuLoader;
 import club.voidaris.core.integration.Integrations;
 import club.voidaris.core.joinquit.JoinQuitModule;
 import club.voidaris.core.message.Messages;
@@ -38,6 +40,7 @@ public final class VoidarisCore extends JavaPlugin {
 
         registerModules();
         moduleManager.reload();
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
         registerCommands();
 
         getLogger().info("VoidarisCore " + getPluginMeta().getVersion() + " habilitado.");
@@ -45,6 +48,7 @@ public final class VoidarisCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        MenuListener.closeAll();
         if (moduleManager != null) {
             moduleManager.disableAll();
         }
@@ -83,7 +87,8 @@ public final class VoidarisCore extends JavaPlugin {
 
     private void registerCommands() {
         var voidarisCommand = new VoidarisCommand(this::reload, messages);
-        var cosmeticsCommand = new CosmeticsCommand(cosmeticsModule, messages, formatter);
+        var menuLoader = new MenuLoader(formatter, getLogger());
+        var cosmeticsCommand = new CosmeticsCommand(this, configManager, cosmeticsModule, messages, formatter, menuLoader);
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();

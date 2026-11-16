@@ -52,17 +52,25 @@ public final class CosmeticsModule extends Module {
     }
 
     /**
-     * The join message format the player has equipped, falling back to the default selection when they never picked one
-     * or no longer own it. Empty when the module is disabled or the player owns neither.
+     * The join message format the player has equipped. Empty when the module is disabled or the player owns none.
      */
     public Optional<String> joinMessage(Player player) {
+        return equippedJoinMessage(player)
+                .flatMap(joinMessages::find)
+                .map(JoinMessage::format);
+    }
+
+    /**
+     * The id of the player's pick, or of the default selection when they never picked one or no longer own it.
+     */
+    Optional<String> equippedJoinMessage(Player player) {
         if (!isEnabled()) {
             return Optional.empty();
         }
         return selections.get(player.getUniqueId(), JOIN_MESSAGE_SLOT)
                 .flatMap(id -> joinMessages.usable(player, id))
                 .or(() -> joinMessages.usable(player, joinMessages.defaultSelection()))
-                .map(JoinMessage::format);
+                .map(JoinMessage::id);
     }
 
     Selections selections() {

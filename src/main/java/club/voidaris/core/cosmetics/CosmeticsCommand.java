@@ -1,6 +1,8 @@
 package club.voidaris.core.cosmetics;
 
 import club.voidaris.core.Keys;
+import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.gui.MenuLoader;
 import club.voidaris.core.message.Messages;
 import club.voidaris.core.message.PlayerFormatter;
 import com.mojang.brigadier.Command;
@@ -9,12 +11,9 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.JoinConfiguration;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CosmeticsCommand {
 
@@ -24,18 +23,20 @@ public final class CosmeticsCommand {
 
     private final CosmeticsModule module;
     private final Messages messages;
-    private final PlayerFormatter formatter;
+    private final JoinMessagesMenu menu;
 
-    public CosmeticsCommand(CosmeticsModule module, Messages messages, PlayerFormatter formatter) {
+    public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
+                            PlayerFormatter formatter, MenuLoader loader) {
         this.module = module;
         this.messages = messages;
-        this.formatter = formatter;
+        this.menu = new JoinMessagesMenu(plugin, configs, module, messages, formatter, loader);
     }
 
     public LiteralCommandNode<CommandSourceStack> build() {
         return Commands.literal(NAME)
+                .executes(this::openJoinMessages)
                 .then(Commands.literal(JOIN_MESSAGE)
-                        .executes(this::listJoinMessages)
+                        .executes(this::openJoinMessages)
                         .then(Commands.argument(ARGUMENT, StringArgumentType.word())
                                 .suggests((context, builder) -> {
                                     if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
@@ -47,32 +48,13 @@ public final class CosmeticsCommand {
                 .build();
     }
 
-    private int listJoinMessages(CommandContext<CommandSourceStack> context) {
+    private int openJoinMessages(CommandContext<CommandSourceStack> context) {
         Player player = requirePlayer(context);
         if (player == null) {
             return 0;
         }
-        var owned = module.joinMessages().usable(player);
-        if (owned.isEmpty()) {
-            messages.send(player, Keys.Message.COSMETICS_JOIN_MESSAGE_LIST_EMPTY);
-            return Command.SINGLE_SUCCESS;
-        }
-        String selected = module.selections().get(player.getUniqueId(), CosmeticsModule.JOIN_MESSAGE_SLOT)
-                .orElse(module.joinMessages().defaultSelection());
-        var entries = owned.stream().map(message -> entry(player, message, message.id().equals(selected))).toList();
-        messages.send(player, Keys.Message.COSMETICS_JOIN_MESSAGE_LIST,
-                Placeholder.component("cosmetics", Component.join(JoinConfiguration.spaces(), entries)));
+        menu.open(player);
         return Command.SINGLE_SUCCESS;
-    }
-
-    private Component entry(Player player, JoinMessage message, boolean selected) {
-        String key = selected ? Keys.Message.COSMETICS_JOIN_MESSAGE_LIST_ENTRY_SELECTED : Keys.Message.COSMETICS_JOIN_MESSAGE_LIST_ENTRY;
-        Component preview = message.format().isBlank()
-                ? messages.get(Keys.Message.COSMETICS_JOIN_MESSAGE_PREVIEW_HIDDEN)
-                : formatter.format(player, message.format());
-        return messages.get(key, Placeholder.parsed("cosmetic", message.name()))
-                .hoverEvent(HoverEvent.showText(preview))
-                .clickEvent(ClickEvent.runCommand("/" + NAME + " " + JOIN_MESSAGE + " " + message.id()));
     }
 
     private int selectJoinMessage(CommandContext<CommandSourceStack> context) {
