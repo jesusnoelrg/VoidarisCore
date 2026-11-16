@@ -35,6 +35,9 @@ permissions:
   voidaris.warps.delete:
     description: Delete warps.
     default: op
+  voidaris.motd.use:
+    description: Show the message of the day.
+    default: true
   voidaris.utilities.craft:
     description: Open a virtual crafting table.
     default: op

@@ -1,0 +1,26 @@
+# VoidarisCore - message of the day (MiniMessage), sent to the player when joining and with /motd.
+# Placeholders: <player>, <displayname>, <prefix>, <prefix_lp>, <suffix_lp>, <separator> and PlaceholderAPI.
+
+show-on-join: true
+
+# Strikethrough spaces render as one continuous line.
+separator: "<gradient:#3b0764:#a855f7:#3b0764><strikethrough>                                                                </strikethrough></gradient>"
+
+lines:
+  - "<separator>"
+  - ""
+  - "<white>¡Bienvenido a <gradient:#7e22ce:#c084fc><bold>Voidaris</bold></gradient>, <light_purple><player></light_purple>!"
+  - ""
+  - "<dark_purple><bold>» Novedades"
+  - "<dark_gray> ▪ <white>Nuevos cosméticos: mensajes de entrada y partículas de teletransporte."
+  - "<dark_gray> ▪ <white>Warps del servidor disponibles con <light_purple>/warps</light_purple>."
+  - ""
+  - "<dark_purple><bold>» Comandos útiles"
+  - "<dark_gray> ▪ <hover:show_text:'<gray>Clic para ver los comandos'><click:run_command:'/voidaris help'><light_purple>/voidaris help</light_purple></click></hover> <dark_gray>- <white>Ayuda"
+  - "<dark_gray> ▪ <hover:show_text:'<gray>Clic para abrir el menú'><click:run_command:'/menu'><light_purple>/menu</light_purple></click></hover> <dark_gray>- <white>Menú principal"
+  - "<dark_gray> ▪ <hover:show_text:'<gray>Clic para leer las reglas'><click:run_command:'/reglas'><light_purple>/reglas</light_purple></click></hover> <dark_gray>- <white>Reglas del servidor"
+  - ""
+  - "<dark_purple><bold>» Redes sociales"
+  - "<dark_gray> ▪ <hover:show_text:'<gray>Clic para abrir la web'><click:open_url:'https://web.voidaris.club'><light_purple>[Web]</light_purple></click></hover>  <hover:show_text:'<gray>Clic para unirte al Discord'><click:open_url:'https://discord.gg/voidaris'><#5865f2>[Discord]</#5865f2></click></hover>  <hover:show_text:'<gray>Clic para ver nuestro TikTok'><click:open_url:'https://www.tiktok.com/@voidaris'><aqua>[TikTok]</aqua></click></hover>  <hover:show_text:'<gray>Clic para ver nuestro Instagram'><click:open_url:'https://www.instagram.com/voidaris'><#e1306c>[Instagram]</#e1306c></click></hover>"
+  - ""
+  - "<separator>"
