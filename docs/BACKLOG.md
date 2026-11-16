@@ -1,5 +1,5 @@
-- **runServer integrations:** the test server downloads LuckPerms but not PlaceholderAPI, so placeholders cannot be tested there; add it to `downloadPlugins` in `runServer`.
 - **Storage migrations untested against MariaDB:** the runner was only validated up to the connection attempt (no MariaDB available while building feat/database_storage); run a V1 migration against a real instance before the first schema ships.
 - **Redis cache:** add a Lettuce-backed `Cache` implementation if Voidaris becomes a multi-server network.
 - **Test server database.yml:** `run/plugins/VoidarisCore/database.yml` was generated with `enabled: true` during testing; set it back to false or delete it.
 - **Cosmetics SQL untested in-game:** the `cosmetic_selections` SELECT/UPSERT were not exercised by a real player join (no client could join the test server, which also lacks LuckPerms/PlaceholderAPI for `%luckperms_prefix%`).
+- **Stale test server config:** the test server's `messages.yml` and `guis/join-messages.yml` keep removed keys (`cosmetics.join-message.list*`, `join_messages.locked_material`) and log "Unknown keys" warnings on startup; regenerate or clean them.
