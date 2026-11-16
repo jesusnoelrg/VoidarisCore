@@ -46,6 +46,16 @@ public final class Keys {
         public static final String WARPS_SET = "voidaris.warps.set";
         public static final String WARPS_DELETE = "voidaris.warps.delete";
 
+        // kits
+        public static final String KITS_USE = "voidaris.kits.use";
+        /** Followed by the lowercase kit name; only checked for kits whose permission is enabled with /editkit. */
+        public static final String KITS_KIT = "voidaris.kits.kit.";
+        public static final String KITS_COOLDOWN_BYPASS = "voidaris.kits.cooldown.bypass";
+        public static final String KITS_GIVE = "voidaris.kits.give";
+        public static final String KITS_CREATE = "voidaris.kits.create";
+        public static final String KITS_EDIT = "voidaris.kits.edit";
+        public static final String KITS_DELETE = "voidaris.kits.delete";
+
         // chat
         public static final String CHAT_COLOR = "voidaris.chat.color";
         public static final String CHAT_HEX = "voidaris.chat.hex";
@@ -121,6 +131,10 @@ public final class Keys {
         public static final String COMMAND_WARP_DESCRIPTION = "commands.warp.description";
         public static final String COMMAND_SETWARP_DESCRIPTION = "commands.setwarp.description";
         public static final String COMMAND_DELWARP_DESCRIPTION = "commands.delwarp.description";
+        public static final String COMMAND_KIT_DESCRIPTION = "commands.kit.description";
+        public static final String COMMAND_CREATEKIT_DESCRIPTION = "commands.createkit.description";
+        public static final String COMMAND_EDITKIT_DESCRIPTION = "commands.editkit.description";
+        public static final String COMMAND_DELKIT_DESCRIPTION = "commands.delkit.description";
         public static final String COMMAND_CRAFT_DESCRIPTION = "commands.craft.description";
         public static final String COMMAND_ANVIL_DESCRIPTION = "commands.anvil.description";
         public static final String COMMAND_GRINDSTONE_DESCRIPTION = "commands.grindstone.description";
@@ -173,6 +187,19 @@ public final class Keys {
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
+        public static final String HELP_KIT_ARGUMENTS = "help.commands.kit.arguments";
+        public static final String HELP_KIT_DESCRIPTION = "help.commands.kit.description";
+        public static final String HELP_KIT_GIVE_ARGUMENTS = "help.commands.kit-give.arguments";
+        public static final String HELP_KIT_GIVE_DESCRIPTION = "help.commands.kit-give.description";
+        public static final String HELP_CREATEKIT_ARGUMENTS = "help.commands.createkit.arguments";
+        public static final String HELP_CREATEKIT_DESCRIPTION = "help.commands.createkit.description";
+        public static final String HELP_EDITKIT_ARGUMENTS = "help.commands.editkit.arguments";
+        public static final String HELP_EDITKIT_DESCRIPTION = "help.commands.editkit.description";
+        public static final String HELP_EDITKIT_COOLDOWN_ARGUMENTS = "help.commands.editkit-cooldown.arguments";
+        public static final String HELP_EDITKIT_PERMISSION_ARGUMENTS = "help.commands.editkit-permission.arguments";
+        public static final String HELP_EDITKIT_RESET_ARGUMENTS = "help.commands.editkit-reset.arguments";
+        public static final String HELP_DELKIT_ARGUMENTS = "help.commands.delkit.arguments";
+        public static final String HELP_DELKIT_DESCRIPTION = "help.commands.delkit.description";
         public static final String HELP_HOME_ARGUMENTS = "help.commands.home.arguments";
         public static final String HELP_HOME_DESCRIPTION = "help.commands.home.description";
         public static final String HELP_SETHOME_ARGUMENTS = "help.commands.sethome.arguments";
@@ -261,6 +288,37 @@ public final class Keys {
         public static final String HOMES_ICON_SET = "homes.icon-set";
         public static final String HOMES_ICON_EMPTY_HAND = "homes.icon-empty-hand";
         public static final String HOMES_PLAYER_UNKNOWN = "homes.player-unknown";
+
+        // kits
+        public static final String KITS_RECEIVED = "kits.received";
+        public static final String KITS_GIVEN = "kits.given";
+        public static final String KITS_NOT_FOUND = "kits.not-found";
+        public static final String KITS_COOLDOWN = "kits.cooldown";
+        public static final String KITS_ALREADY_CLAIMED = "kits.already-claimed";
+        public static final String KITS_LOCKED = "kits.locked";
+        public static final String KITS_INVENTORY_FULL = "kits.inventory-full";
+        public static final String KITS_INVENTORY_FULL_DENIED = "kits.inventory-full-denied";
+        public static final String KITS_LIST_EMPTY = "kits.list-empty";
+        public static final String KITS_CREATED = "kits.created";
+        public static final String KITS_ALREADY_EXISTS = "kits.already-exists";
+        public static final String KITS_INVALID_NAME = "kits.invalid-name";
+        public static final String KITS_EMPTY_INVENTORY = "kits.empty-inventory";
+        public static final String KITS_DELETED = "kits.deleted";
+        public static final String KITS_ITEMS_UPDATED = "kits.items-updated";
+        public static final String KITS_ICON_SET = "kits.icon-set";
+        public static final String KITS_ICON_EMPTY_HAND = "kits.icon-empty-hand";
+        public static final String KITS_COOLDOWN_SET = "kits.cooldown-set";
+        public static final String KITS_PERMISSION_ENABLED = "kits.permission-enabled";
+        public static final String KITS_PERMISSION_DISABLED = "kits.permission-disabled";
+        public static final String KITS_RESET = "kits.reset";
+        public static final String KITS_PLAYER_UNKNOWN = "kits.player-unknown";
+        public static final String KITS_COOLDOWN_ONCE = "kits.cooldown-once";
+        public static final String KITS_COOLDOWN_NONE = "kits.cooldown-none";
+        public static final String KITS_TIME_DAY = "kits.time.day";
+        public static final String KITS_TIME_HOUR = "kits.time.hour";
+        public static final String KITS_TIME_MINUTE = "kits.time.minute";
+        public static final String KITS_TIME_SECOND = "kits.time.second";
+        public static final String KITS_TIME_SEPARATOR = "kits.time.separator";
 
         // warps
         public static final String WARPS_TELEPORTED = "warps.teleported";

@@ -38,6 +38,14 @@ commands:
     description: "Crea o mueve un warp"
   delwarp:
     description: "Elimina un warp"
+  kit:
+    description: "Abre el menú de kits o reclama un kit"
+  createkit:
+    description: "Crea un kit con tu inventario"
+  editkit:
+    description: "Modifica un kit"
+  delkit:
+    description: "Elimina un kit"
   craft:
     description: "Abre una mesa de trabajo"
   anvil:
@@ -165,6 +173,28 @@ help:
     delwarp:
       arguments: "\\<warp>"
       description: "Elimina un warp"
+    kit:
+      arguments: "[kit]"
+      description: "Abre el menú de kits o reclama uno (también /kits)"
+    kit-give:
+      arguments: "\\<kit> \\<jugador>"
+      description: "Da un kit a un jugador sin cooldown ni permiso (también por consola)"
+    createkit:
+      arguments: "\\<kit>"
+      description: "Crea un kit con tu inventario, armadura y mano secundaria"
+    editkit:
+      arguments: "\\<kit> \\<items|icon|cooldown|permission|reset>"
+      description: "Cambia los ítems, el icono, el cooldown o el permiso de un kit, o reinicia el reclamo de un jugador"
+    # Only shown in the usage message of each /editkit option.
+    editkit-cooldown:
+      arguments: "\\<kit> cooldown \\<0|once|30m|1h30m|7d>"
+    editkit-permission:
+      arguments: "\\<kit> permission \\<true|false>"
+    editkit-reset:
+      arguments: "\\<kit> reset \\<jugador>"
+    delkit:
+      arguments: "\\<kit>"
+      description: "Elimina un kit"
     # Shared by every utilities command that accepts an optional target.
     utilities-target:
       arguments: "[jugador]"
@@ -352,11 +382,41 @@ motd:
 
 kits:
   received: "<prefix><white>Has recibido el kit <light_purple><kit></light_purple>."
+  # Sent to whoever gave the kit with /kit <kit> <player>.
+  given: "<prefix><white>Le diste el kit <light_purple><kit></light_purple> a <light_purple><player></light_purple>."
   not-found: "<prefix><white>No existe el kit <light_purple><kit></light_purple>."
   cooldown: "<prefix><white>Podrás reclamar el kit <light_purple><kit></light_purple> en <light_purple><time></light_purple>."
+  already-claimed: "<prefix><white>Ya reclamaste el kit <light_purple><kit></light_purple> y solo puede reclamarse una vez."
+  locked: "<prefix><white>No tienes acceso al kit <light_purple><kit></light_purple>."
   inventory-full: "<prefix><white>Algunos ítems no cabían y se soltaron al suelo."
-  list: "<prefix><white>Kits disponibles: <kits>"
+  # Sent instead of giving the kit when drop-when-full is false in kits.yml.
+  inventory-full-denied: "<prefix><white>No tienes espacio suficiente para el kit <light_purple><kit></light_purple>. Libera tu inventario e inténtalo de nuevo."
   list-empty: "<prefix><white>No hay kits disponibles."
+  # <items> is the number of item stacks saved; <cooldown> as in the menu.
+  created: "<prefix><white>Kit <light_purple><kit></light_purple> creado con <light_purple><items></light_purple> ítems y cooldown <light_purple><cooldown></light_purple>. Ajústalo con <light_purple>/editkit <kit></light_purple>."
+  already-exists: "<prefix><white>Ya existe el kit <light_purple><kit></light_purple>. Usa <light_purple>/editkit <kit> items</light_purple> para cambiar sus ítems."
+  invalid-name: "<prefix><white>El nombre del kit no es válido."
+  empty-inventory: "<prefix><white>Tu inventario está vacío; pon en él los ítems del kit."
+  deleted: "<prefix><white>Kit <light_purple><kit></light_purple> eliminado."
+  items-updated: "<prefix><white>Ítems del kit <light_purple><kit></light_purple> actualizados (<light_purple><items></light_purple> ítems)."
+  icon-set: "<prefix><white>Icono del kit <light_purple><kit></light_purple> cambiado a <light_purple><item></light_purple>."
+  icon-empty-hand: "<prefix><white>Debes tener un objeto en la mano."
+  cooldown-set: "<prefix><white>Cooldown del kit <light_purple><kit></light_purple> cambiado a <light_purple><cooldown></light_purple>."
+  # <permission> is the node players need.
+  permission-enabled: "<prefix><white>El kit <light_purple><kit></light_purple> ahora requiere el permiso <light_purple><permission></light_purple>."
+  permission-disabled: "<prefix><white>El kit <light_purple><kit></light_purple> ya no requiere permiso."
+  reset: "<prefix><white><light_purple><player></light_purple> puede volver a reclamar el kit <light_purple><kit></light_purple>."
+  player-unknown: "<prefix><white>El jugador <light_purple><player></light_purple> nunca ha entrado al servidor."
+  # Values of <cooldown> for one-time kits and kits without cooldown.
+  cooldown-once: "Único uso"
+  cooldown-none: "Sin cooldown"
+  # Units of <time> and <cooldown>; only the non-zero ones are shown, joined with the separator.
+  time:
+    day: "<value>d"
+    hour: "<value>h"
+    minute: "<value>m"
+    second: "<value>s"
+    separator: " "
 
 private-messages:
   disabled-self: "<prefix><white>Has desactivado los mensajes privados."

@@ -26,6 +26,7 @@ public final class ConfigManager {
     private final ConfigFile joinMessagesGui;
     private final ConfigFile teleportParticlesGui;
     private final ConfigFile homesGui;
+    private final ConfigFile kitsGui;
 
     public ConfigManager(JavaPlugin plugin) {
         main = new ConfigFile(plugin, "config.yml");
@@ -33,7 +34,8 @@ public final class ConfigManager {
         teleports = new ConfigFile(plugin, "teleports.yml");
         homes = new ConfigFile(plugin, "homes.yml", Set.of("limits"), List.of());
         warps = new ConfigFile(plugin, "warps.yml");
-        kits = new ConfigFile(plugin, "kits.yml", Set.of("kits"), List.of());
+        // Version 2 moved kits to data/kits/, created in-game with /createkit; the old item lists cannot be converted.
+        kits = new ConfigFile(plugin, "kits.yml", Set.of(), List.of(disk -> disk.set("kits", null)));
         chatFormat = new ConfigFile(plugin, "chat-format.yml", Set.of("chat.groups"), List.of());
         announces = new ConfigFile(plugin, "announces.yml");
         motd = new ConfigFile(plugin, "motd.yml");
@@ -46,10 +48,11 @@ public final class ConfigManager {
         teleportParticlesGui = new ConfigFile(plugin, "guis/teleport-particles.yml",
                 Set.of("items", "teleport_particles.icons"), List.of());
         homesGui = new ConfigFile(plugin, "guis/homes.yml", Set.of("items"), List.of());
+        kitsGui = new ConfigFile(plugin, "guis/kits.yml", Set.of("items"), List.of());
     }
 
     public void reload() {
-        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, motd, privateMessages, database, cosmetics, joinMessagesGui, teleportParticlesGui, homesGui}) {
+        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, motd, privateMessages, database, cosmetics, joinMessagesGui, teleportParticlesGui, homesGui, kitsGui}) {
             file.reload();
         }
     }
@@ -69,4 +72,5 @@ public final class ConfigManager {
     public ConfigFile joinMessagesGui() { return joinMessagesGui; }
     public ConfigFile teleportParticlesGui() { return teleportParticlesGui; }
     public ConfigFile homesGui() { return homesGui; }
+    public ConfigFile kitsGui() { return kitsGui; }
 }
