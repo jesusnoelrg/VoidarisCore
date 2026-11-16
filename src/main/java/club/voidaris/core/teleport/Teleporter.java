@@ -2,6 +2,7 @@ package club.voidaris.core.teleport;
 
 import club.voidaris.core.Keys;
 import club.voidaris.core.message.Messages;
+import club.voidaris.core.storage.CooldownFile;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Location;
@@ -40,17 +41,19 @@ public final class Teleporter implements Listener {
     private record Pending(BukkitTask task, Settings settings) {
     }
 
-    private record CooldownKey(UUID player, String type) {
-    }
-
     private final JavaPlugin plugin;
     private final Messages messages;
     private final Map<UUID, Pending> pending = new HashMap<>();
-    private final Map<CooldownKey, Long> cooldownEnds = new HashMap<>();
+    private final CooldownFile cooldowns;
 
     public Teleporter(JavaPlugin plugin, Messages messages) {
         this.plugin = plugin;
         this.messages = messages;
+        this.cooldowns = new CooldownFile(plugin, "teleport-cooldowns.yml");
+    }
+
+    public CooldownFile cooldowns() {
+        return cooldowns;
     }
 
     /**
@@ -61,9 +64,8 @@ public final class Teleporter implements Listener {
     public boolean teleport(Player player, String type, Location target, Settings settings, String arrived,
                             TagResolver... resolvers) {
         boolean bypass = player.hasPermission(Keys.Permission.TELEPORT_BYPASS);
-        var key = new CooldownKey(player.getUniqueId(), type);
         if (!bypass) {
-            long remaining = cooldownEnds.getOrDefault(key, 0L) - System.currentTimeMillis();
+            long remaining = cooldowns.remaining(player.getUniqueId(), type);
             if (remaining > 0) {
                 messages.send(player, Keys.Message.TELEPORT_COOLDOWN,
                         Placeholder.unparsed("seconds", String.valueOf((remaining + 999) / 1000)));
@@ -80,7 +82,7 @@ public final class Teleporter implements Listener {
                     return;
                 }
                 if (!bypass && settings.cooldownSeconds() > 0) {
-                    cooldownEnds.put(key, System.currentTimeMillis() + settings.cooldownSeconds() * 1000L);
+                    cooldowns.start(player.getUniqueId(), type, settings.cooldownSeconds() * 1000L);
                 }
                 messages.send(player, arrived, resolvers);
             });

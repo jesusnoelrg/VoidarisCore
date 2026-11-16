@@ -19,6 +19,7 @@ import club.voidaris.core.warps.WarpCommands;
 import club.voidaris.core.warps.WarpsModule;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +36,7 @@ public final class VoidarisCore extends JavaPlugin {
     private Teleporter teleporter;
     private SpawnModule spawnModule;
     private WarpsModule warpsModule;
+    private BukkitTask autosaveTask;
 
     @Override
     public void onEnable() {
@@ -50,6 +52,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.reload();
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         registerCommands();
+        scheduleAutosave();
 
         getLogger().info("VoidarisCore " + getPluginMeta().getVersion() + " habilitado.");
     }
@@ -59,6 +62,9 @@ public final class VoidarisCore extends JavaPlugin {
         MenuListener.closeAll();
         if (moduleManager != null) {
             moduleManager.disableAll();
+        }
+        if (teleporter != null) {
+            teleporter.cooldowns().saveNow();
         }
         if (database != null) {
             database.close();
@@ -70,6 +76,15 @@ public final class VoidarisCore extends JavaPlugin {
         configManager.reload();
         integrations.reload();
         moduleManager.reload();
+        scheduleAutosave();
+    }
+
+    private void scheduleAutosave() {
+        if (autosaveTask != null) {
+            autosaveTask.cancel();
+        }
+        long ticks = Math.max(1, configManager.main().get().getLong("storage.autosave-interval-seconds")) * 20L;
+        autosaveTask = getServer().getScheduler().runTaskTimer(this, teleporter.cooldowns()::saveAsync, ticks, ticks);
     }
 
     private void connectDatabase() {
@@ -92,6 +107,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(cosmeticsModule);
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
         teleporter = new Teleporter(this, messages);
+        teleporter.cooldowns().load();
         getServer().getPluginManager().registerEvents(teleporter, this);
         spawnModule = new SpawnModule(this, configManager, messages);
         moduleManager.register(spawnModule);
