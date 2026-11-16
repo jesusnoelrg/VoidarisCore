@@ -6,4 +6,3 @@
 - **Redis cache:** add a Lettuce-backed `Cache` implementation if Voidaris becomes a multi-server network.
 - **Test server database.yml:** `run/plugins/VoidarisCore/database.yml` was generated with `enabled: true` during testing; set it back to false or delete it.
 - **Cosmetics SQL untested in-game:** the `cosmetic_selections` SELECT/UPSERT were not exercised by a real player join (no client could join the test server, which also lacks LuckPerms/PlaceholderAPI for `%luckperms_prefix%`).
-- **`/warps` alias:** README used to list `/warps`; `/warp` without arguments lists warps now, add the alias if players expect it.
