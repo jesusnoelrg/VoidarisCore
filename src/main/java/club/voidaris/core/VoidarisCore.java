@@ -1,5 +1,6 @@
 package club.voidaris.core;
 
+import club.voidaris.core.announcements.AnnouncementsModule;
 import club.voidaris.core.chat.ChatModule;
 import club.voidaris.core.command.ExtraArguments;
 import club.voidaris.core.command.VoidarisCommand;
@@ -147,6 +148,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(motdModule);
         privateMessagesModule = new PrivateMessagesModule(this, configManager, messages);
         moduleManager.register(privateMessagesModule);
+        moduleManager.register(new AnnouncementsModule(this, configManager, formatter));
     }
 
     private void registerCommands() {
