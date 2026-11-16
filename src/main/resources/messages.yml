@@ -1,6 +1,8 @@
 # VoidarisCore - player-facing messages (MiniMessage).
 # <prefix> is replaced with the value of "prefix" in every message.
 
+config-version: 2
+
 prefix: "<dark_purple><bold>Voidaris</bold> <dark_gray><bold>»</bold> "
 
 general:
