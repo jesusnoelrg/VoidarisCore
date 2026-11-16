@@ -64,6 +64,8 @@ commands:
     description: "Abre una mesa de herrería"
   enderchest:
     description: "Abre tu cofre de ender o el de otro jugador"
+  invsee:
+    description: "Abre el inventario de otro jugador"
   gm:
     description: "Cambia el modo de juego"
   heal:
@@ -224,6 +226,9 @@ help:
       description: "Abre una mesa de herrería"
     enderchest:
       description: "Abre tu cofre de ender o el de otro jugador"
+    invsee:
+      arguments: "\\<jugador>"
+      description: "Mira el inventario de un jugador (editable con voidaris.utilities.invsee.modify)"
     gm:
       arguments: "\\<modo|0-3> [jugador]"
       description: "Cambia tu modo de juego o el de otro jugador"
@@ -388,6 +393,8 @@ utilities:
     equipped: "<prefix><white>¡Disfruta tu nuevo sombrero!"
     empty-hand: "<prefix><white>Debes tener un ítem en la mano."
     bound: "<prefix><white>No puedes quitarte un casco con Maldición de ligamiento."
+  invsee:
+    self: "<prefix><white>No puedes abrir tu propio inventario con este comando."
   time:
     day: "<prefix><white>Ahora es de día en <light_purple><world></light_purple>."
     night: "<prefix><white>Ahora es de noche en <light_purple><world></light_purple>."

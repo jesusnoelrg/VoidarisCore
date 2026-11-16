@@ -73,6 +73,9 @@ public final class Keys {
         public static final String UTILITIES_SMITHING = "voidaris.utilities.smithing";
         public static final String UTILITIES_ENDERCHEST = "voidaris.utilities.enderchest";
         public static final String UTILITIES_ENDERCHEST_OTHERS = "voidaris.utilities.enderchest.others";
+        public static final String UTILITIES_INVSEE = "voidaris.utilities.invsee";
+        /** Without it, /invsee views are read-only. */
+        public static final String UTILITIES_INVSEE_MODIFY = "voidaris.utilities.invsee.modify";
         public static final String UTILITIES_GAMEMODE_ALL = "voidaris.utilities.gamemode.*";
         public static final String UTILITIES_GAMEMODE_SURVIVAL = "voidaris.utilities.gamemode.survival";
         public static final String UTILITIES_GAMEMODE_CREATIVE = "voidaris.utilities.gamemode.creative";
@@ -146,6 +149,7 @@ public final class Keys {
         public static final String COMMAND_CARTOGRAPHY_DESCRIPTION = "commands.cartography.description";
         public static final String COMMAND_SMITHING_DESCRIPTION = "commands.smithing.description";
         public static final String COMMAND_ENDERCHEST_DESCRIPTION = "commands.enderchest.description";
+        public static final String COMMAND_INVSEE_DESCRIPTION = "commands.invsee.description";
         public static final String COMMAND_GM_DESCRIPTION = "commands.gm.description";
         public static final String COMMAND_HEAL_DESCRIPTION = "commands.heal.description";
         public static final String COMMAND_FEED_DESCRIPTION = "commands.feed.description";
@@ -239,6 +243,8 @@ public final class Keys {
         public static final String HELP_CARTOGRAPHY_DESCRIPTION = "help.commands.cartography.description";
         public static final String HELP_SMITHING_DESCRIPTION = "help.commands.smithing.description";
         public static final String HELP_ENDERCHEST_DESCRIPTION = "help.commands.enderchest.description";
+        public static final String HELP_INVSEE_ARGUMENTS = "help.commands.invsee.arguments";
+        public static final String HELP_INVSEE_DESCRIPTION = "help.commands.invsee.description";
         public static final String HELP_GM_DESCRIPTION = "help.commands.gm.description";
         public static final String HELP_HEAL_DESCRIPTION = "help.commands.heal.description";
         public static final String HELP_FEED_DESCRIPTION = "help.commands.feed.description";
@@ -409,6 +415,7 @@ public final class Keys {
         public static final String UTILITIES_HAT_EQUIPPED = "utilities.hat.equipped";
         public static final String UTILITIES_HAT_EMPTY_HAND = "utilities.hat.empty-hand";
         public static final String UTILITIES_HAT_BOUND = "utilities.hat.bound";
+        public static final String UTILITIES_INVSEE_SELF = "utilities.invsee.self";
         public static final String UTILITIES_TIME_DAY = "utilities.time.day";
         public static final String UTILITIES_TIME_NIGHT = "utilities.time.night";
         public static final String UTILITIES_WEATHER_SUN = "utilities.weather.sun";

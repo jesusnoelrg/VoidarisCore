@@ -140,6 +140,12 @@ permissions:
   voidaris.utilities.enderchest:
     description: Open your own ender chest.
     default: op
+  voidaris.utilities.invsee:
+    description: Look at another player's inventory with /invsee (read-only).
+    default: op
+  voidaris.utilities.invsee.modify:
+    description: Take and put items in the inventory opened with /invsee.
+    default: op
   voidaris.utilities.enderchest.others:
     description: Open and edit another player's ender chest.
     default: op
@@ -218,6 +224,8 @@ permissions:
       voidaris.utilities.smithing: true
       voidaris.utilities.enderchest: true
       voidaris.utilities.enderchest.others: true
+      voidaris.utilities.invsee: true
+      voidaris.utilities.invsee.modify: true
       voidaris.utilities.gamemode.survival: true
       voidaris.utilities.gamemode.creative: true
       voidaris.utilities.gamemode.adventure: true
