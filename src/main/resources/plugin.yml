@@ -14,6 +14,27 @@ permissions:
   voidaris.core.reload:
     description: Reload VoidarisCore configuration files.
     default: op
+  voidaris.teleport.bypass:
+    description: Skip teleport warmups and cooldowns.
+    default: op
+  voidaris.spawn.use:
+    description: Teleport to the spawn.
+    default: true
+  voidaris.spawn.set:
+    description: Set the spawn.
+    default: op
+  voidaris.spawn.delete:
+    description: Delete the spawn.
+    default: op
+  voidaris.warps.use:
+    description: Use and list warps (when per-warp-permission is false).
+    default: true
+  voidaris.warps.set:
+    description: Create or move warps.
+    default: op
+  voidaris.warps.delete:
+    description: Delete warps.
+    default: op
   voidaris.cosmetics.joinmessage.silent:
     description: Equip the silent join message.
     default: true
