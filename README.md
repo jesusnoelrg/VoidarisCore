@@ -21,7 +21,7 @@ con mensajes y estilo uniformes.
 | Efectos de teletransporte | Sonido para todos (cada jugador oye solo el suyo) y partículas elegidas como cosmético, por causa configurable |
 | Warps | `/warp [warp]` (sin argumento, o con `/warps`, lista los warps clicables), `/setwarp`, `/delwarp`, con delay, cooldown y permiso opcional por warp |
 | Kits | `/kit`, `/kits` con cooldown y permiso por kit, kit de primera entrada |
-| Homes | `/home`, `/sethome`, `/delhome`, `/homes` con límites por permiso |
+| Homes | `/home [home]` (con una sola home va directo; con varias sugiere el listado), `/sethome [home]`, `/delhome <home>`, `/listhome` (`/homes`) abre un menú (`guis/homes.yml`) con clic para ir; `/home <home> seticon` usa el tipo del objeto en la mano como icono (`voidaris.homes.seticon`); límites por permiso (`voidaris.homes.limit.<grupo>`), delay, cooldown (`voidaris.homes.cooldown.bypass`) y variantes de staff con `<jugador>` (también desconectado) bajo `voidaris.homes.*.others` |
 | Utilidades | Estaciones virtuales (`/craft`, `/anvil`, `/grindstone`, `/stonecutter`, `/loom`, `/cartography`, `/smithing`), `/enderchest [jugador]`, `/gm <modo\|0-3>` y atajos (`/gms`, `/gmc`, `/gma`, `/gmsp`), `/heal`, `/feed`, `/fly`, `/god`, `/speed`, `/hat`, `/day`, `/night`, `/sun`, `/rain`; todo bajo `voidaris.utilities.*` (OP por defecto) |
 | Bienvenida | Anuncio y kit de primera entrada |
 | MOTD | Mensaje de bienvenida multilínea (MiniMessage) en `motd.yml`, enviado justo antes del mensaje de entrada del jugador y con `/motd`; incluye novedades, comandos clicables y redes sociales |

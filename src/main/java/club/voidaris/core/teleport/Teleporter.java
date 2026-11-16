@@ -26,7 +26,11 @@ import java.util.UUID;
  */
 public final class Teleporter implements Listener {
 
-    public record Settings(int warmupSeconds, int cooldownSeconds, boolean cancelOnMove, boolean cancelOnDamage) {
+    /**
+     * @param cooldownBypass permission that skips only the cooldown (the warmup still applies), or {@code null}
+     */
+    public record Settings(int warmupSeconds, int cooldownSeconds, boolean cancelOnMove, boolean cancelOnDamage,
+                           String cooldownBypass) {
 
         /**
          * @param timing   section holding {@code warmup-seconds} and {@code cooldown-seconds}
@@ -34,7 +38,11 @@ public final class Teleporter implements Listener {
          */
         public static Settings of(ConfigurationSection timing, ConfigurationSection defaults) {
             return new Settings(timing.getInt("warmup-seconds"), timing.getInt("cooldown-seconds"),
-                    defaults.getBoolean("cancel-on-move"), defaults.getBoolean("cancel-on-damage"));
+                    defaults.getBoolean("cancel-on-move"), defaults.getBoolean("cancel-on-damage"), null);
+        }
+
+        public Settings withCooldownBypass(String permission) {
+            return new Settings(warmupSeconds, cooldownSeconds, cancelOnMove, cancelOnDamage, permission);
         }
     }
 
@@ -64,7 +72,9 @@ public final class Teleporter implements Listener {
     public boolean teleport(Player player, String type, Location target, Settings settings, String arrived,
                             TagResolver... resolvers) {
         boolean bypass = player.hasPermission(Keys.Permission.TELEPORT_BYPASS);
-        if (!bypass) {
+        boolean skipCooldown = bypass
+                || (settings.cooldownBypass() != null && player.hasPermission(settings.cooldownBypass()));
+        if (!skipCooldown) {
             long remaining = cooldowns.remaining(player.getUniqueId(), type);
             if (remaining > 0) {
                 messages.send(player, Keys.Message.TELEPORT_COOLDOWN,
@@ -81,7 +91,7 @@ public final class Teleporter implements Listener {
                     messages.send(player, Keys.Message.TELEPORT_FAILED);
                     return;
                 }
-                if (!bypass && settings.cooldownSeconds() > 0) {
+                if (!skipCooldown && settings.cooldownSeconds() > 0) {
                     cooldowns.start(player.getUniqueId(), type, settings.cooldownSeconds() * 1000L);
                 }
                 messages.send(player, arrived, resolvers);

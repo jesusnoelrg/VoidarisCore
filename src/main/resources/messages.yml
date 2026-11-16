@@ -24,6 +24,14 @@ commands:
     description: "Establece el spawn del servidor"
   delspawn:
     description: "Elimina el spawn del servidor"
+  home:
+    description: "Teletranspórtate a una de tus homes"
+  sethome:
+    description: "Establece una home"
+  delhome:
+    description: "Elimina una home"
+  listhome:
+    description: "Abre el listado de tus homes"
   warp:
     description: "Teletranspórtate a un warp"
   setwarp:
@@ -122,6 +130,32 @@ help:
       description: "Establece el spawn en tu posición"
     delspawn:
       description: "Elimina el spawn"
+    home:
+      arguments: "[home]"
+      description: "Teletranspórtate a una de tus homes"
+    sethome:
+      arguments: "[home]"
+      description: "Establece una home en tu posición"
+    delhome:
+      arguments: "\\<home>"
+      description: "Elimina una de tus homes"
+    listhome:
+      description: "Abre el listado de tus homes (también /homes)"
+    home-seticon:
+      arguments: "\\<home> seticon"
+      description: "Usa el objeto de tu mano como icono de la home"
+    # Shared by the admin variants of /home, /sethome and /delhome.
+    homes-others:
+      arguments: "\\<home> \\<jugador>"
+    home-others:
+      description: "Teletranspórtate a la home de un jugador"
+    sethome-others:
+      description: "Establece una home de un jugador en tu posición"
+    delhome-others:
+      description: "Elimina una home de un jugador"
+    listhome-others:
+      arguments: "\\<jugador>"
+      description: "Abre el listado de homes de un jugador"
     warp:
       arguments: "[warp]"
       description: "Lista los warps o teletranspórtate a uno"
@@ -230,14 +264,23 @@ back:
 
 homes:
   teleported: "<prefix><white>Teletransportado a la home <light_purple><home></light_purple>."
+  teleported-other: "<prefix><white>Teletransportado a la home <light_purple><home></light_purple> de <light_purple><player></light_purple>."
   set: "<prefix><white>Home <light_purple><home></light_purple> establecida."
+  set-other: "<prefix><white>Home <light_purple><home></light_purple> de <light_purple><player></light_purple> establecida."
   deleted: "<prefix><white>Home <light_purple><home></light_purple> eliminada."
+  deleted-other: "<prefix><white>Home <light_purple><home></light_purple> de <light_purple><player></light_purple> eliminada."
   not-found: "<prefix><white>No existe la home <light_purple><home></light_purple>."
+  not-found-other: "<prefix><light_purple><player></light_purple> <white>no tiene la home <light_purple><home></light_purple>."
   limit-reached: "<prefix><white>Alcanzaste tu límite de <light_purple><limit></light_purple> homes."
-  list: "<prefix><white>Tus homes (<light_purple><count></light_purple>/<light_purple><limit></light_purple>): <homes>"
-  list-empty: "<prefix><white>No tienes homes establecidas."
+  list-empty: "<prefix><white>No tienes homes establecidas. Usa <light_purple>/sethome</light_purple> para crear una."
+  list-empty-other: "<prefix><light_purple><player></light_purple> <white>no tiene homes establecidas."
+  # Sent by /home without a name when the player has more than one home.
+  choose: "<prefix><white>Tienes varias homes. <light_purple><click:run_command:'/homes'><hover:show_text:'<gray>Clic para abrir'>[Ver listado]</hover></click></light_purple>"
   invalid-name: "<prefix><white>El nombre de la home no es válido."
   blocked-world: "<prefix><white>No puedes establecer homes en este mundo."
+  icon-set: "<prefix><white>Icono de la home <light_purple><home></light_purple> cambiado a <light_purple><item></light_purple>."
+  icon-empty-hand: "<prefix><white>Debes tener un objeto en la mano."
+  player-unknown: "<prefix><white>El jugador <light_purple><player></light_purple> nunca ha entrado al servidor."
 
 warps:
   teleported: "<prefix><white>Teletransportado al warp <light_purple><warp></light_purple>."

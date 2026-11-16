@@ -6,11 +6,12 @@ cooldown-seconds: 10
 default-home-name: "home"
 name-pattern: "^[a-zA-Z0-9_-]{1,16}$"
 
-# The highest matching permission voidaris.homes.limit.<group> wins.
+# default applies to everyone; the highest of it and each voidaris.homes.limit.<group> the player has wins.
 # voidaris.homes.limit.unlimited removes the limit.
 limits:
   default: 1
   vip: 3
   mvp: 5
 
+# Worlds where players cannot set homes (staff setting a home for someone else ignores this and the limit).
 blocked-worlds: []

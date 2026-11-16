@@ -27,6 +27,18 @@ public final class Keys {
         public static final String SPAWN_SET = "voidaris.spawn.set";
         public static final String SPAWN_DELETE = "voidaris.spawn.delete";
 
+        // homes
+        public static final String HOMES_USE = "voidaris.homes.use";
+        public static final String HOMES_SETICON = "voidaris.homes.seticon";
+        public static final String HOMES_COOLDOWN_BYPASS = "voidaris.homes.cooldown.bypass";
+        /** Followed by an entry of limits in homes.yml; the highest matching one wins. */
+        public static final String HOMES_LIMIT = "voidaris.homes.limit.";
+        public static final String HOMES_LIMIT_UNLIMITED = "voidaris.homes.limit.unlimited";
+        public static final String HOMES_TELEPORT_OTHERS = "voidaris.homes.teleport.others";
+        public static final String HOMES_SET_OTHERS = "voidaris.homes.set.others";
+        public static final String HOMES_DELETE_OTHERS = "voidaris.homes.delete.others";
+        public static final String HOMES_LIST_OTHERS = "voidaris.homes.list.others";
+
         // warps
         public static final String WARPS_USE = "voidaris.warps.use";
         /** Followed by the lowercase warp name; only checked when per-warp-permission is true in warps.yml. */
@@ -102,6 +114,10 @@ public final class Keys {
         public static final String COMMAND_SPAWN_DESCRIPTION = "commands.spawn.description";
         public static final String COMMAND_SETSPAWN_DESCRIPTION = "commands.setspawn.description";
         public static final String COMMAND_DELSPAWN_DESCRIPTION = "commands.delspawn.description";
+        public static final String COMMAND_HOME_DESCRIPTION = "commands.home.description";
+        public static final String COMMAND_SETHOME_DESCRIPTION = "commands.sethome.description";
+        public static final String COMMAND_DELHOME_DESCRIPTION = "commands.delhome.description";
+        public static final String COMMAND_LISTHOME_DESCRIPTION = "commands.listhome.description";
         public static final String COMMAND_WARP_DESCRIPTION = "commands.warp.description";
         public static final String COMMAND_SETWARP_DESCRIPTION = "commands.setwarp.description";
         public static final String COMMAND_DELWARP_DESCRIPTION = "commands.delwarp.description";
@@ -157,6 +173,21 @@ public final class Keys {
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
+        public static final String HELP_HOME_ARGUMENTS = "help.commands.home.arguments";
+        public static final String HELP_HOME_DESCRIPTION = "help.commands.home.description";
+        public static final String HELP_SETHOME_ARGUMENTS = "help.commands.sethome.arguments";
+        public static final String HELP_SETHOME_DESCRIPTION = "help.commands.sethome.description";
+        public static final String HELP_DELHOME_ARGUMENTS = "help.commands.delhome.arguments";
+        public static final String HELP_DELHOME_DESCRIPTION = "help.commands.delhome.description";
+        public static final String HELP_LISTHOME_DESCRIPTION = "help.commands.listhome.description";
+        public static final String HELP_HOME_SETICON_ARGUMENTS = "help.commands.home-seticon.arguments";
+        public static final String HELP_HOME_SETICON_DESCRIPTION = "help.commands.home-seticon.description";
+        public static final String HELP_HOMES_OTHERS_ARGUMENTS = "help.commands.homes-others.arguments";
+        public static final String HELP_HOME_OTHERS_DESCRIPTION = "help.commands.home-others.description";
+        public static final String HELP_SETHOME_OTHERS_DESCRIPTION = "help.commands.sethome-others.description";
+        public static final String HELP_DELHOME_OTHERS_DESCRIPTION = "help.commands.delhome-others.description";
+        public static final String HELP_LISTHOME_OTHERS_ARGUMENTS = "help.commands.listhome-others.arguments";
+        public static final String HELP_LISTHOME_OTHERS_DESCRIPTION = "help.commands.listhome-others.description";
         public static final String HELP_WARP_ARGUMENTS = "help.commands.warp.arguments";
         public static final String HELP_WARP_DESCRIPTION = "help.commands.warp.description";
         public static final String HELP_SETWARP_ARGUMENTS = "help.commands.setwarp.arguments";
@@ -211,6 +242,25 @@ public final class Keys {
         public static final String SPAWN_NOT_SET = "spawn.not-set";
         public static final String SPAWN_DELETED = "spawn.deleted";
         public static final String SPAWN_VOID_RETURN = "spawn.void-return";
+
+        // homes
+        public static final String HOMES_TELEPORTED = "homes.teleported";
+        public static final String HOMES_TELEPORTED_OTHER = "homes.teleported-other";
+        public static final String HOMES_SET = "homes.set";
+        public static final String HOMES_SET_OTHER = "homes.set-other";
+        public static final String HOMES_DELETED = "homes.deleted";
+        public static final String HOMES_DELETED_OTHER = "homes.deleted-other";
+        public static final String HOMES_NOT_FOUND = "homes.not-found";
+        public static final String HOMES_NOT_FOUND_OTHER = "homes.not-found-other";
+        public static final String HOMES_LIMIT_REACHED = "homes.limit-reached";
+        public static final String HOMES_LIST_EMPTY = "homes.list-empty";
+        public static final String HOMES_LIST_EMPTY_OTHER = "homes.list-empty-other";
+        public static final String HOMES_CHOOSE = "homes.choose";
+        public static final String HOMES_INVALID_NAME = "homes.invalid-name";
+        public static final String HOMES_BLOCKED_WORLD = "homes.blocked-world";
+        public static final String HOMES_ICON_SET = "homes.icon-set";
+        public static final String HOMES_ICON_EMPTY_HAND = "homes.icon-empty-hand";
+        public static final String HOMES_PLAYER_UNKNOWN = "homes.player-unknown";
 
         // warps
         public static final String WARPS_TELEPORTED = "warps.teleported";
