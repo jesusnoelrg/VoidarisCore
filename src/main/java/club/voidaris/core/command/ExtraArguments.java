@@ -12,9 +12,10 @@ import java.lang.reflect.Proxy;
 import java.util.List;
 
 /**
- * Brigadier rejects anything typed after the last node of a command with the client's English "Incorrect argument
- * for command", so {@code /craft a} would fail. Every leaf that runs a command gets a greedy child that swallows the
- * extra text and runs the same command.
+ * Brigadier rejects anything typed after the last node of a command, or a subcommand that does not exist, with the
+ * client's English "Incorrect argument for command", so {@code /craft a} or {@code /voidaris foo} would fail. Every
+ * node that runs a command and has no argument children gets a greedy child that swallows the rest of the input and
+ * runs that same command. Literal children still win, because Brigadier only tries arguments when no literal matches.
  */
 public final class ExtraArguments {
 
@@ -50,7 +51,8 @@ public final class ExtraArguments {
         for (var child : List.copyOf(node.getChildren())) {
             allow(child);
         }
-        if (node.getCommand() == null || !node.getChildren().isEmpty() || isGreedy(node)) {
+        boolean hasArgumentChild = node.getChildren().stream().anyMatch(child -> child instanceof ArgumentCommandNode);
+        if (node.getCommand() == null || hasArgumentChild || isGreedy(node)) {
             return;
         }
         node.addChild(Commands.argument(NAME, StringArgumentType.greedyString())
