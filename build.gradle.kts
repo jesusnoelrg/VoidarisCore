@@ -60,9 +60,10 @@ tasks {
     runServer {
         minecraftVersion(minecraftVersion)
         build(paperBuild)
-        // Test-only: lets cosmetic and other permission nodes be granted with /lp on the local server.
+        // Test-only: lets cosmetic and other permission nodes be granted with /lp, and placeholders be resolved, on the local server.
         downloadPlugins {
             modrinth("luckperms", "v5.5.71-bukkit")
+            modrinth("placeholderapi", "2.12.3")
         }
     }
 
