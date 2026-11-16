@@ -4,15 +4,17 @@ import club.voidaris.core.Keys;
 import club.voidaris.core.command.HelpEntry;
 import club.voidaris.core.message.Messages;
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
-import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -56,13 +58,21 @@ public final class GameModeCommands {
     public void register(Commands registrar) {
         var messages = support.messages();
         var gameMode = Commands.literal(GAME_MODE)
-                .then(Commands.argument(MODE, ArgumentTypes.gameMode())
-                        .executes(context -> change(context, context.getArgument(MODE, GameMode.class), false))
-                        .then(CommandSupport.targetArgument().executes(context ->
-                                change(context, context.getArgument(MODE, GameMode.class), true))));
-        NUMERIC_IDS.forEach((id, mode) -> gameMode.then(Commands.literal(id)
-                .executes(context -> change(context, mode, false))
-                .then(CommandSupport.targetArgument().executes(context -> change(context, mode, true)))));
+                .executes(this::usage)
+                .then(Commands.argument(MODE, StringArgumentType.word())
+                        .suggests((context, builder) -> {
+                            String remaining = builder.getRemainingLowerCase();
+                            for (GameMode mode : GameMode.values()) {
+                                String name = mode.name().toLowerCase(Locale.ROOT);
+                                if (name.startsWith(remaining)) {
+                                    builder.suggest(name);
+                                }
+                            }
+                            NUMERIC_IDS.keySet().stream().sorted().filter(id -> id.startsWith(remaining)).forEach(builder::suggest);
+                            return builder.buildFuture();
+                        })
+                        .executes(context -> changeTyped(context, false))
+                        .then(CommandSupport.targetArgument().executes(context -> changeTyped(context, true))));
         registrar.register(gameMode.build(), messages.raw(Keys.Message.COMMAND_GM_DESCRIPTION));
         SHORTCUTS.forEach((mode, command) -> registrar.register(Commands.literal(command)
                         .executes(context -> change(context, mode, false))
@@ -74,6 +84,25 @@ public final class GameModeCommands {
     public List<HelpEntry> helpEntries() {
         return List.of(new HelpEntry(HelpEntry.Category.ADMIN, "/" + GAME_MODE, Keys.Message.HELP_GM_ARGUMENTS,
                 Keys.Message.HELP_GM_DESCRIPTION, Keys.Permission.UTILITIES_GAMEMODE_ALL, support.module()));
+    }
+
+    private int usage(CommandContext<CommandSourceStack> context) {
+        var sender = context.getSource().getSender();
+        // Any mode node is enough to be told how /gm works; the chosen mode is checked when it runs.
+        String permission = PERMISSIONS.values().stream().filter(sender::hasPermission).findFirst()
+                .orElse(Keys.Permission.UTILITIES_GAMEMODE_ALL);
+        return support.usage(sender, permission, "/" + GAME_MODE, Keys.Message.HELP_GM_ARGUMENTS);
+    }
+
+    private int changeTyped(CommandContext<CommandSourceStack> context, boolean hasTarget) {
+        String typed = StringArgumentType.getString(context, MODE).toLowerCase(Locale.ROOT);
+        GameMode mode = NUMERIC_IDS.get(typed);
+        if (mode == null) {
+            mode = Arrays.stream(GameMode.values())
+                    .filter(candidate -> candidate.name().toLowerCase(Locale.ROOT).equals(typed))
+                    .findFirst().orElse(null);
+        }
+        return mode != null ? change(context, mode, hasTarget) : usage(context);
     }
 
     private int change(CommandContext<CommandSourceStack> context, GameMode mode, boolean hasTarget) {

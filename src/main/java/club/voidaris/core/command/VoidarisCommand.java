@@ -3,7 +3,7 @@ package club.voidaris.core.command;
 import club.voidaris.core.Keys;
 import club.voidaris.core.message.Messages;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -38,8 +38,8 @@ public final class VoidarisCommand {
                 .executes(context -> help(context, 1))
                 .then(Commands.literal(HELP)
                         .executes(context -> help(context, 1))
-                        .then(Commands.argument(PAGE, IntegerArgumentType.integer(1))
-                                .executes(context -> help(context, IntegerArgumentType.getInteger(context, PAGE)))))
+                        .then(Commands.argument(PAGE, StringArgumentType.word())
+                                .executes(this::helpPage)))
                 .then(Commands.literal(RELOAD).executes(this::reload))
                 .build();
     }
@@ -52,6 +52,15 @@ public final class VoidarisCommand {
                 new HelpEntry(HelpEntry.Category.ADMIN, "/" + NAME + " " + RELOAD,
                         null, Keys.Message.HELP_VOIDARIS_RELOAD_DESCRIPTION,
                         Keys.Permission.CORE_RELOAD, null));
+    }
+
+    private int helpPage(CommandContext<CommandSourceStack> context) {
+        Integer page = CommandUsage.parseInt(StringArgumentType.getString(context, PAGE), 1, Integer.MAX_VALUE);
+        if (page == null) {
+            return CommandUsage.send(messages, context.getSource().getSender(), "/" + NAME + " " + HELP,
+                    Keys.Message.HELP_VOIDARIS_HELP_ARGUMENTS);
+        }
+        return help(context, page);
     }
 
     private int help(CommandContext<CommandSourceStack> context, int page) {

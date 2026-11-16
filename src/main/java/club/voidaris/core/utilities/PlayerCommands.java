@@ -4,7 +4,7 @@ import club.voidaris.core.Keys;
 import club.voidaris.core.command.HelpEntry;
 import club.voidaris.core.message.Messages;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -57,7 +57,14 @@ public final class PlayerCommands {
         registrar.register(withTarget(FLY, this::fly).build(), messages.raw(Keys.Message.COMMAND_FLY_DESCRIPTION));
         registrar.register(withTarget(GOD, this::god).build(), messages.raw(Keys.Message.COMMAND_GOD_DESCRIPTION));
         registrar.register(Commands.literal(SPEED)
-                        .then(Commands.argument(SPEED_VALUE, FloatArgumentType.floatArg(0, MAX_SPEED_INPUT))
+                        .executes(this::speedUsage)
+                        .then(Commands.argument(SPEED_VALUE, StringArgumentType.word())
+                                .suggests((context, builder) -> {
+                                    for (int value = 1; value <= MAX_SPEED_INPUT; value++) {
+                                        builder.suggest(value);
+                                    }
+                                    return builder.buildFuture();
+                                })
                                 .executes(context -> speed(context, false))
                                 .then(CommandSupport.targetArgument().executes(context -> speed(context, true))))
                         .build(),
@@ -160,12 +167,15 @@ public final class PlayerCommands {
     }
 
     private int speed(CommandContext<CommandSourceStack> context, boolean hasTarget) {
+        Float input = parseSpeed(StringArgumentType.getString(context, SPEED_VALUE));
+        if (input == null) {
+            return speedUsage(context);
+        }
         Player target = support.resolveTarget(context, Keys.Permission.UTILITIES_SPEED,
                 Keys.Permission.UTILITIES_SPEED_OTHERS, hasTarget);
         if (target == null) {
             return 0;
         }
-        float input = FloatArgumentType.getFloat(context, SPEED_VALUE);
         boolean flying = target.isFlying();
         if (flying) {
             target.setFlySpeed(toBukkitSpeed(input, DEFAULT_FLY_SPEED));
@@ -180,6 +190,20 @@ public final class PlayerCommands {
             support.notify(sender, target, Keys.Message.UTILITIES_SPEED_WALK, Keys.Message.UTILITIES_SPEED_WALK_OTHER, value);
         }
         return Command.SINGLE_SUCCESS;
+    }
+
+    private int speedUsage(CommandContext<CommandSourceStack> context) {
+        return support.usage(context.getSource().getSender(), Keys.Permission.UTILITIES_SPEED, "/" + SPEED,
+                Keys.Message.HELP_SPEED_ARGUMENTS);
+    }
+
+    private static Float parseSpeed(String text) {
+        try {
+            float value = Float.parseFloat(text);
+            return value >= 0 && value <= MAX_SPEED_INPUT ? value : null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     // Input 1 is the vanilla speed and 10 the maximum; below 1 it scales down linearly towards a standstill.
