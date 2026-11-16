@@ -1,5 +1,6 @@
 package club.voidaris.core;
 
+import club.voidaris.core.chat.ChatModule;
 import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.cosmetics.CosmeticsCommand;
@@ -115,6 +116,7 @@ public final class VoidarisCore extends JavaPlugin {
         formatter = new PlayerFormatter(messages, integrations);
         cosmeticsModule = new CosmeticsModule(this, configManager, database);
         moduleManager.register(cosmeticsModule);
+        moduleManager.register(new ChatModule(configManager, formatter, integrations));
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
         teleporter = new Teleporter(this, messages);
         teleporter.cooldowns().load();

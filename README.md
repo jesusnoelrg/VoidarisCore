@@ -25,7 +25,7 @@ con mensajes y estilo uniformes.
 | Utilidades | Estaciones virtuales (`/craft`, `/anvil`, `/grindstone`, `/stonecutter`, `/loom`, `/cartography`, `/smithing`), `/enderchest [jugador]`, `/gm <modo\|0-3>` y atajos (`/gms`, `/gmc`, `/gma`, `/gmsp`), `/heal`, `/feed`, `/fly`, `/god`, `/speed`, `/hat`, `/day`, `/night`, `/sun`, `/rain`; todo bajo `voidaris.utilities.*` (OP por defecto) |
 | Bienvenida | Anuncio y kit de primera entrada |
 | MOTD | Mensaje de bienvenida multilínea (MiniMessage) en `motd.yml`, enviado justo antes del mensaje de entrada del jugador y con `/motd`; incluye novedades, comandos clicables y redes sociales |
-| Chat | Formato por grupo de LuckPerms, colores `&` y hexadecimales |
+| Chat | Formato por grupo de LuckPerms (`chat-format.yml`), hover en el nombre y clic que sugiere `/msg <jugador>`; colores `&` (`voidaris.chat.color`) y hexadecimales (`voidaris.chat.hex`) |
 | Entrada/salida | Mensajes de entrada (según el cosmético equipado) y primera entrada, con PlaceholderAPI |
 | Cosméticos | `/cosmetics` abre un menú (definido en `guis/`) para equipar mensajes de entrada y partículas de teletransporte desbloqueados por permiso |
 | Mensajes privados | `/msg`, `/r`, ignorar, desactivar y modo espía |

@@ -24,7 +24,15 @@ public final class LegacyColors {
     }
 
     public static String toMiniMessage(String text) {
-        if (text.indexOf('&') < 0) {
+        return toMiniMessage(text, true, true);
+    }
+
+    /**
+     * @param codes whether &0-&f, &k-&o and &r are converted
+     * @param hex   whether &#RRGGBB and &x&R&R&G&G&B&B are converted
+     */
+    public static String toMiniMessage(String text, boolean codes, boolean hex) {
+        if ((!codes && !hex) || text.indexOf('&') < 0) {
             return text;
         }
         var out = new StringBuilder(text.length() + 16);
@@ -39,11 +47,14 @@ public final class LegacyColors {
                 continue;
             }
             char code = Character.toLowerCase(text.charAt(i + 1));
-            String hex = hex(text, i);
-            if (hex != null) {
+            String digits = hex ? hex(text, i) : null;
+            if (digits != null) {
                 close(out, open);
-                out.append("<#").append(hex).append('>');
+                out.append("<#").append(digits).append('>');
                 i += code == 'x' ? 14 : 8;
+            } else if (!codes) {
+                out.append(c);
+                i++;
             } else if (COLORS.containsKey(code)) {
                 close(out, open);
                 out.append('<').append(COLORS.get(code)).append('>');

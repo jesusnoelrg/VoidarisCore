@@ -35,6 +35,12 @@ permissions:
   voidaris.warps.delete:
     description: Delete warps.
     default: op
+  voidaris.chat.color:
+    description: Use legacy & color and format codes in chat.
+    default: op
+  voidaris.chat.hex:
+    description: Use hex (&#RRGGBB) colors in chat.
+    default: op
   voidaris.motd.use:
     description: Show the message of the day.
     default: true
