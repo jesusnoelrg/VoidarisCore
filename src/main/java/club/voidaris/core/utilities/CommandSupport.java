@@ -1,6 +1,7 @@
 package club.voidaris.core.utilities;
 
 import club.voidaris.core.Keys;
+import club.voidaris.core.command.CommandUsage;
 import club.voidaris.core.message.Messages;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -61,6 +62,13 @@ final class CommandSupport {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Sends the usage of an incomplete command, once the sender is known to be allowed to run it.
+     */
+    int usage(CommandSender sender, String permission, String command, String argumentsKey) {
+        return checkAccess(sender, permission) ? CommandUsage.send(messages, sender, command, argumentsKey) : 0;
     }
 
     Player requirePlayer(CommandContext<CommandSourceStack> context, String permission) {

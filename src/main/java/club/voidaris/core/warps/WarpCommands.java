@@ -1,6 +1,7 @@
 package club.voidaris.core.warps;
 
 import club.voidaris.core.Keys;
+import club.voidaris.core.command.CommandUsage;
 import club.voidaris.core.command.HelpEntry;
 import club.voidaris.core.message.Messages;
 import club.voidaris.core.storage.StoredLocation;
@@ -61,10 +62,12 @@ public final class WarpCommands {
                         .build(),
                 messages.raw(Keys.Message.COMMAND_WARP_DESCRIPTION), List.of(WARPS));
         registrar.register(Commands.literal(SET_WARP)
+                        .executes(context -> usage(context, Keys.Permission.WARPS_SET, SET_WARP, Keys.Message.HELP_SETWARP_ARGUMENTS))
                         .then(Commands.argument(ARGUMENT, StringArgumentType.word()).executes(this::setWarp))
                         .build(),
                 messages.raw(Keys.Message.COMMAND_SETWARP_DESCRIPTION));
         registrar.register(Commands.literal(DEL_WARP)
+                        .executes(context -> usage(context, Keys.Permission.WARPS_DELETE, DEL_WARP, Keys.Message.HELP_DELWARP_ARGUMENTS))
                         .then(Commands.argument(ARGUMENT, StringArgumentType.word())
                                 .suggests(all)
                                 .executes(this::deleteWarp))
@@ -164,6 +167,12 @@ public final class WarpCommands {
         }
         messages.send(sender, Keys.Message.WARPS_DELETED, warpName);
         return Command.SINGLE_SUCCESS;
+    }
+
+    private int usage(CommandContext<CommandSourceStack> context, String permission, String command, String argumentsKey) {
+        return checkAccess(context, permission)
+                ? CommandUsage.send(messages, context.getSource().getSender(), "/" + command, argumentsKey)
+                : 0;
     }
 
     private boolean checkEnabled(CommandContext<CommandSourceStack> context) {

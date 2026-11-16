@@ -70,6 +70,15 @@ public final class Keys {
         public static final String UTILITIES_HAT = "voidaris.utilities.hat";
         public static final String UTILITIES_TIME = "voidaris.utilities.time";
         public static final String UTILITIES_WEATHER = "voidaris.utilities.weather";
+
+        // private messages
+        public static final String PRIVATE_MESSAGES_MESSAGE = "voidaris.privatemessages.message";
+        public static final String PRIVATE_MESSAGES_IGNORE = "voidaris.privatemessages.ignore";
+        public static final String PRIVATE_MESSAGES_SUPERIGNORE = "voidaris.privatemessages.superignore";
+        public static final String PRIVATE_MESSAGES_SPY = "voidaris.privatemessages.spy";
+        /** Conversations involving a holder are hidden from spies without {@link #PRIVATE_MESSAGES_SPY_BYPASS}. */
+        public static final String PRIVATE_MESSAGES_SPY_EXEMPT = "voidaris.privatemessages.spy.exempt";
+        public static final String PRIVATE_MESSAGES_SPY_BYPASS = "voidaris.privatemessages.spy.bypass";
     }
 
     public static final class Message {
@@ -85,6 +94,7 @@ public final class Keys {
         public static final String GENERAL_PLAYER_NOT_FOUND = "general.player-not-found";
         public static final String GENERAL_RELOADED = "general.reloaded";
         public static final String GENERAL_MODULE_DISABLED = "general.module-disabled";
+        public static final String GENERAL_USAGE = "general.usage";
 
         // commands
         public static final String COMMAND_VOIDARIS_DESCRIPTION = "commands.voidaris.description";
@@ -115,6 +125,12 @@ public final class Keys {
         public static final String COMMAND_SUN_DESCRIPTION = "commands.sun.description";
         public static final String COMMAND_RAIN_DESCRIPTION = "commands.rain.description";
         public static final String COMMAND_MOTD_DESCRIPTION = "commands.motd.description";
+        public static final String COMMAND_MESSAGE_DESCRIPTION = "commands.message.description";
+        public static final String COMMAND_REPLY_DESCRIPTION = "commands.reply.description";
+        public static final String COMMAND_IGNORE_DESCRIPTION = "commands.ignore.description";
+        public static final String COMMAND_SUPERIGNORE_DESCRIPTION = "commands.superignore.description";
+        public static final String COMMAND_LISTIGNORE_DESCRIPTION = "commands.listignore.description";
+        public static final String COMMAND_SPY_DESCRIPTION = "commands.spy.description";
 
         // help
         public static final String HELP_HEADER = "help.header";
@@ -170,6 +186,16 @@ public final class Keys {
         public static final String HELP_SUN_DESCRIPTION = "help.commands.sun.description";
         public static final String HELP_RAIN_DESCRIPTION = "help.commands.rain.description";
         public static final String HELP_MOTD_DESCRIPTION = "help.commands.motd.description";
+        public static final String HELP_MESSAGE_ARGUMENTS = "help.commands.message.arguments";
+        public static final String HELP_MESSAGE_DESCRIPTION = "help.commands.message.description";
+        public static final String HELP_REPLY_ARGUMENTS = "help.commands.reply.arguments";
+        public static final String HELP_REPLY_DESCRIPTION = "help.commands.reply.description";
+        public static final String HELP_IGNORE_ARGUMENTS = "help.commands.ignore.arguments";
+        public static final String HELP_IGNORE_DESCRIPTION = "help.commands.ignore.description";
+        public static final String HELP_SUPERIGNORE_DESCRIPTION = "help.commands.superignore.description";
+        public static final String HELP_LISTIGNORE_ARGUMENTS = "help.commands.listignore.arguments";
+        public static final String HELP_LISTIGNORE_DESCRIPTION = "help.commands.listignore.description";
+        public static final String HELP_SPY_DESCRIPTION = "help.commands.spy.description";
 
         // teleport
         public static final String TELEPORT_WARMUP = "teleport.warmup";
@@ -200,6 +226,29 @@ public final class Keys {
 
         // motd
         public static final String MOTD_EMPTY = "motd.empty";
+
+        // private messages
+        public static final String PRIVATE_MESSAGES_SENT = "private-messages.sent";
+        public static final String PRIVATE_MESSAGES_RECEIVED = "private-messages.received";
+        public static final String PRIVATE_MESSAGES_SELF = "private-messages.self";
+        public static final String PRIVATE_MESSAGES_BLOCKED = "private-messages.blocked";
+        public static final String PRIVATE_MESSAGES_NO_REPLY = "private-messages.no-reply";
+        public static final String PRIVATE_MESSAGES_PLAYER_UNKNOWN = "private-messages.player-unknown";
+        public static final String PRIVATE_MESSAGES_IGNORED = "private-messages.ignored";
+        public static final String PRIVATE_MESSAGES_UNIGNORED = "private-messages.unignored";
+        public static final String PRIVATE_MESSAGES_SUPER_IGNORED = "private-messages.super-ignored";
+        public static final String PRIVATE_MESSAGES_SUPER_UNIGNORED = "private-messages.super-unignored";
+        public static final String PRIVATE_MESSAGES_ALREADY_SUPER_IGNORED = "private-messages.already-super-ignored";
+        public static final String PRIVATE_MESSAGES_IGNORE_SELF = "private-messages.ignore-self";
+        public static final String PRIVATE_MESSAGES_IGNORE_LIST_HEADER = "private-messages.ignore-list.header";
+        public static final String PRIVATE_MESSAGES_IGNORE_LIST_ENTRY = "private-messages.ignore-list.entry";
+        public static final String PRIVATE_MESSAGES_IGNORE_LIST_SCOPE_PRIVATE = "private-messages.ignore-list.scope-private";
+        public static final String PRIVATE_MESSAGES_IGNORE_LIST_SCOPE_ALL = "private-messages.ignore-list.scope-all";
+        public static final String PRIVATE_MESSAGES_IGNORE_LIST_HOVER = "private-messages.ignore-list.hover";
+        public static final String PRIVATE_MESSAGES_IGNORE_LIST_EMPTY = "private-messages.ignore-list.empty";
+        public static final String PRIVATE_MESSAGES_SPY_ENABLED = "private-messages.spy-enabled";
+        public static final String PRIVATE_MESSAGES_SPY_DISABLED = "private-messages.spy-disabled";
+        public static final String PRIVATE_MESSAGES_SPY_FORMAT = "private-messages.spy-format";
 
         // utilities
         public static final String UTILITIES_TITLE_CRAFT = "utilities.titles.craft";

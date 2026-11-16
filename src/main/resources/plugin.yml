@@ -44,6 +44,24 @@ permissions:
   voidaris.motd.use:
     description: Show the message of the day.
     default: true
+  voidaris.privatemessages.message:
+    description: Send private messages with /message and /reply.
+    default: true
+  voidaris.privatemessages.ignore:
+    description: Ignore private messages from a player and list ignored players.
+    default: true
+  voidaris.privatemessages.superignore:
+    description: Ignore a player in both chat and private messages.
+    default: true
+  voidaris.privatemessages.spy:
+    description: Toggle spying on other players' private messages.
+    default: op
+  voidaris.privatemessages.spy.exempt:
+    description: Hide your private messages from spies (except those with the bypass).
+    default: false
+  voidaris.privatemessages.spy.bypass:
+    description: Spy on every private message, including those of exempt players.
+    default: false
   voidaris.utilities.craft:
     description: Open a virtual crafting table.
     default: op

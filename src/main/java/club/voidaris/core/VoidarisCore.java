@@ -14,6 +14,9 @@ import club.voidaris.core.message.PlayerFormatter;
 import club.voidaris.core.module.ModuleManager;
 import club.voidaris.core.motd.MotdCommand;
 import club.voidaris.core.motd.MotdModule;
+import club.voidaris.core.privatemessages.IgnoreCommands;
+import club.voidaris.core.privatemessages.PrivateMessageCommands;
+import club.voidaris.core.privatemessages.PrivateMessagesModule;
 import club.voidaris.core.spawn.SpawnCommands;
 import club.voidaris.core.spawn.SpawnModule;
 import club.voidaris.core.storage.Database;
@@ -47,6 +50,7 @@ public final class VoidarisCore extends JavaPlugin {
     private WarpsModule warpsModule;
     private UtilitiesModule utilitiesModule;
     private MotdModule motdModule;
+    private PrivateMessagesModule privateMessagesModule;
     private BukkitTask autosaveTask;
 
     @Override
@@ -130,6 +134,8 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(utilitiesModule);
         motdModule = new MotdModule(configManager, formatter);
         moduleManager.register(motdModule);
+        privateMessagesModule = new PrivateMessagesModule(this, configManager, messages);
+        moduleManager.register(privateMessagesModule);
     }
 
     private void registerCommands() {
@@ -151,6 +157,10 @@ public final class VoidarisCore extends JavaPlugin {
         voidarisCommand.help().register(worldCommands.helpEntries());
         var motdCommand = new MotdCommand(motdModule, messages);
         voidarisCommand.help().register(motdCommand.helpEntries());
+        var privateMessageCommands = new PrivateMessageCommands(privateMessagesModule);
+        voidarisCommand.help().register(privateMessageCommands.helpEntries());
+        var ignoreCommands = new IgnoreCommands(privateMessagesModule);
+        voidarisCommand.help().register(ignoreCommands.helpEntries());
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();
@@ -164,6 +174,8 @@ public final class VoidarisCore extends JavaPlugin {
             playerCommands.register(registrar);
             worldCommands.register(registrar);
             motdCommand.register(registrar);
+            privateMessageCommands.register(registrar);
+            ignoreCommands.register(registrar);
         });
     }
 
