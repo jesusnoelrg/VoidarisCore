@@ -87,13 +87,13 @@ public final class PrivateMessageCommands {
     }
 
     private int message(CommandContext<CommandSourceStack> context) {
-        Player sender = module.requirePlayer(context.getSource().getSender(), Keys.Permission.PRIVATE_MESSAGES_MESSAGE);
-        if (sender == null) {
+        var sender = context.getSource().getSender();
+        if (!module.checkAccess(sender, Keys.Permission.PRIVATE_MESSAGES_MESSAGE)) {
             return 0;
         }
         String name = StringArgumentType.getString(context, TARGET);
         Player target = Bukkit.getPlayerExact(name);
-        if (target == null || !sender.canSee(target)) {
+        if (target == null || (sender instanceof Player player && !player.canSee(target))) {
             module.messages().send(sender, Keys.Message.GENERAL_PLAYER_NOT_FOUND, Placeholder.unparsed("player", name));
             return 0;
         }
@@ -101,8 +101,8 @@ public final class PrivateMessageCommands {
     }
 
     private int reply(CommandContext<CommandSourceStack> context) {
-        Player sender = module.requirePlayer(context.getSource().getSender(), Keys.Permission.PRIVATE_MESSAGES_MESSAGE);
-        if (sender == null) {
+        var sender = context.getSource().getSender();
+        if (!module.checkAccess(sender, Keys.Permission.PRIVATE_MESSAGES_MESSAGE)) {
             return 0;
         }
         var targetId = module.replyTarget(sender);
@@ -110,8 +110,8 @@ public final class PrivateMessageCommands {
             module.messages().send(sender, Keys.Message.PRIVATE_MESSAGES_NO_REPLY);
             return 0;
         }
-        Player target = Bukkit.getPlayer(targetId);
-        if (target == null || !sender.canSee(target)) {
+        var target = module.senderOf(targetId);
+        if (target == null || (sender instanceof Player player && target instanceof Player other && !player.canSee(other))) {
             String name = Bukkit.getOfflinePlayer(targetId).getName();
             module.messages().send(sender, Keys.Message.GENERAL_PLAYER_NOT_FOUND,
                     Placeholder.unparsed("player", name != null ? name : targetId.toString()));
@@ -120,37 +120,45 @@ public final class PrivateMessageCommands {
         return send(sender, target, StringArgumentType.getString(context, TEXT));
     }
 
-    private int send(Player sender, Player target, String text) {
+    /**
+     * Either side may be the console, which cannot be ignored nor turn private messages off.
+     */
+    private int send(CommandSender sender, CommandSender target, String text) {
         var messages = module.messages();
         if (sender == target) {
             messages.send(sender, Keys.Message.PRIVATE_MESSAGES_SELF);
             return 0;
         }
-        // The ignorer is never told: the attempt is silently dropped on their side.
-        if (module.store().level(target.getUniqueId(), sender.getUniqueId()) != null) {
-            messages.send(sender, Keys.Message.PRIVATE_MESSAGES_BLOCKED, Placeholder.unparsed("player", target.getName()));
-            return 0;
+        String targetName = module.nameOf(target);
+        if (target instanceof Player targetPlayer) {
+            // The ignorer is never told: the attempt is silently dropped on their side.
+            if (sender instanceof Player senderPlayer
+                    && module.store().level(targetPlayer.getUniqueId(), senderPlayer.getUniqueId()) != null) {
+                messages.send(sender, Keys.Message.PRIVATE_MESSAGES_BLOCKED, Placeholder.unparsed("player", targetName));
+                return 0;
+            }
+            if (module.store().disabled(targetPlayer.getUniqueId())
+                    && !sender.hasPermission(Keys.Permission.PRIVATE_MESSAGES_TOGGLE_BYPASS)) {
+                messages.send(sender, Keys.Message.PRIVATE_MESSAGES_TARGET_DISABLED,
+                        Placeholder.unparsed("player", targetName));
+                return 0;
+            }
         }
-        if (module.store().disabled(target.getUniqueId())
-                && !sender.hasPermission(Keys.Permission.PRIVATE_MESSAGES_TOGGLE_BYPASS)) {
-            messages.send(sender, Keys.Message.PRIVATE_MESSAGES_TARGET_DISABLED,
-                    Placeholder.unparsed("player", target.getName()));
-            return 0;
-        }
+        String senderName = module.nameOf(sender);
         var message = Placeholder.unparsed("message", text);
-        messages.send(sender, Keys.Message.PRIVATE_MESSAGES_SENT, message, Placeholder.unparsed("player", target.getName()));
-        messages.send(target, Keys.Message.PRIVATE_MESSAGES_RECEIVED, message, Placeholder.unparsed("player", sender.getName()));
+        messages.send(sender, Keys.Message.PRIVATE_MESSAGES_SENT, message, Placeholder.unparsed("player", targetName));
+        messages.send(target, Keys.Message.PRIVATE_MESSAGES_RECEIVED, message, Placeholder.unparsed("player", senderName));
         module.recordConversation(sender, target);
-        spy(sender, target, text);
+        spy(sender, target, senderName, targetName, text);
         return Command.SINGLE_SUCCESS;
     }
 
-    private void spy(Player sender, Player target, String text) {
-        boolean exempt = sender.hasPermission(Keys.Permission.PRIVATE_MESSAGES_SPY_EXEMPT)
-                || target.hasPermission(Keys.Permission.PRIVATE_MESSAGES_SPY_EXEMPT);
+    private void spy(CommandSender sender, CommandSender target, String senderName, String targetName, String text) {
+        // Only players can be exempt: the console holds every permission, so it would hide all of its conversations.
+        boolean exempt = isExempt(sender) || isExempt(target);
         var line = module.messages().get(Keys.Message.PRIVATE_MESSAGES_SPY_FORMAT,
-                Placeholder.unparsed("sender", sender.getName()),
-                Placeholder.unparsed("target", target.getName()),
+                Placeholder.unparsed("sender", senderName),
+                Placeholder.unparsed("target", targetName),
                 Placeholder.unparsed("message", text));
         for (Player spy : Bukkit.getOnlinePlayers()) {
             if (spy == sender || spy == target || !module.store().spying(spy.getUniqueId())
@@ -161,6 +169,10 @@ public final class PrivateMessageCommands {
                 spy.sendMessage(line);
             }
         }
+    }
+
+    private static boolean isExempt(CommandSender sender) {
+        return sender instanceof Player player && player.hasPermission(Keys.Permission.PRIVATE_MESSAGES_SPY_EXEMPT);
     }
 
     private int toggle(CommandContext<CommandSourceStack> context) {

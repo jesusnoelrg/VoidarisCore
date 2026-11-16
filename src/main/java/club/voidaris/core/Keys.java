@@ -347,6 +347,7 @@ public final class Keys {
         public static final String PRIVATE_MESSAGES_DISABLED_SELF = "private-messages.disabled-self";
         public static final String PRIVATE_MESSAGES_ENABLED_SELF = "private-messages.enabled-self";
         public static final String PRIVATE_MESSAGES_TARGET_DISABLED = "private-messages.target-disabled";
+        public static final String PRIVATE_MESSAGES_CONSOLE_NAME = "private-messages.console-name";
         public static final String PRIVATE_MESSAGES_SENT = "private-messages.sent";
         public static final String PRIVATE_MESSAGES_RECEIVED = "private-messages.received";
         public static final String PRIVATE_MESSAGES_SELF = "private-messages.self";
