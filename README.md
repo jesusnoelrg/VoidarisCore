@@ -16,7 +16,7 @@ con mensajes y estilo uniformes.
 
 | Módulo | Descripción |
 |---|---|
-| Spawn | `/spawn`, `/setspawn`, `/delspawn` con delay y cooldown (primer spawn, respawn y retorno al caer al vacío pendientes) |
+| Spawn | `/spawn`, `/setspawn`, `/delspawn` con delay y cooldown, envío al spawn en la primera entrada y al reaparecer (respetando cama/ancla) y retorno al caer al vacío |
 | Teletransporte | `/tpa`, `/tpaccept`, `/tpdeny`, `/tpacancel` con delay y cooldown |
 | Warps | `/warp [warp]` (sin argumento lista los warps clicables), `/setwarp`, `/delwarp`, con delay, cooldown y permiso opcional por warp |
 | Kits | `/kit`, `/kits` con cooldown y permiso por kit, kit de primera entrada |
