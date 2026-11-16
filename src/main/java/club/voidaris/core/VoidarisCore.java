@@ -89,6 +89,7 @@ public final class VoidarisCore extends JavaPlugin {
         var voidarisCommand = new VoidarisCommand(this::reload, messages);
         var menuLoader = new MenuLoader(formatter, getLogger());
         var cosmeticsCommand = new CosmeticsCommand(this, configManager, cosmeticsModule, messages, formatter, menuLoader);
+        voidarisCommand.help().register(cosmeticsCommand.helpEntries());
 
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             var registrar = event.registrar();

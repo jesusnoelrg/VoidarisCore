@@ -1,6 +1,7 @@
 package club.voidaris.core.cosmetics;
 
 import club.voidaris.core.Keys;
+import club.voidaris.core.command.HelpEntry;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.gui.MenuLoader;
 import club.voidaris.core.message.Messages;
@@ -14,6 +15,8 @@ import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public final class CosmeticsCommand {
 
@@ -46,6 +49,15 @@ public final class CosmeticsCommand {
                                 })
                                 .executes(this::selectJoinMessage)))
                 .build();
+    }
+
+    public List<HelpEntry> helpEntries() {
+        return List.of(
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME,
+                        null, Keys.Message.HELP_COSMETICS_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + JOIN_MESSAGE,
+                        Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_ARGUMENTS,
+                        Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION, null, module));
     }
 
     private int openJoinMessages(CommandContext<CommandSourceStack> context) {

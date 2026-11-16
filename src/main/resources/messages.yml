@@ -13,9 +13,40 @@ general:
 commands:
   # Plain text (no MiniMessage), shown in /help.
   voidaris:
-    description: "Comandos de administración de VoidarisCore"
+    description: "Ayuda y administración de VoidarisCore"
   cosmetics:
     description: "Equipa tus cosméticos"
+
+help:
+  # <page> and <pages> are the current page and the page count.
+  header: "<prefix><white>Comandos disponibles <dark_gray>(<light_purple><page></light_purple>/<light_purple><pages></light_purple>)"
+  section:
+    player: "<dark_purple><bold>» Generales"
+    admin: "<red><bold>» Administración"
+  # <arguments> is empty for commands without arguments; otherwise it already starts with a space.
+  entry: "<dark_gray> ▪ <light_purple><command></light_purple><gray><arguments></gray> <dark_gray>- <white><description>"
+  hover:
+    run: "<gray>Clic para ejecutar"
+    suggest: "<gray>Clic para autocompletar"
+    page: "<gray>Ir a la página <light_purple><page>"
+  # Only shown when there is more than one page.
+  footer: "<dark_gray>       <previous> <dark_gray>| <gray>Página <light_purple><page></light_purple>/<light_purple><pages></light_purple> <dark_gray>| <next>"
+  previous: "<light_purple>« Anterior"
+  previous-unavailable: "<dark_gray>« Anterior"
+  next: "<light_purple>Siguiente »"
+  next-unavailable: "<dark_gray>Siguiente »"
+  invalid-page: "<prefix><white>La página <light_purple><page></light_purple> no existe. Hay <light_purple><pages></light_purple> en total."
+  commands:
+    voidaris-help:
+      arguments: "[página]"
+      description: "Muestra esta ayuda"
+    voidaris-reload:
+      description: "Recarga la configuración del plugin"
+    cosmetics:
+      description: "Abre el menú de cosméticos"
+    cosmetics-joinmessage:
+      arguments: "\\<cosmético>"
+      description: "Equipa un mensaje de entrada"
 
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
