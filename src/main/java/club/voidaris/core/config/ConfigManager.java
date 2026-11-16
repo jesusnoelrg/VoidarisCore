@@ -31,7 +31,11 @@ public final class ConfigManager {
 
     public ConfigManager(JavaPlugin plugin) {
         main = new ConfigFile(plugin, "config.yml");
-        messages = new ConfigFile(plugin, "messages.yml");
+        // Version 2 drops homes.list and kits.list, left behind when their modules replaced the chat lists with menus.
+        messages = new ConfigFile(plugin, "messages.yml", Set.of(), List.of(disk -> {
+            disk.set("homes.list", null);
+            disk.set("kits.list", null);
+        }));
         teleports = new ConfigFile(plugin, "teleports.yml");
         homes = new ConfigFile(plugin, "homes.yml", Set.of("limits"), List.of());
         warps = new ConfigFile(plugin, "warps.yml");
