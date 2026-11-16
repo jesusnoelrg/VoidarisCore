@@ -367,7 +367,9 @@ private-messages:
   disabled-self: "<prefix><white>Has desactivado los mensajes privados."
   enabled-self: "<prefix><white>Has activado los mensajes privados."
   target-disabled: "<prefix><light_purple><player></light_purple> <white>tiene los mensajes privados desactivados."
-  # <player> is the other player; <message> is the text typed (plain, no formatting).
+  # Shown as <player>, <sender> or <target> when the console sends or receives a private message.
+  console-name: "Consola"
+  # <player> is the other player (or console-name); <message> is the text typed (plain, no formatting).
   sent: "<dark_gray>[<dark_purple>Yo</dark_purple> » <light_purple><player></light_purple>]</dark_gray> <white><message>"
   # Clicking it fills the chat with /r.
   received: "<hover:show_text:'<gray>Clic para responder a <light_purple><player>'><click:suggest_command:'/r '><dark_gray>[<light_purple><player></light_purple> » <dark_purple>Yo</dark_purple>]</dark_gray> <white><message></click></hover>"

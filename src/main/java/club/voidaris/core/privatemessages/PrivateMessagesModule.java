@@ -5,6 +5,7 @@ import club.voidaris.core.command.CommandUsage;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.message.Messages;
 import club.voidaris.core.module.Module;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -16,6 +17,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class PrivateMessagesModule extends Module {
+
+    /** Stands for the console in the reply targets, which are keyed by UUID. */
+    private static final UUID CONSOLE_ID = new UUID(0L, 0L);
 
     private final ConfigManager configs;
     private final Messages messages;
@@ -58,15 +62,30 @@ public final class PrivateMessagesModule extends Module {
     }
 
     /**
-     * Both players reply to each other from now on, so {@code /reply} works for whoever spoke last.
+     * Both sides reply to each other from now on, so {@code /reply} works for whoever spoke last.
      */
-    void recordConversation(Player sender, Player target) {
-        replyTargets.put(sender.getUniqueId(), target.getUniqueId());
-        replyTargets.put(target.getUniqueId(), sender.getUniqueId());
+    void recordConversation(CommandSender sender, CommandSender target) {
+        replyTargets.put(idOf(sender), idOf(target));
+        replyTargets.put(idOf(target), idOf(sender));
     }
 
-    UUID replyTarget(Player player) {
-        return replyTargets.get(player.getUniqueId());
+    UUID replyTarget(CommandSender sender) {
+        return replyTargets.get(idOf(sender));
+    }
+
+    /**
+     * @return the console or the online player behind a reply target, or {@code null} when that player left
+     */
+    CommandSender senderOf(UUID id) {
+        return id.equals(CONSOLE_ID) ? Bukkit.getConsoleSender() : Bukkit.getPlayer(id);
+    }
+
+    String nameOf(CommandSender sender) {
+        return sender instanceof Player player ? player.getName() : messages.raw(Keys.Message.PRIVATE_MESSAGES_CONSOLE_NAME);
+    }
+
+    private static UUID idOf(CommandSender sender) {
+        return sender instanceof Player player ? player.getUniqueId() : CONSOLE_ID;
     }
 
     void forgetReply(UUID player) {
