@@ -1,4 +1,3 @@
 - **Redis cache:** add a Lettuce-backed `Cache` implementation if Voidaris becomes a multi-server network.
-- **Test server database.yml:** `run/plugins/VoidarisCore/database.yml` was generated with `enabled: true` during testing; set it back to false or delete it.
 - **Cosmetics SQL untested in-game:** the `cosmetic_selections` SELECT/UPSERT were not exercised by a real player join (no client could join the test server, which also lacks LuckPerms/PlaceholderAPI for `%luckperms_prefix%`).
 - **Stale test server config:** the test server's `messages.yml` and `guis/join-messages.yml` keep removed keys (`cosmetics.join-message.list*`, `join_messages.locked_material`) and log "Unknown keys" warnings on startup; regenerate or clean them.
