@@ -6,6 +6,7 @@ config-version: 1
 modules:
   spawn: true
   tpa: true
+  teleport-effects: true
   homes: true
   warps: true
   kits: true

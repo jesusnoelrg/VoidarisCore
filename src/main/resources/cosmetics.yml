@@ -58,3 +58,178 @@ join-messages:
     royal:
       name: "<gradient:#FFD700:#DAA520>Realeza</gradient>"
       format: "<gradient:#FFD700:#FFF3B0:#DAA520>♛ Su majestad <player> ha llegado.</gradient>"
+
+teleport-particles:
+  # Shown around the player on every teleport (see effects in teleports.yml; the sound is not a cosmetic).
+  # Each cosmetic is unlocked with voidaris.cosmetics.teleportparticle.<id>; players with none of them show nothing.
+  default-selection: none
+  # Each cosmetic draws its layers at the same time (no layers shows nothing). Layer keys:
+  #   particle  Bukkit Particle name. DUST and DUST_COLOR_TRANSITION use colors; other particles that need data
+  #             (BLOCK, ITEM...) are not supported.
+  #   shape     burst (default): count particles around the body at once.
+  #             ring: a circle of count points; with duration it rises from the feet to height.
+  #             helix: strands spirals rising to height over duration ticks (default 20).
+  #   count, spread, speed  amount (per point for helix), box radius and particle speed.
+  #   colors    "#RRGGBB" list: DUST cycles them per particle/point/strand, DUST_COLOR_TRANSITION fades first to second.
+  #   size, radius, height, duration, strands  dust size, ring/helix radius, final height, ticks, spirals.
+  cosmetics:
+    none:
+      name: "<gray>Ninguna"
+      layers: []
+    witch:
+      name: "<light_purple>Bruja"
+      layers:
+      - particle: WITCH
+        count: 40
+        spread: 0.5
+        speed: 0.1
+    flame:
+      name: "<gold>Llamas"
+      layers:
+      - particle: FLAME
+        count: 30
+        spread: 0.4
+        speed: 0.02
+    soul:
+      name: "<aqua>Almas"
+      layers:
+      - particle: SOUL_FIRE_FLAME
+        count: 30
+        spread: 0.4
+        speed: 0.02
+    hearts:
+      name: "<red>Corazones"
+      layers:
+      - particle: HEART
+        count: 10
+        spread: 0.6
+    end_rod:
+      name: "<white>Estelas"
+      layers:
+      - particle: END_ROD
+        count: 30
+        spread: 0.5
+        speed: 0.05
+    totem:
+      name: "<yellow>Tótem"
+      layers:
+      - particle: TOTEM_OF_UNDYING
+        count: 40
+        spread: 0.5
+        speed: 0.3
+    cherry:
+      name: "<light_purple>Cerezo"
+      layers:
+      - particle: CHERRY_LEAVES
+        count: 30
+        spread: 0.7
+    notes:
+      name: "<green>Notas"
+      layers:
+      - particle: NOTE
+        count: 12
+        spread: 0.6
+        speed: 1.0
+    spark:
+      name: "<yellow>Chispas"
+      layers:
+      - particle: ELECTRIC_SPARK
+        count: 30
+        spread: 0.5
+        speed: 0.1
+    christmas:
+      name: "<gradient:#FF3B3B:#FFFFFF:#2ECC40>Navidad</gradient>"
+      layers:
+      - particle: DUST
+        shape: "helix"
+        colors: ["#D42426", "#FFFFFF", "#1E8C3A"]
+        strands: 3
+        size: 1.4
+        radius: 0.8
+        height: 2.2
+        duration: 24
+      - particle: SNOWFLAKE
+        count: 30
+        spread: 0.6
+        speed: 0.02
+      - particle: DUST
+        shape: "ring"
+        colors: ["#FFD700"]
+        count: 24
+        radius: 1.0
+        height: 0.1
+        size: 1.2
+    space:
+      name: "<gradient:#B65CFF:#4B6CB7:#1E3A8A>Espacio</gradient>"
+      layers:
+      - particle: DUST_COLOR_TRANSITION
+        shape: "helix"
+        colors: ["#7B2FF7", "#1E3A8A"]
+        strands: 2
+        size: 1.5
+        radius: 0.9
+        height: 2.2
+        duration: 24
+      - particle: DUST
+        shape: "ring"
+        colors: ["#B65CFF", "#4B6CB7", "#0B0B3B", "#FFFFFF"]
+        count: 36
+        radius: 1.3
+        height: 2.2
+        duration: 20
+      - particle: END_ROD
+        count: 20
+        spread: 0.8
+        speed: 0.02
+    halloween:
+      name: "<gradient:#FF7518:#8E44AD>Halloween</gradient>"
+      layers:
+      - particle: DUST
+        shape: "helix"
+        colors: ["#FF7518", "#8E44AD"]
+        strands: 2
+        size: 1.4
+        radius: 0.8
+        height: 2.2
+        duration: 24
+      - particle: SOUL
+        count: 15
+        spread: 0.5
+        speed: 0.02
+      - particle: DUST
+        shape: "ring"
+        colors: ["#FF7518"]
+        count: 24
+        radius: 1.0
+        height: 0.1
+        size: 1.2
+    rainbow:
+      name: "<rainbow>Arcoíris</rainbow>"
+      layers:
+      - particle: DUST
+        shape: "helix"
+        colors: ["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#8B00FF"]
+        strands: 6
+        size: 1.2
+        radius: 0.8
+        height: 2.2
+        duration: 20
+    void:
+      name: "<gradient:#B65CFF:#5B1E9E:#3A0A6B>Vacío</gradient>"
+      layers:
+      - particle: DUST_COLOR_TRANSITION
+        shape: "ring"
+        colors: ["#B65CFF", "#3A0A6B"]
+        count: 30
+        radius: 1.0
+        height: 2.2
+        duration: 20
+        size: 1.3
+      - particle: DUST
+        colors: ["#B65CFF", "#5B1E9E", "#3A0A6B"]
+        count: 45
+        spread: 0.6
+      - particle: WITCH
+        count: 20
+        spread: 0.5
+        speed: 0.1

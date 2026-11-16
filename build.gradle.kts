@@ -56,6 +56,10 @@ tasks {
 
     runServer {
         minecraftVersion("26.3")
+        // Test-only: lets cosmetic and other permission nodes be granted with /lp on the local server.
+        downloadPlugins {
+            modrinth("luckperms", "v5.5.71-bukkit")
+        }
     }
 
     register<Copy>("deployPlugin") {

@@ -22,17 +22,20 @@ public final class CosmeticsCommand {
 
     private static final String NAME = "cosmetics";
     private static final String JOIN_MESSAGE = "joinmessage";
+    private static final String TELEPORT_PARTICLE = "teleportparticle";
     private static final String ARGUMENT = "cosmetic";
 
     private final CosmeticsModule module;
     private final Messages messages;
     private final JoinMessagesMenu menu;
+    private final TeleportParticlesMenu particlesMenu;
 
     public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
                             PlayerFormatter formatter, MenuLoader loader) {
         this.module = module;
         this.messages = messages;
         this.menu = new JoinMessagesMenu(plugin, configs, module, messages, formatter, loader);
+        this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
     }
 
     public LiteralCommandNode<CommandSourceStack> build() {
@@ -48,6 +51,16 @@ public final class CosmeticsCommand {
                                     return builder.buildFuture();
                                 })
                                 .executes(this::selectJoinMessage)))
+                .then(Commands.literal(TELEPORT_PARTICLE)
+                        .executes(this::openTeleportParticles)
+                        .then(Commands.argument(ARGUMENT, StringArgumentType.word())
+                                .suggests((context, builder) -> {
+                                    if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
+                                        module.teleportParticles().usable(player).forEach(particle -> builder.suggest(particle.id()));
+                                    }
+                                    return builder.buildFuture();
+                                })
+                                .executes(this::selectTeleportParticle)))
                 .build();
     }
 
@@ -57,7 +70,10 @@ public final class CosmeticsCommand {
                         null, Keys.Message.HELP_COSMETICS_DESCRIPTION, null, module),
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + JOIN_MESSAGE,
                         Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_ARGUMENTS,
-                        Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION, null, module));
+                        Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + TELEPORT_PARTICLE,
+                        Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_ARGUMENTS,
+                        Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION, null, module));
     }
 
     private int openJoinMessages(CommandContext<CommandSourceStack> context) {
@@ -87,6 +103,40 @@ public final class CosmeticsCommand {
         }
         module.selections().select(player.getUniqueId(), CosmeticsModule.JOIN_MESSAGE_SLOT, id)
                 .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_JOIN_MESSAGE_SELECTED, name))
+                .exceptionally(e -> {
+                    messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
+                    return null;
+                });
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int openTeleportParticles(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        particlesMenu.open(player);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int selectTeleportParticle(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        String id = StringArgumentType.getString(context, ARGUMENT);
+        var particle = module.teleportParticles().find(id);
+        if (particle.isEmpty()) {
+            messages.send(player, Keys.Message.COSMETICS_TELEPORT_PARTICLE_NOT_FOUND, Placeholder.unparsed("id", id));
+            return 0;
+        }
+        var name = Placeholder.parsed("cosmetic", particle.get().name());
+        if (!player.hasPermission(Keys.Permission.COSMETICS_TELEPORT_PARTICLE + id)) {
+            messages.send(player, Keys.Message.COSMETICS_TELEPORT_PARTICLE_LOCKED, name);
+            return 0;
+        }
+        module.selections().select(player.getUniqueId(), CosmeticsModule.TELEPORT_PARTICLE_SLOT, id)
+                .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_TELEPORT_PARTICLE_SELECTED, name))
                 .exceptionally(e -> {
                     messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
                     return null;

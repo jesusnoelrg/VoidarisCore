@@ -6,6 +6,21 @@ defaults:
   cancel-on-damage: true
   # Players with voidaris.teleport.bypass skip warmup and cooldown.
 
+# Played on every teleport with one of these causes (toggle: modules.teleport-effects in config.yml).
+effects:
+  # PlayerTeleportEvent causes: COMMAND (/tp, /spawn, /warp...), PLUGIN, ENDER_PEARL, NETHER_PORTAL, END_PORTAL...
+  causes: [COMMAND, PLUGIN]
+  sound:
+    enabled: true
+    # Only the teleported player hears it.
+    key: "minecraft:entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0
+  # Particles are the cosmetic each player equips with /cosmetics teleportparticle (teleport-particles in cosmetics.yml).
+  particles:
+    # When false, only the teleported player sees them.
+    visible-to-others: false
+
 spawn:
   warmup-seconds: 3
   cooldown-seconds: 0

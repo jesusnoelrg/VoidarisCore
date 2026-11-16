@@ -41,7 +41,7 @@ Voidaris core plugin. Paper 26.3 (build 248), Java 25, Gradle Kotlin DSL.
 - Every menu is a file in `src/main/resources/guis/`, registered in `ConfigManager` and built with `club.voidaris.core.gui.MenuLoader`. It uses the server's DeluxeMenus keys with MiniMessage text; `guis/join-messages.yml` is the reference.
 - **Mandatory layout (54 slots), copied from the server's "Menú principal":**
   - Purple glass border named `<gray>» mc.voidaris.club «`, also on slot columns 10/16 between the sides and the content.
-  - Left column (9, 18, 27, 36): navigation sections. The current one ends its lore with `<gray>¡Ya estás en esta sección!` and has a black `<gray>« Seleccionado` pane to its right.
+  - Left column (9, 18, 27, 36): navigation sections. 9, 18 and 27 are universal; only 36 (Reglas) is replaced by the menu's own section. The current one ends its lore with `<gray>¡Ya estás en esta sección!` and has a black `<gray>« Seleccionado` pane to its right.
   - Right column: options (17), previous page (26), close (35), next page (44).
   - Content: 11-15, 20-24, 29-33, 38-42 (`content_slots`).
   - Pagination is always present; when there is no page, the button is a gray pane named `<gray>No aplica`.

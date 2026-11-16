@@ -15,6 +15,7 @@ public final class ConfigManager {
     private final ConfigFile database;
     private final ConfigFile cosmetics;
     private final ConfigFile joinMessagesGui;
+    private final ConfigFile teleportParticlesGui;
 
     public ConfigManager(JavaPlugin plugin) {
         main = new ConfigFile(plugin, "config.yml");
@@ -28,10 +29,11 @@ public final class ConfigManager {
         database = new ConfigFile(plugin, "database.yml");
         cosmetics = new ConfigFile(plugin, "cosmetics.yml");
         joinMessagesGui = new ConfigFile(plugin, "guis/join-messages.yml");
+        teleportParticlesGui = new ConfigFile(plugin, "guis/teleport-particles.yml");
     }
 
     public void reload() {
-        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, database, cosmetics, joinMessagesGui}) {
+        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, database, cosmetics, joinMessagesGui, teleportParticlesGui}) {
             file.reload();
         }
     }
@@ -47,4 +49,5 @@ public final class ConfigManager {
     public ConfigFile database() { return database; }
     public ConfigFile cosmetics() { return cosmetics; }
     public ConfigFile joinMessagesGui() { return joinMessagesGui; }
+    public ConfigFile teleportParticlesGui() { return teleportParticlesGui; }
 }
