@@ -40,10 +40,6 @@ public final class Keys {
         public static final String COSMETICS_JOIN_MESSAGE_SELECTED = "cosmetics.join-message.selected";
         public static final String COSMETICS_JOIN_MESSAGE_NOT_FOUND = "cosmetics.join-message.not-found";
         public static final String COSMETICS_JOIN_MESSAGE_LOCKED = "cosmetics.join-message.locked";
-        public static final String COSMETICS_JOIN_MESSAGE_LIST = "cosmetics.join-message.list";
-        public static final String COSMETICS_JOIN_MESSAGE_LIST_EMPTY = "cosmetics.join-message.list-empty";
-        public static final String COSMETICS_JOIN_MESSAGE_LIST_ENTRY = "cosmetics.join-message.list-entry";
-        public static final String COSMETICS_JOIN_MESSAGE_LIST_ENTRY_SELECTED = "cosmetics.join-message.list-entry-selected";
         public static final String COSMETICS_JOIN_MESSAGE_PREVIEW_HIDDEN = "cosmetics.join-message.preview-hidden";
     }
 }
