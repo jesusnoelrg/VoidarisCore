@@ -1,5 +1,5 @@
-# VoidarisCore - private messages: /message, /reply, /ignore, /superignore, /listignore and /spy.
-# Ignore lists and spy toggles are stored in plugins/VoidarisCore/data/private-messages.yml.
+# VoidarisCore - private messages: /message, /reply, /msgtoggle, /ignore, /superignore, /listignore and /spy.
+# Ignore lists, spy toggles and /msgtoggle states are stored in plugins/VoidarisCore/data/private-messages.yml.
 
 ignore-list:
   # Players shown per page of /listignore.

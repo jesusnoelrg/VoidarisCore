@@ -21,6 +21,7 @@ public final class PrivateMessageCommands {
     private static final String MESSAGE = "message";
     private static final String REPLY = "reply";
     private static final String SPY = "spy";
+    private static final String MSG_TOGGLE = "msgtoggle";
     private static final String TARGET = "player";
     private static final String TEXT = "text";
 
@@ -47,6 +48,8 @@ public final class PrivateMessageCommands {
                 messages.raw(Keys.Message.COMMAND_REPLY_DESCRIPTION), List.of("r"));
         registrar.register(Commands.literal(SPY).executes(this::spy).build(),
                 messages.raw(Keys.Message.COMMAND_SPY_DESCRIPTION));
+        registrar.register(Commands.literal(MSG_TOGGLE).executes(this::toggle).build(),
+                messages.raw(Keys.Message.COMMAND_MSGTOGGLE_DESCRIPTION));
     }
 
     public List<HelpEntry> helpEntries() {
@@ -55,6 +58,8 @@ public final class PrivateMessageCommands {
                         Keys.Message.HELP_MESSAGE_DESCRIPTION, Keys.Permission.PRIVATE_MESSAGES_MESSAGE, module),
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + REPLY, Keys.Message.HELP_REPLY_ARGUMENTS,
                         Keys.Message.HELP_REPLY_DESCRIPTION, Keys.Permission.PRIVATE_MESSAGES_MESSAGE, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + MSG_TOGGLE, null,
+                        Keys.Message.HELP_MSGTOGGLE_DESCRIPTION, Keys.Permission.PRIVATE_MESSAGES_TOGGLE, module),
                 new HelpEntry(HelpEntry.Category.ADMIN, "/" + SPY, null,
                         Keys.Message.HELP_SPY_DESCRIPTION, Keys.Permission.PRIVATE_MESSAGES_SPY, module));
     }
@@ -126,6 +131,12 @@ public final class PrivateMessageCommands {
             messages.send(sender, Keys.Message.PRIVATE_MESSAGES_BLOCKED, Placeholder.unparsed("player", target.getName()));
             return 0;
         }
+        if (module.store().disabled(target.getUniqueId())
+                && !sender.hasPermission(Keys.Permission.PRIVATE_MESSAGES_TOGGLE_BYPASS)) {
+            messages.send(sender, Keys.Message.PRIVATE_MESSAGES_TARGET_DISABLED,
+                    Placeholder.unparsed("player", target.getName()));
+            return 0;
+        }
         var message = Placeholder.unparsed("message", text);
         messages.send(sender, Keys.Message.PRIVATE_MESSAGES_SENT, message, Placeholder.unparsed("player", target.getName()));
         messages.send(target, Keys.Message.PRIVATE_MESSAGES_RECEIVED, message, Placeholder.unparsed("player", sender.getName()));
@@ -150,6 +161,19 @@ public final class PrivateMessageCommands {
                 spy.sendMessage(line);
             }
         }
+    }
+
+    private int toggle(CommandContext<CommandSourceStack> context) {
+        Player player = module.requirePlayer(context.getSource().getSender(), Keys.Permission.PRIVATE_MESSAGES_TOGGLE);
+        if (player == null) {
+            return 0;
+        }
+        boolean off = !module.store().disabled(player.getUniqueId());
+        module.store().disabled(player.getUniqueId(), off);
+        module.messages().send(player, off
+                ? Keys.Message.PRIVATE_MESSAGES_DISABLED_SELF
+                : Keys.Message.PRIVATE_MESSAGES_ENABLED_SELF);
+        return Command.SINGLE_SUCCESS;
     }
 
     private int spy(CommandContext<CommandSourceStack> context) {

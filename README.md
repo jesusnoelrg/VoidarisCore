@@ -28,7 +28,7 @@ con mensajes y estilo uniformes.
 | Chat | Formato por grupo de LuckPerms (`chat-format.yml`), hover en el nombre y clic que sugiere `/msg <jugador>`; colores `&` (`voidaris.chat.color`) y hexadecimales (`voidaris.chat.hex`) |
 | Entrada/salida | Mensajes de entrada (según el cosmético equipado) y primera entrada, con PlaceholderAPI |
 | Cosméticos | `/cosmetics` abre un menú (definido en `guis/`) para equipar mensajes de entrada y partículas de teletransporte desbloqueados por permiso |
-| Mensajes privados | `/message` (`/msg`, `/tell`) y `/reply` (`/r`) con clic para responder; `/ignore` (solo privados) y `/superignore` (chat y privados) como interruptores, `/listignore` paginado con clic para dejar de ignorar; `/spy` (`voidaris.privatemessages.spy`), con `.spy.exempt` para ocultar las conversaciones de un admin y `.spy.bypass` para verlas igualmente |
+| Mensajes privados | `/message` (`/msg`, `/tell`) y `/reply` (`/r`) con clic para responder; `/msgtoggle` para dejar de recibirlos (`voidaris.privatemessages.toggle.bypass` escribe igualmente); `/ignore` (solo privados) y `/superignore` (chat y privados) como interruptores, `/listignore` paginado con clic para dejar de ignorar; `/spy` (`voidaris.privatemessages.spy`), con `.spy.exempt` para ocultar las conversaciones de un admin y `.spy.bypass` para verlas igualmente |
 | Anuncios | Anuncios automáticos con MiniMessage |
 | Carteles | Colores en carteles |
 | Economía | Proveedor de economía para Vault |

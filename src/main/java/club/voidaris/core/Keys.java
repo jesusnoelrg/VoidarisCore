@@ -97,6 +97,9 @@ public final class Keys {
         public static final String PRIVATE_MESSAGES_MESSAGE = "voidaris.privatemessages.message";
         public static final String PRIVATE_MESSAGES_IGNORE = "voidaris.privatemessages.ignore";
         public static final String PRIVATE_MESSAGES_SUPERIGNORE = "voidaris.privatemessages.superignore";
+        public static final String PRIVATE_MESSAGES_TOGGLE = "voidaris.privatemessages.toggle";
+        /** Message players who turned private messages off with /msgtoggle. */
+        public static final String PRIVATE_MESSAGES_TOGGLE_BYPASS = "voidaris.privatemessages.toggle.bypass";
         public static final String PRIVATE_MESSAGES_SPY = "voidaris.privatemessages.spy";
         /** Conversations involving a holder are hidden from spies without {@link #PRIVATE_MESSAGES_SPY_BYPASS}. */
         public static final String PRIVATE_MESSAGES_SPY_EXEMPT = "voidaris.privatemessages.spy.exempt";
@@ -161,6 +164,7 @@ public final class Keys {
         public static final String COMMAND_SUPERIGNORE_DESCRIPTION = "commands.superignore.description";
         public static final String COMMAND_LISTIGNORE_DESCRIPTION = "commands.listignore.description";
         public static final String COMMAND_SPY_DESCRIPTION = "commands.spy.description";
+        public static final String COMMAND_MSGTOGGLE_DESCRIPTION = "commands.msgtoggle.description";
 
         // help
         public static final String HELP_HEADER = "help.header";
@@ -255,6 +259,7 @@ public final class Keys {
         public static final String HELP_LISTIGNORE_ARGUMENTS = "help.commands.listignore.arguments";
         public static final String HELP_LISTIGNORE_DESCRIPTION = "help.commands.listignore.description";
         public static final String HELP_SPY_DESCRIPTION = "help.commands.spy.description";
+        public static final String HELP_MSGTOGGLE_DESCRIPTION = "help.commands.msgtoggle.description";
 
         // teleport
         public static final String TELEPORT_WARMUP = "teleport.warmup";
@@ -339,6 +344,9 @@ public final class Keys {
         public static final String MOTD_EMPTY = "motd.empty";
 
         // private messages
+        public static final String PRIVATE_MESSAGES_DISABLED_SELF = "private-messages.disabled-self";
+        public static final String PRIVATE_MESSAGES_ENABLED_SELF = "private-messages.enabled-self";
+        public static final String PRIVATE_MESSAGES_TARGET_DISABLED = "private-messages.target-disabled";
         public static final String PRIVATE_MESSAGES_SENT = "private-messages.sent";
         public static final String PRIVATE_MESSAGES_RECEIVED = "private-messages.received";
         public static final String PRIVATE_MESSAGES_SELF = "private-messages.self";

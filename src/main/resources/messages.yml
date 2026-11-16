@@ -100,6 +100,8 @@ commands:
     description: "Lista los jugadores que ignoras"
   spy:
     description: "Activa o desactiva el modo espía de mensajes privados"
+  msgtoggle:
+    description: "Activa o desactiva la recepción de mensajes privados"
 
 help:
   # <page> and <pages> are the current page and the page count.
@@ -262,6 +264,8 @@ help:
       description: "Lista los jugadores que ignoras"
     spy:
       description: "Activa o desactiva el modo espía de mensajes privados"
+    msgtoggle:
+      description: "Activa o desactiva la recepción de mensajes privados"
 
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
@@ -426,6 +430,7 @@ kits:
     separator: " "
 
 private-messages:
+  # /msgtoggle; target-disabled is sent to whoever tries to message a player who turned them off.
   disabled-self: "<prefix><white>Has desactivado los mensajes privados."
   enabled-self: "<prefix><white>Has activado los mensajes privados."
   target-disabled: "<prefix><light_purple><player></light_purple> <white>tiene los mensajes privados desactivados."

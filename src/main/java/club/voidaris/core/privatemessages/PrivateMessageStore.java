@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 
 /**
- * Ignore lists and spy toggles persisted in {@code plugins/VoidarisCore/data/<name>}. Written from the main thread;
+ * Ignore lists, spy toggles and /msgtoggle states persisted in {@code plugins/VoidarisCore/data/<name>}. Written from the main thread;
  * the maps are concurrent because the chat listener reads them from the async chat thread.
  */
 final class PrivateMessageStore {
@@ -27,11 +28,13 @@ final class PrivateMessageStore {
 
     private static final String IGNORES = "ignores";
     private static final String SPIES = "spies";
+    private static final String DISABLED = "disabled";
 
     private final JavaPlugin plugin;
     private final File file;
     private final Map<UUID, Map<UUID, IgnoreEntry>> ignores = new ConcurrentHashMap<>();
     private final Set<UUID> spies = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> disabled = ConcurrentHashMap.newKeySet();
     private final AtomicLong version = new AtomicLong();
     private final Object writeLock = new Object();
     private long writtenVersion;
@@ -46,6 +49,7 @@ final class PrivateMessageStore {
     void load() {
         ignores.clear();
         spies.clear();
+        disabled.clear();
         dirty = false;
         if (!file.exists()) {
             return;
@@ -68,12 +72,8 @@ final class PrivateMessageStore {
                 }
             }
         }
-        for (String spy : yaml.getStringList(SPIES)) {
-            UUID id = parse(spy);
-            if (id != null) {
-                spies.add(id);
-            }
-        }
+        readIds(yaml.getStringList(SPIES), spies);
+        readIds(yaml.getStringList(DISABLED), disabled);
     }
 
     /**
@@ -118,6 +118,19 @@ final class PrivateMessageStore {
         }
     }
 
+    /**
+     * @return whether the player turned private messages off with /msgtoggle
+     */
+    boolean disabled(UUID player) {
+        return disabled.contains(player);
+    }
+
+    void disabled(UUID player, boolean off) {
+        if (off ? disabled.add(player) : disabled.remove(player)) {
+            changed();
+        }
+    }
+
     void saveNow() {
         if (!dirty) {
             return;
@@ -148,6 +161,7 @@ final class PrivateMessageStore {
             yaml.set(path + ".level", entry.level().name());
         }));
         yaml.set(SPIES, spies.stream().map(UUID::toString).sorted().toList());
+        yaml.set(DISABLED, disabled.stream().map(UUID::toString).sorted().toList());
         dirty = false;
         return new Snapshot(version.incrementAndGet(), yaml.saveToString());
     }
@@ -167,6 +181,15 @@ final class PrivateMessageStore {
             } catch (IOException e) {
                 dirty = true;
                 plugin.getLogger().log(Level.SEVERE, "Could not save " + file.getPath(), e);
+            }
+        }
+    }
+
+    private void readIds(List<String> values, Set<UUID> into) {
+        for (String value : values) {
+            UUID id = parse(value);
+            if (id != null) {
+                into.add(id);
             }
         }
     }
