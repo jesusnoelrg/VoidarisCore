@@ -8,7 +8,10 @@ plugins {
 group = "club.voidaris"
 version = "1.0.0"
 
-val paperVersion = "26.3.build.248-stable"
+val minecraftVersion = "26.3"
+// Shared by the compile API and runServer, so the test server runs the same Paper build the code is compiled against.
+val paperBuild = 248
+val paperVersion = "$minecraftVersion.build.$paperBuild-stable"
 val targetJava = 25
 // Resolved at runtime through plugin.yml "libraries", so they are not shaded into the jar.
 val hikariVersion = "7.1.0"
@@ -55,7 +58,8 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("26.3")
+        minecraftVersion(minecraftVersion)
+        build(paperBuild)
         // Test-only: lets cosmetic and other permission nodes be granted with /lp on the local server.
         downloadPlugins {
             modrinth("luckperms", "v5.5.71-bukkit")
