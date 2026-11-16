@@ -83,6 +83,12 @@ permissions:
   voidaris.privatemessages.superignore:
     description: Ignore a player in both chat and private messages.
     default: true
+  voidaris.privatemessages.toggle:
+    description: Turn receiving private messages on or off with /msgtoggle.
+    default: true
+  voidaris.privatemessages.toggle.bypass:
+    description: Send private messages to players who turned them off.
+    default: op
   voidaris.privatemessages.spy:
     description: Toggle spying on other players' private messages.
     default: op
