@@ -10,6 +10,16 @@ chat:
   groups:
     admin: "<prefix_lp><red><player></red> <dark_gray>»</dark_gray> <white><message>"
     vip: "<prefix_lp><gold><player></gold> <dark_gray>»</dark_gray> <white><message>"
+  # Shown when hovering over a player's name in chat. Remove all lines to disable it.
+  # Extra placeholder: <group> (LuckPerms primary group).
+  hover:
+    lines:
+      - "<prefix_lp><white><player>"
+      - "<gray>Rango: <white><group>"
+      - "<gray>Clic para enviarle un mensaje privado."
+  # Clicking a player's name fills the chat box with this command. Empty ("") disables it.
+  click:
+    suggest-command: "/msg <player> "
   colors:
     # Legacy & codes require voidaris.chat.color, hex (&#RRGGBB) requires voidaris.chat.hex.
     legacy: true

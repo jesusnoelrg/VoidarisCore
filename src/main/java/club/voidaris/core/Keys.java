@@ -34,6 +34,10 @@ public final class Keys {
         public static final String WARPS_SET = "voidaris.warps.set";
         public static final String WARPS_DELETE = "voidaris.warps.delete";
 
+        // chat
+        public static final String CHAT_COLOR = "voidaris.chat.color";
+        public static final String CHAT_HEX = "voidaris.chat.hex";
+
         // motd
         public static final String MOTD_USE = "voidaris.motd.use";
 

@@ -17,9 +17,16 @@ public final class PlayerFormatter {
     }
 
     public Component format(Player player, String raw, TagResolver... extra) {
+        return format(player, Component.text(player.getName()), raw, extra);
+    }
+
+    /**
+     * @param name what {@code <player>} resolves to, so callers can attach hover or click events to the name
+     */
+    public Component format(Player player, Component name, String raw, TagResolver... extra) {
         // PlaceholderAPI runs first so its values can carry MiniMessage tags; the name stays unparsed to block tag injection.
         return messages.parse(integrations.setPlaceholders(player, raw),
-                Placeholder.unparsed("player", player.getName()),
+                Placeholder.component("player", name),
                 Placeholder.component("displayname", player.displayName()),
                 Placeholder.parsed("prefix_lp", integrations.prefix(player)),
                 Placeholder.parsed("suffix_lp", integrations.suffix(player)),
