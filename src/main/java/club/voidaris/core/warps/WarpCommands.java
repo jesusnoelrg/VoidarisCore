@@ -23,6 +23,7 @@ import java.util.List;
 public final class WarpCommands {
 
     private static final String WARP = "warp";
+    private static final String WARPS = "warps";
     private static final String SET_WARP = "setwarp";
     private static final String DEL_WARP = "delwarp";
     private static final String ARGUMENT = "warp";
@@ -58,7 +59,7 @@ public final class WarpCommands {
                                 .suggests(usable)
                                 .executes(this::warp))
                         .build(),
-                messages.raw(Keys.Message.COMMAND_WARP_DESCRIPTION));
+                messages.raw(Keys.Message.COMMAND_WARP_DESCRIPTION), List.of(WARPS));
         registrar.register(Commands.literal(SET_WARP)
                         .then(Commands.argument(ARGUMENT, StringArgumentType.word()).executes(this::setWarp))
                         .build(),
