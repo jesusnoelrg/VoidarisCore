@@ -1,6 +1,7 @@
 package club.voidaris.core.integration;
 
 import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.message.LegacyColors;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,11 +29,11 @@ public final class Integrations {
     }
 
     public String prefix(Player player) {
-        return luckPerms == null ? "" : luckPerms.prefix(player);
+        return luckPerms == null ? "" : LegacyColors.toMiniMessage(luckPerms.prefix(player));
     }
 
     public String suffix(Player player) {
-        return luckPerms == null ? "" : luckPerms.suffix(player);
+        return luckPerms == null ? "" : LegacyColors.toMiniMessage(luckPerms.suffix(player));
     }
 
     public String setPlaceholders(Player player, String text) {
