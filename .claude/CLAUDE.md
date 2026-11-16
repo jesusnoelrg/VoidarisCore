@@ -37,6 +37,15 @@ Voidaris core plugin. Paper 26.3 (build 248), Java 25, Gradle Kotlin DSL.
 - **Scope management:** Log any errors or ideas that fall outside the current scope in `docs/BACKLOG.md` using the `>>` append operator—no need to read the entire file.
 - **Sub-agents:** Use them EXCLUSIVELY for exploring the source code (read-only) or for performing isolated parallel checks, in order to protect the main context.
 
+## GUIs
+- Every menu is a file in `src/main/resources/guis/`, registered in `ConfigManager` and built with `club.voidaris.core.gui.MenuLoader`. It uses the server's DeluxeMenus keys with MiniMessage text; `guis/join-messages.yml` is the reference.
+- **Mandatory layout (54 slots), copied from the server's "Menú principal":**
+  - Purple glass border named `<gray>» mc.voidaris.club «`, also on slot columns 10/16 between the sides and the content.
+  - Left column (9, 18, 27, 36): navigation sections. The current one ends its lore with `<gray>¡Ya estás en esta sección!` and has a black `<gray>« Seleccionado` pane to its right.
+  - Right column: options (17), previous page (26), close (35), next page (44).
+  - Content: 11-15, 20-24, 29-33, 38-42 (`content_slots`).
+  - Pagination is always present; when there is no page, the button is a gray pane named `<gray>No aplica`.
+
 ## Paper API
 - The 26.x API may differ from what you are familiar with. When in doubt, verify the signature using `javap -cp <jar> <class>` rather than reading through entire JARs or source files.
 
