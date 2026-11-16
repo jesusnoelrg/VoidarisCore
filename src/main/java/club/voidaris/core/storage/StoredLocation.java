@@ -16,7 +16,7 @@ public record StoredLocation(String world, double x, double y, double z, float y
                 location.getYaw(), location.getPitch());
     }
 
-    static Optional<StoredLocation> read(ConfigurationSection section) {
+    public static Optional<StoredLocation> read(ConfigurationSection section) {
         String world = section.getString("world");
         if (world == null) {
             return Optional.empty();
@@ -25,7 +25,7 @@ public record StoredLocation(String world, double x, double y, double z, float y
                 section.getDouble("z"), (float) section.getDouble("yaw"), (float) section.getDouble("pitch")));
     }
 
-    void write(ConfigurationSection section) {
+    public void write(ConfigurationSection section) {
         section.set("world", world);
         section.set("x", x);
         section.set("y", y);

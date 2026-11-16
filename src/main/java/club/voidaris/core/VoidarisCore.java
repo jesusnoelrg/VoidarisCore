@@ -7,6 +7,8 @@ import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.cosmetics.CosmeticsCommand;
 import club.voidaris.core.cosmetics.CosmeticsModule;
 import club.voidaris.core.gui.MenuListener;
+import club.voidaris.core.homes.HomeCommands;
+import club.voidaris.core.homes.HomesModule;
 import club.voidaris.core.gui.MenuLoader;
 import club.voidaris.core.integration.Integrations;
 import club.voidaris.core.joinquit.JoinQuitModule;
@@ -49,6 +51,7 @@ public final class VoidarisCore extends JavaPlugin {
     private Teleporter teleporter;
     private SpawnModule spawnModule;
     private WarpsModule warpsModule;
+    private HomesModule homesModule;
     private UtilitiesModule utilitiesModule;
     private MotdModule motdModule;
     private PrivateMessagesModule privateMessagesModule;
@@ -130,6 +133,8 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(spawnModule);
         warpsModule = new WarpsModule(this, configManager);
         moduleManager.register(warpsModule);
+        homesModule = new HomesModule(this, configManager);
+        moduleManager.register(homesModule);
         moduleManager.register(new TeleportEffectsModule(this, configManager, cosmeticsModule));
         utilitiesModule = new UtilitiesModule();
         moduleManager.register(utilitiesModule);
@@ -148,6 +153,8 @@ public final class VoidarisCore extends JavaPlugin {
         voidarisCommand.help().register(spawnCommands.helpEntries());
         var warpCommands = new WarpCommands(warpsModule, messages, teleporter);
         voidarisCommand.help().register(warpCommands.helpEntries());
+        var homeCommands = new HomeCommands(homesModule, configManager, messages, teleporter, menuLoader);
+        voidarisCommand.help().register(homeCommands.helpEntries());
         var virtualInventoryCommands = new VirtualInventoryCommands(utilitiesModule, messages);
         voidarisCommand.help().register(virtualInventoryCommands.helpEntries());
         var gameModeCommands = new GameModeCommands(utilitiesModule, messages);
@@ -170,6 +177,7 @@ public final class VoidarisCore extends JavaPlugin {
                     List.of("cosmeticos"));
             spawnCommands.register(registrar);
             warpCommands.register(registrar);
+            homeCommands.register(registrar);
             virtualInventoryCommands.register(registrar);
             gameModeCommands.register(registrar);
             playerCommands.register(registrar);

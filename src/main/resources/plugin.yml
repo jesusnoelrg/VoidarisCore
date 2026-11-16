@@ -26,6 +26,36 @@ permissions:
   voidaris.spawn.delete:
     description: Delete the spawn.
     default: op
+  voidaris.homes.use:
+    description: Teleport to, set, delete and list your own homes.
+    default: true
+  voidaris.homes.seticon:
+    description: Change the menu icon of your homes with /home <home> seticon.
+    default: op
+  voidaris.homes.cooldown.bypass:
+    description: Skip the home teleport cooldown (the warmup still applies).
+    default: op
+  voidaris.homes.limit.vip:
+    description: Use the vip home limit of homes.yml.
+    default: false
+  voidaris.homes.limit.mvp:
+    description: Use the mvp home limit of homes.yml.
+    default: false
+  voidaris.homes.limit.unlimited:
+    description: Set unlimited homes.
+    default: op
+  voidaris.homes.teleport.others:
+    description: Teleport to other players' homes.
+    default: op
+  voidaris.homes.set.others:
+    description: Set homes for other players.
+    default: op
+  voidaris.homes.delete.others:
+    description: Delete other players' homes.
+    default: op
+  voidaris.homes.list.others:
+    description: Open the homes menu of other players.
+    default: op
   voidaris.warps.use:
     description: Use and list warps (when per-warp-permission is false).
     default: true

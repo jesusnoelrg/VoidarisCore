@@ -1,0 +1,156 @@
+# VoidarisCore - homes menu (/listhome, /homes, /listhome <player>).
+# Same layout as the server's DeluxeMenus menus (menu_title, size, items, material, slot/slots, display_name, lore,
+# *_click_commands), but texts use MiniMessage. material accepts any item or basehead-<texture> for custom heads;
+# glow: true adds the glint.
+# Actions: [player] command, [console] command (<player> is the player's name), [message] text, [sound] SOUND, [close].
+#
+# Layout shared by every menu in guis/ (54 slots):
+#   left column  9 18 27 36  navigation sections; the current one says "¡Ya estás en esta sección!"
+#                            and has the black "« Seleccionado" pane to its right. 9, 18 and 27 are fixed;
+#                            36 (Reglas in the main menu) holds the section specific to the menu
+#   right column 17          options (Ajustes)
+#                26 / 44     previous / next page ("No aplica" when there is no page)
+#                35          close
+#   content      11-15 20-24 29-33 38-42
+
+menu_title: '<light_purple>↶ <dark_purple><bold>Homes</bold> <light_purple>↷'
+size: 54
+
+# Static items, drawn first.
+items:
+  'menuprincipal':
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWExZWNhZDQ1NDkzNzg0ZmE2ZmY3OWNhYjBlYTc5ZDk0ZmQ3YWFlMzg0ZDMyYjA3M2E1MTM2MThiZmI1NDBjMSJ9fX0=
+    slot: 9
+    display_name: '<light_purple>✦ <dark_purple><bold>Menú principal</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Aquí se muestra todo el'
+    - '<white> contenido del survival,'
+    - '<white> echale un vistazo.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]menu'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]menu'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'mensajes-entrada':
+    material: 'name_tag'
+    slot: 18
+    display_name: '<light_purple>✦ <dark_purple><bold>Mensajes de entrada</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige cómo se anuncia'
+    - '<white> tu llegada al servidor.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]cosmetics joinmessage'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]cosmetics joinmessage'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'redes-sociales':
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ0MjMzN2JlMGJkY2EyMTI4MDk3ZjFjNWJiMTEwOWU1YzYzM2MxNzkyNmFmNWZiNmZjMjAwMDAwMTFhZWI1MyJ9fX0=
+    slot: 27
+    display_name: '<light_purple>✦ <dark_purple><bold>Redes sociales</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Síguenos en nuestras redes'
+    - '<white> sociales, para estar al tanto'
+    - '<white> de nuestro servidor.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]redes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]redes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'homes':
+    material: 'red_bed'
+    slot: 36
+    display_name: '<light_purple>✦ <dark_purple><bold>Homes</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Viaja a cualquiera de'
+    - '<white> tus homes con un clic.'
+    - ''
+    - '<gray>¡Ya estás en esta sección!'
+  'opciones':
+    material: 'repeater'
+    slot: 17
+    display_name: '<light_purple>✦ <dark_purple><bold>Ajustes</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> En esta sección puedes modificar'
+    - '<white> algunas opciones que activadas'
+    - '<white> pueden ser un poco molestas para'
+    - '<white> algunos.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]ajustes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]ajustes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'cerrar':
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==
+    slot: 35
+    display_name: '<light_purple>✘ <dark_purple><bold>Cerrar</bold> <light_purple>✘'
+    left_click_commands:
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    - '[close]'
+    right_click_commands:
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    - '[close]'
+  'glass1':
+    material: 'purple_stained_glass_pane'
+    slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 16, 19, 25, 28, 34, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    display_name: '<gray>» mc.voidaris.club «'
+  'glass2selection':
+    material: 'black_stained_glass_pane'
+    slots: [37]
+    display_name: '<gray>« Seleccionado'
+
+# Slots filled with the icons below, in order; extra icons go to the next page.
+content_slots: [11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 29, 30, 31, 32, 33, 38, 39, 40, 41, 42]
+
+# Page buttons. disabled replaces a button when there is no page to go to. Placeholders: <page>, <pages>.
+pagination:
+  previous:
+    slot: 26
+    material: 'arrow'
+    display_name: '<light_purple>« <dark_purple><bold>Página anterior</bold>'
+    lore:
+    - '<gray>Página <page>/<pages>'
+    click_commands:
+    - '[sound]ITEM_BOOK_PAGE_TURN'
+  next:
+    slot: 44
+    material: 'arrow'
+    display_name: '<dark_purple><bold>Página siguiente</bold> <light_purple>»'
+    lore:
+    - '<gray>Página <page>/<pages>'
+    click_commands:
+    - '[sound]ITEM_BOOK_PAGE_TURN'
+  disabled:
+    material: 'gray_stained_glass_pane'
+    display_name: '<gray>No aplica'
+
+# One icon per home. The material is the one set with /home <home> seticon, or default_icon when there is none.
+# Placeholders: <home>, <player> (the owner), <world>, <x>, <y>, <z>.
+homes:
+  default_icon: 'red_bed'
+  display_name: '<light_purple>✦ <dark_purple><bold><home></bold> <light_purple>✦'
+  lore:
+  - ''
+  - '<white> Mundo: <light_purple><world>'
+  - '<white> Posición: <light_purple><x>, <y>, <z>'
+  - ''
+  - '<green>✔ Click para teletransportarte'
+  # Actions run before teleporting; the menu is closed afterwards.
+  click_commands:
+  - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
