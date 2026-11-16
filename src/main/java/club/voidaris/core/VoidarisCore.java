@@ -14,6 +14,7 @@ import club.voidaris.core.module.ModuleManager;
 import club.voidaris.core.spawn.SpawnCommands;
 import club.voidaris.core.spawn.SpawnModule;
 import club.voidaris.core.storage.Database;
+import club.voidaris.core.teleport.TeleportEffectsModule;
 import club.voidaris.core.teleport.Teleporter;
 import club.voidaris.core.warps.WarpCommands;
 import club.voidaris.core.warps.WarpsModule;
@@ -97,6 +98,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(spawnModule);
         warpsModule = new WarpsModule(this, configManager);
         moduleManager.register(warpsModule);
+        moduleManager.register(new TeleportEffectsModule(this, configManager, cosmeticsModule));
     }
 
     private void registerCommands() {

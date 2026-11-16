@@ -74,3 +74,48 @@ permissions:
   voidaris.cosmetics.joinmessage.royal:
     description: Equip the royal join message.
     default: false
+  voidaris.cosmetics.teleportparticle.none:
+    description: Equip the none teleport particles.
+    default: true
+  voidaris.cosmetics.teleportparticle.witch:
+    description: Equip the witch teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.flame:
+    description: Equip the flame teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.soul:
+    description: Equip the soul teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.hearts:
+    description: Equip the hearts teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.end_rod:
+    description: Equip the end rod teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.totem:
+    description: Equip the totem teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.cherry:
+    description: Equip the cherry teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.notes:
+    description: Equip the notes teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.spark:
+    description: Equip the spark teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.christmas:
+    description: Equip the christmas teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.space:
+    description: Equip the space teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.halloween:
+    description: Equip the halloween teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.rainbow:
+    description: Equip the rainbow teleport particles.
+    default: false
+  voidaris.cosmetics.teleportparticle.void:
+    description: Equip the void teleport particles.
+    default: false

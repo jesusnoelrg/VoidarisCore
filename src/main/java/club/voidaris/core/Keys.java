@@ -16,6 +16,8 @@ public final class Keys {
         // cosmetics
         /** Followed by the cosmetic id under join-messages.cosmetics in cosmetics.yml. */
         public static final String COSMETICS_JOIN_MESSAGE = "voidaris.cosmetics.joinmessage.";
+        /** Followed by the cosmetic id under teleport-particles.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_TELEPORT_PARTICLE = "voidaris.cosmetics.teleportparticle.";
 
         // teleport
         public static final String TELEPORT_BYPASS = "voidaris.teleport.bypass";
@@ -76,6 +78,8 @@ public final class Keys {
         public static final String HELP_COSMETICS_DESCRIPTION = "help.commands.cosmetics.description";
         public static final String HELP_COSMETICS_JOIN_MESSAGE_ARGUMENTS = "help.commands.cosmetics-joinmessage.arguments";
         public static final String HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION = "help.commands.cosmetics-joinmessage.description";
+        public static final String HELP_COSMETICS_TELEPORT_PARTICLE_ARGUMENTS = "help.commands.cosmetics-teleportparticle.arguments";
+        public static final String HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION = "help.commands.cosmetics-teleportparticle.description";
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
@@ -119,5 +123,8 @@ public final class Keys {
         public static final String COSMETICS_JOIN_MESSAGE_NOT_FOUND = "cosmetics.join-message.not-found";
         public static final String COSMETICS_JOIN_MESSAGE_LOCKED = "cosmetics.join-message.locked";
         public static final String COSMETICS_JOIN_MESSAGE_PREVIEW_HIDDEN = "cosmetics.join-message.preview-hidden";
+        public static final String COSMETICS_TELEPORT_PARTICLE_SELECTED = "cosmetics.teleport-particle.selected";
+        public static final String COSMETICS_TELEPORT_PARTICLE_NOT_FOUND = "cosmetics.teleport-particle.not-found";
+        public static final String COSMETICS_TELEPORT_PARTICLE_LOCKED = "cosmetics.teleport-particle.locked";
     }
 }

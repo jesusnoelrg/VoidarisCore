@@ -59,6 +59,9 @@ help:
     cosmetics-joinmessage:
       arguments: "\\<cosmético>"
       description: "Equipa un mensaje de entrada"
+    cosmetics-teleportparticle:
+      arguments: "[partícula]"
+      description: "Equipa unas partículas de teletransporte"
     spawn:
       description: "Teletranspórtate al spawn"
     setspawn:
@@ -162,3 +165,7 @@ cosmetics:
     locked: "<prefix><white>No tienes desbloqueado el mensaje de entrada <cosmetic><white>."
     # Menu preview of a cosmetic whose format is empty (such as silent).
     preview-hidden: "<gray>Tu entrada no se anunciará."
+  teleport-particle:
+    selected: "<prefix><white>Equipaste las partículas de teletransporte <cosmetic><white>."
+    not-found: "<prefix><white>No existen las partículas de teletransporte <light_purple><id></light_purple>."
+    locked: "<prefix><white>No tienes desbloqueadas las partículas <cosmetic><white>."

@@ -13,20 +13,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public final class CosmeticsModule extends Module {
 
     static final String JOIN_MESSAGE_SLOT = "join-message";
+    static final String TELEPORT_PARTICLE_SLOT = "teleport-particle";
 
     private final JavaPlugin plugin;
     private final Selections selections;
     private final JoinMessages joinMessages;
+    private final TeleportParticles teleportParticles;
 
     public CosmeticsModule(JavaPlugin plugin, ConfigManager configs, Database database) {
         super("cosmetics");
         this.plugin = plugin;
         this.selections = new Selections(database, plugin.getLogger());
         this.joinMessages = new JoinMessages(configs, plugin.getLogger());
+        this.teleportParticles = new TeleportParticles(configs, plugin.getLogger());
     }
 
     @Override
@@ -36,14 +40,14 @@ public final class CosmeticsModule extends Module {
 
     @Override
     protected void onEnable() {
-        registerJoinMessagePermissions();
+        registerPermissions();
         // Players already online when the module is toggled on never went through AsyncPlayerPreLoginEvent.
         Bukkit.getOnlinePlayers().forEach(player -> selections.load(player.getUniqueId()));
     }
 
     @Override
     protected void onReload() {
-        registerJoinMessagePermissions();
+        registerPermissions();
     }
 
     @Override
@@ -73,6 +77,33 @@ public final class CosmeticsModule extends Module {
                 .map(JoinMessage::id);
     }
 
+    /**
+     * The teleport particle the player has equipped. Empty when the module is disabled, the player owns none or
+     * the equipped one shows nothing.
+     */
+    public Optional<TeleportParticle> teleportParticle(Player player) {
+        return equippedTeleportParticle(player)
+                .flatMap(teleportParticles::find)
+                .filter(particle -> !particle.layers().isEmpty());
+    }
+
+    /**
+     * Same fallback as {@link #equippedJoinMessage(Player)}.
+     */
+    Optional<String> equippedTeleportParticle(Player player) {
+        if (!isEnabled()) {
+            return Optional.empty();
+        }
+        return selections.get(player.getUniqueId(), TELEPORT_PARTICLE_SLOT)
+                .flatMap(id -> teleportParticles.usable(player, id))
+                .or(() -> teleportParticles.usable(player, teleportParticles.defaultSelection()))
+                .map(TeleportParticle::id);
+    }
+
+    TeleportParticles teleportParticles() {
+        return teleportParticles;
+    }
+
     Selections selections() {
         return selections;
     }
@@ -82,10 +113,19 @@ public final class CosmeticsModule extends Module {
     }
 
     // Nodes unknown to the server default to true for ops, which would unlock every cosmetic added to cosmetics.yml for ops.
-    private void registerJoinMessagePermissions() {
+    private void registerPermissions() {
+        registerPermissions(Keys.Permission.COSMETICS_JOIN_MESSAGE, joinMessages.ids());
+        registerPermissions(Keys.Permission.COSMETICS_TELEPORT_PARTICLE, teleportParticles.ids());
+        // Parsed eagerly only to log config mistakes on enable/reload instead of on the first teleport.
+        long invalid = teleportParticles.ids().stream().filter(id -> teleportParticles.find(id).isEmpty()).count();
+        plugin.getLogger().info("Loaded " + (teleportParticles.ids().size() - invalid) + " teleport particle cosmetics"
+                + (invalid > 0 ? " (" + invalid + " invalid)." : "."));
+    }
+
+    private static void registerPermissions(String prefix, Set<String> ids) {
         var pluginManager = Bukkit.getPluginManager();
-        for (String id : joinMessages.ids()) {
-            String node = Keys.Permission.COSMETICS_JOIN_MESSAGE + id;
+        for (String id : ids) {
+            String node = prefix + id;
             if (pluginManager.getPermission(node) == null) {
                 pluginManager.addPermission(new Permission(node, PermissionDefault.FALSE));
             }
