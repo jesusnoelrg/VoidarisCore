@@ -131,7 +131,7 @@ public final class VoidarisCore extends JavaPlugin {
         formatter = new PlayerFormatter(messages, integrations);
         cosmeticsModule = new CosmeticsModule(this, configManager, database);
         moduleManager.register(cosmeticsModule);
-        moduleManager.register(new ChatModule(configManager, formatter, integrations));
+        moduleManager.register(new ChatModule(configManager, formatter, integrations, cosmeticsModule));
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
         moduleManager.register(new DeathMessagesModule(messages, formatter, cosmeticsModule));
         teleporter = new Teleporter(this, messages);
@@ -191,6 +191,8 @@ public final class VoidarisCore extends JavaPlugin {
             registrar.register(voidarisCommand.build(), messages.raw(Keys.Message.COMMAND_VOIDARIS_DESCRIPTION));
             registrar.register(cosmeticsCommand.build(), messages.raw(Keys.Message.COMMAND_COSMETICS_DESCRIPTION),
                     List.of("cosmeticos"));
+            registrar.register(cosmeticsCommand.buildChatColor(), messages.raw(Keys.Message.COMMAND_CHATCOLOR_DESCRIPTION),
+                    List.of("colorchat"));
             spawnCommands.register(registrar);
             warpCommands.register(registrar);
             homeCommands.register(registrar);

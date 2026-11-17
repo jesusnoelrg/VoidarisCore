@@ -1,6 +1,7 @@
 package club.voidaris.core.cosmetics;
 
 import club.voidaris.core.Keys;
+import club.voidaris.core.command.CommandUsage;
 import club.voidaris.core.command.HelpEntry;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.gui.MenuLoader;
@@ -13,7 +14,9 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,7 +30,9 @@ public final class CosmeticsCommand {
     private static final String TELEPORT_PARTICLE = "teleportparticle";
     private static final String AURA = "aura";
     private static final String JOIN_EFFECT = "joineffect";
+    private static final String CHAT_COLOR = "chatcolor";
     private static final String ARGUMENT = "cosmetic";
+    private static final String COLOR_ARGUMENT = "color";
 
     private final CosmeticsModule module;
     private final Messages messages;
@@ -36,6 +41,7 @@ public final class CosmeticsCommand {
     private final TeleportParticlesMenu particlesMenu;
     private final AurasMenu aurasMenu;
     private final JoinEffectsMenu joinEffectsMenu;
+    private final ChatColorsMenu chatColorsMenu;
 
     public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
                             PlayerFormatter formatter, MenuLoader loader) {
@@ -51,6 +57,7 @@ public final class CosmeticsCommand {
         this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
         this.aurasMenu = new AurasMenu(plugin, configs, module, messages, loader);
         this.joinEffectsMenu = new JoinEffectsMenu(plugin, configs, module, messages, loader);
+        this.chatColorsMenu = new ChatColorsMenu(plugin, configs, module, messages, loader);
     }
 
     public LiteralCommandNode<CommandSourceStack> build() {
@@ -88,7 +95,15 @@ public final class CosmeticsCommand {
                                     return builder.buildFuture();
                                 })
                                 .executes(this::selectJoinEffect)))
+                .then(chatColorLiteral(CHAT_COLOR, "/" + NAME + " " + CHAT_COLOR))
                 .build();
+    }
+
+    /**
+     * /chatcolor, a shortcut to /cosmetics chatcolor.
+     */
+    public LiteralCommandNode<CommandSourceStack> buildChatColor() {
+        return chatColorLiteral(CHAT_COLOR, "/" + CHAT_COLOR).build();
     }
 
     public List<HelpEntry> helpEntries() {
@@ -109,7 +124,78 @@ public final class CosmeticsCommand {
                         Keys.Message.HELP_COSMETICS_AURA_DESCRIPTION, null, module),
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + JOIN_EFFECT,
                         Keys.Message.HELP_COSMETICS_JOIN_EFFECT_ARGUMENTS,
-                        Keys.Message.HELP_COSMETICS_JOIN_EFFECT_DESCRIPTION, null, module));
+                        Keys.Message.HELP_COSMETICS_JOIN_EFFECT_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + CHAT_COLOR,
+                        Keys.Message.HELP_CHATCOLOR_ARGUMENTS,
+                        Keys.Message.HELP_CHATCOLOR_DESCRIPTION, null, module));
+    }
+
+    // Greedy because word() rejects the # of hex colors; only the first word is used.
+    private LiteralArgumentBuilder<CommandSourceStack> chatColorLiteral(String literal, String command) {
+        return Commands.literal(literal)
+                .executes(this::openChatColors)
+                .then(Commands.argument(COLOR_ARGUMENT, StringArgumentType.greedyString())
+                        .suggests((context, builder) -> {
+                            if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
+                                module.chatColors().usable(player).forEach(color -> builder.suggest(color.id()));
+                                if (player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_CHAT_COLOR)) {
+                                    builder.suggest("#RRGGBB");
+                                }
+                            }
+                            return builder.buildFuture();
+                        })
+                        .executes(context -> selectChatColor(context, command)));
+    }
+
+    private int openChatColors(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        chatColorsMenu.open(player);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int selectChatColor(CommandContext<CommandSourceStack> context, String command) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        String input = StringArgumentType.getString(context, COLOR_ARGUMENT).strip().split("\\s+", 2)[0];
+        if (input.isEmpty()) {
+            return CommandUsage.send(messages, player, command, Keys.Message.HELP_CHATCOLOR_ARGUMENTS);
+        }
+        var color = module.chatColors().find(input);
+        if (color.isPresent()) {
+            var name = Placeholder.parsed("cosmetic", color.get().name());
+            if (!player.hasPermission(Keys.Permission.COSMETICS_CHAT_COLOR + input)) {
+                messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_LOCKED, name);
+                return 0;
+            }
+            return selectChatColor(player, input, Keys.Message.COSMETICS_CHAT_COLOR_SELECTED, name);
+        }
+        var custom = ChatColors.parseCustom(input);
+        if (custom.isEmpty()) {
+            messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_NOT_FOUND, Placeholder.unparsed("id", input));
+            return 0;
+        }
+        if (!player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_CHAT_COLOR)) {
+            messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_CUSTOM_LOCKED);
+            return 0;
+        }
+        String hex = custom.get();
+        return selectChatColor(player, hex, Keys.Message.COSMETICS_CHAT_COLOR_CUSTOM_SELECTED,
+                Placeholder.component("color", MiniMessage.miniMessage().deserialize("<" + hex + ">" + hex)));
+    }
+
+    private int selectChatColor(Player player, String id, String selectedMessage, TagResolver resolver) {
+        module.selections().select(player.getUniqueId(), CosmeticsModule.CHAT_COLOR_SLOT, id)
+                .thenRun(() -> messages.send(player, selectedMessage, resolver))
+                .exceptionally(e -> {
+                    messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
+                    return null;
+                });
+        return Command.SINGLE_SUCCESS;
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> messageLiteral(String literal, MessageCosmeticsMenu menu,

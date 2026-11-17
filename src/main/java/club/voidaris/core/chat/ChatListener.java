@@ -2,6 +2,7 @@ package club.voidaris.core.chat;
 
 import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.cosmetics.CosmeticsModule;
 import club.voidaris.core.integration.Integrations;
 import club.voidaris.core.message.LegacyColors;
 import club.voidaris.core.message.PlayerFormatter;
@@ -27,11 +28,13 @@ final class ChatListener implements Listener {
     private final ConfigManager configs;
     private final PlayerFormatter formatter;
     private final Integrations integrations;
+    private final CosmeticsModule cosmetics;
 
-    ChatListener(ConfigManager configs, PlayerFormatter formatter, Integrations integrations) {
+    ChatListener(ConfigManager configs, PlayerFormatter formatter, Integrations integrations, CosmeticsModule cosmetics) {
         this.configs = configs;
         this.formatter = formatter;
         this.integrations = integrations;
+        this.cosmetics = cosmetics;
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -71,10 +74,12 @@ final class ChatListener implements Listener {
         String text = PlainTextComponentSerializer.plainText().serialize(original);
         boolean codes = config.getBoolean(SECTION + "colors.legacy") && player.hasPermission(Keys.Permission.CHAT_COLOR);
         boolean hex = config.getBoolean(SECTION + "colors.hex") && player.hasPermission(Keys.Permission.CHAT_HEX);
-        if (!codes && !hex) {
+        String color = cosmetics.chatColor(player).orElse("");
+        if (!codes && !hex && color.isEmpty()) {
             return Component.text(text);
         }
-        // Tags typed by the player are escaped first so only the & codes they are allowed to use become formatting.
-        return MINI_MESSAGE.deserialize(LegacyColors.toMiniMessage(MINI_MESSAGE.escapeTags(text), codes, hex));
+        // Tags typed by the player are escaped first so only the & codes they are allowed to use become formatting;
+        // the equipped chat color goes first so those codes still override it.
+        return MINI_MESSAGE.deserialize(color + LegacyColors.toMiniMessage(MINI_MESSAGE.escapeTags(text), codes, hex));
     }
 }
