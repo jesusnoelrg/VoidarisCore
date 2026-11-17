@@ -32,6 +32,10 @@ public final class Keys {
         public static final String COSMETICS_NICK_COLOR = "voidaris.cosmetics.nickcolor.";
         /** Any hex nick color chosen with /nickcolor #RRGGBB. */
         public static final String COSMETICS_CUSTOM_NICK_COLOR = "voidaris.cosmetics.customnickcolor";
+        /** Followed by the cosmetic id under badges.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_BADGE = "voidaris.cosmetics.badge.";
+        /** Create and equip a custom badge with /badges custom. */
+        public static final String COSMETICS_CUSTOM_BADGE = "voidaris.cosmetics.custombadge";
 
         // teleport
         public static final String TELEPORT_BYPASS = "voidaris.teleport.bypass";
@@ -153,6 +157,7 @@ public final class Keys {
         public static final String COMMAND_COSMETICS_DESCRIPTION = "commands.cosmetics.description";
         public static final String COMMAND_CHATCOLOR_DESCRIPTION = "commands.chatcolor.description";
         public static final String COMMAND_NICKCOLOR_DESCRIPTION = "commands.nickcolor.description";
+        public static final String COMMAND_BADGES_DESCRIPTION = "commands.badges.description";
         public static final String COMMAND_SPAWN_DESCRIPTION = "commands.spawn.description";
         public static final String COMMAND_SETSPAWN_DESCRIPTION = "commands.setspawn.description";
         public static final String COMMAND_DELSPAWN_DESCRIPTION = "commands.delspawn.description";
@@ -235,6 +240,10 @@ public final class Keys {
         public static final String HELP_CHATCOLOR_DESCRIPTION = "help.commands.chatcolor.description";
         public static final String HELP_NICKCOLOR_ARGUMENTS = "help.commands.nickcolor.arguments";
         public static final String HELP_NICKCOLOR_DESCRIPTION = "help.commands.nickcolor.description";
+        public static final String HELP_BADGES_ARGUMENTS = "help.commands.badges.arguments";
+        public static final String HELP_BADGES_DESCRIPTION = "help.commands.badges.description";
+        public static final String HELP_BADGES_CUSTOM_ARGUMENTS = "help.commands.badges-custom.arguments";
+        public static final String HELP_BADGES_CUSTOM_DESCRIPTION = "help.commands.badges-custom.description";
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
@@ -521,6 +530,15 @@ public final class Keys {
         public static final String COSMETICS_NICK_COLOR_CUSTOM_SELECTED = "cosmetics.nick-color.custom-selected";
         public static final String COSMETICS_NICK_COLOR_CUSTOM_LOCKED = "cosmetics.nick-color.custom-locked";
         public static final String COSMETICS_NICK_COLOR_CUSTOM_HINT = "cosmetics.nick-color.custom-hint";
+        public static final String COSMETICS_BADGE_SELECTED = "cosmetics.badge.selected";
+        public static final String COSMETICS_BADGE_NOT_FOUND = "cosmetics.badge.not-found";
+        public static final String COSMETICS_BADGE_LOCKED = "cosmetics.badge.locked";
+        public static final String COSMETICS_BADGE_PREVIEW = "cosmetics.badge.preview";
+        public static final String COSMETICS_BADGE_PREVIEW_NONE = "cosmetics.badge.preview-none";
+        public static final String COSMETICS_BADGE_CUSTOM_SELECTED = "cosmetics.badge.custom-selected";
+        public static final String COSMETICS_BADGE_CUSTOM_LOCKED = "cosmetics.badge.custom-locked";
+        public static final String COSMETICS_BADGE_CUSTOM_INVALID = "cosmetics.badge.custom-invalid";
+        public static final String COSMETICS_BADGE_CUSTOM_HINT = "cosmetics.badge.custom-hint";
 
         // death-messages
         public static final String DEATH_MESSAGES_FORMAT = "death-messages.format";

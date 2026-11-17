@@ -24,6 +24,8 @@ commands:
     description: "Elige el color con el que escribes en el chat"
   nickcolor:
     description: "Elige el color de tu nombre"
+  badges:
+    description: "Elige la insignia que se muestra junto a tu nombre"
   spawn:
     description: "Teletranspórtate al spawn"
   setspawn:
@@ -171,6 +173,12 @@ help:
     nickcolor:
       arguments: "[color|#RRGGBB]"
       description: "Elige el color de tu nombre"
+    badges:
+      arguments: "[insignia]"
+      description: "Elige la insignia que se muestra junto a tu nombre"
+    badges-custom:
+      arguments: "\\<texto>"
+      description: "Crea y equipa tu propia insignia (los códigos de color no cuentan)"
     spawn:
       description: "Teletranspórtate al spawn"
     setspawn:
@@ -593,6 +601,22 @@ cosmetics:
     custom-hint: "<prefix><white>Escribe <click:suggest_command:'/chatcolor #'><hover:show_text:'<gray>Clic para autocompletar'><light_purple>/chatcolor #RRGGBB</light_purple></hover></click> <white>con el color que quieras, por ejemplo <#FF5555>#FF5555</#FF5555><white>."
     # Sample text shown in each icon of the menu, written in its color.
     preview: "¡Hola, Voidaris!"
+  badge:
+    selected: "<prefix><white>Equipaste la insignia <cosmetic><white>."
+    not-found: "<prefix><white>No existe la insignia <light_purple><id></light_purple>."
+    locked: "<prefix><white>No tienes desbloqueada la insignia <cosmetic><white>."
+    # Menu preview of each badge. <preview_badge> is the badge (with the separator of cosmetics.yml); also supports the
+    # placeholders of chat-format.yml.
+    preview: "<preview_badge><white><nickname>"
+    # Menu preview of a badge whose format is empty (such as none).
+    preview-none: "<gray>No se mostrará ninguna insignia."
+    # <custom_badge> is the custom badge as shown.
+    custom-selected: "<prefix><white>Equipaste tu insignia <custom_badge><white>."
+    custom-locked: "<prefix><white>No tienes desbloqueadas las insignias personalizadas."
+    # <max> is badges.custom.max-length of cosmetics.yml.
+    custom-invalid: "<prefix><white>Tu insignia debe tener entre 1 y <light_purple><max></light_purple> caracteres; los códigos de color como <light_purple>&a</light_purple> no cuentan."
+    # Sent when clicking the custom badge icon of the menu. Placeholders: <max>, <custom_badge>.
+    custom-hint: "<prefix><white>Escribe <click:suggest_command:'/badges custom '><hover:show_text:'<gray>Clic para autocompletar'><light_purple>/badges custom \\<texto></light_purple></hover></click> <white>con hasta <light_purple><max></light_purple> caracteres. Puedes usar colores como <light_purple>&a</light_purple>, <light_purple>&k</light_purple> o <light_purple>&#FF5555</light_purple>."
   nick-color:
     selected: "<prefix><white>Ahora tu nombre se muestra con el color <cosmetic><white>."
     not-found: "<prefix><white>No existe el color <light_purple><id></light_purple>. Usa un color del menú o un hexadecimal como <light_purple>#FF5555</light_purple>."

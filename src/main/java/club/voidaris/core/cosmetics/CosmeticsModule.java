@@ -2,10 +2,14 @@ package club.voidaris.core.cosmetics;
 
 import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
+import club.voidaris.core.message.LegacyColors;
 import club.voidaris.core.module.Module;
 import club.voidaris.core.storage.Database;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -25,10 +29,16 @@ public final class CosmeticsModule extends Module {
     static final String TELEPORT_PARTICLE_SLOT = "teleport-particle";
     static final String AURA_SLOT = "aura";
     static final String JOIN_EFFECT_SLOT = "join-effect";
+    /** Stored in the badge slot when the player wears the badge they wrote, which lives in {@link #CUSTOM_BADGE_SLOT}. */
+    static final String CUSTOM_BADGE_ID = "custom";
+    static final String CUSTOM_BADGE_SLOT = "custom-badge";
+    /** Size of cosmetic_selections.cosmetic_id. */
+    static final int MAX_STORED_LENGTH = 64;
 
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
     private final JavaPlugin plugin;
+    private final ConfigManager configs;
     private final Selections selections;
     private final Map<MessageCategory, MessageCosmetics> messageCosmetics = new EnumMap<>(MessageCategory.class);
     private final TeleportParticles teleportParticles;
@@ -40,6 +50,7 @@ public final class CosmeticsModule extends Module {
     public CosmeticsModule(JavaPlugin plugin, ConfigManager configs, Database database) {
         super("cosmetics");
         this.plugin = plugin;
+        this.configs = configs;
         this.selections = new Selections(database, plugin.getLogger());
         for (MessageCategory category : MessageCategory.values()) {
             messageCosmetics.put(category, new MessageCosmetics(configs, plugin.getLogger(), category));
@@ -111,6 +122,9 @@ public final class CosmeticsModule extends Module {
     Optional<String> equipped(Player player, MessageCategory category) {
         if (!isEnabled()) {
             return Optional.empty();
+        }
+        if (category == MessageCategory.BADGE && customBadgeEquipped(player)) {
+            return Optional.of(CUSTOM_BADGE_ID);
         }
         var cosmetics = messageCosmetics.get(category);
         return selections.get(player.getUniqueId(), category.slot)
@@ -203,6 +217,69 @@ public final class CosmeticsModule extends Module {
         return color(player, ColorCategory.NICK)
                 .map(color -> MINI_MESSAGE.deserialize(color + MINI_MESSAGE.escapeTags(player.getName())))
                 .orElseGet(() -> Component.text(player.getName()));
+    }
+
+    /**
+     * The player's equipped badge followed by badges.separator, or empty when they have none.
+     */
+    public Component badge(Player player) {
+        if (customBadgeEquipped(player)) {
+            return customBadge(player).map(text -> withSeparator(customBadgeContent(text))).orElse(Component.empty());
+        }
+        return equippedFormat(player, MessageCategory.BADGE).map(this::renderBadge).orElse(Component.empty());
+    }
+
+    /**
+     * A badge format as it is shown, or empty for an empty format (such as none).
+     */
+    Component renderBadge(String format) {
+        return format.isBlank() ? Component.empty() : withSeparator(MINI_MESSAGE.deserialize(format));
+    }
+
+    Component withSeparator(Component badge) {
+        // Siblings rather than badge.append, so an unclosed style of the badge (such as obfuscated) does not reach it.
+        return Component.textOfChildren(badge,
+                MINI_MESSAGE.deserialize(configs.cosmetics().get().getString("badges.separator", " ")));
+    }
+
+    /**
+     * The badge the player wrote, kept even while they wear another one. Empty without the permission.
+     */
+    Optional<String> customBadge(Player player) {
+        return player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_BADGE)
+                ? selections.get(player.getUniqueId(), CUSTOM_BADGE_SLOT)
+                : Optional.empty();
+    }
+
+    boolean customBadgeEquipped(Player player) {
+        return isEnabled() && selections.get(player.getUniqueId(), MessageCategory.BADGE.slot)
+                .filter(CUSTOM_BADGE_ID::equals).isPresent() && customBadge(player).isPresent();
+    }
+
+    int customBadgeMaxLength() {
+        return Math.max(1, configs.cosmetics().get().getInt("badges.custom.max-length", 5));
+    }
+
+    // Players type & codes as in chat; any MiniMessage tag they type is shown as text.
+    static Component customBadgeContent(String text) {
+        return MINI_MESSAGE.deserialize(LegacyColors.toMiniMessage(MINI_MESSAGE.escapeTags(text)));
+    }
+
+    /**
+     * Characters shown in chat, so color and format codes do not count towards the limit.
+     */
+    static int visibleLength(String text) {
+        String plain = PlainTextComponentSerializer.plainText().serialize(customBadgeContent(text));
+        return plain.codePointCount(0, plain.length());
+    }
+
+    /**
+     * {@code <nickname>} and {@code <badge>}, available in every format rendered for the player.
+     */
+    public TagResolver placeholders(Player player) {
+        return TagResolver.resolver(
+                Placeholder.component("nickname", nickname(player)),
+                Placeholder.component("badge", badge(player)));
     }
 
     private Optional<String> color(Player player, ColorCategory category) {

@@ -573,6 +573,138 @@ permissions:
   voidaris.cosmetics.customnickcolor:
     description: Pick any hex nick color with /nickcolor #RRGGBB.
     default: false
+  voidaris.cosmetics.badge.none:
+    description: Equip the none badge.
+    default: true
+  voidaris.cosmetics.badge.heart:
+    description: Equip the heart badge.
+    default: false
+  voidaris.cosmetics.badge.star:
+    description: Equip the star badge.
+    default: false
+  voidaris.cosmetics.badge.sparkle:
+    description: Equip the sparkle badge.
+    default: false
+  voidaris.cosmetics.badge.skull:
+    description: Equip the skull badge.
+    default: false
+  voidaris.cosmetics.badge.lightning:
+    description: Equip the lightning badge.
+    default: false
+  voidaris.cosmetics.badge.sun:
+    description: Equip the sun badge.
+    default: false
+  voidaris.cosmetics.badge.snowman:
+    description: Equip the snowman badge.
+    default: false
+  voidaris.cosmetics.badge.music:
+    description: Equip the music badge.
+    default: false
+  voidaris.cosmetics.badge.flower:
+    description: Equip the flower badge.
+    default: false
+  voidaris.cosmetics.badge.yinyang:
+    description: Equip the yinyang badge.
+    default: false
+  voidaris.cosmetics.badge.smile:
+    description: Equip the smile badge.
+    default: false
+  voidaris.cosmetics.badge.swords:
+    description: Equip the swords badge.
+    default: false
+  voidaris.cosmetics.badge.pickaxe:
+    description: Equip the pickaxe badge.
+    default: false
+  voidaris.cosmetics.badge.umbrella:
+    description: Equip the umbrella badge.
+    default: false
+  voidaris.cosmetics.badge.anchor:
+    description: Equip the anchor badge.
+    default: false
+  voidaris.cosmetics.badge.peace:
+    description: Equip the peace badge.
+    default: false
+  voidaris.cosmetics.badge.mexico:
+    description: Equip the mexico badge.
+    default: false
+  voidaris.cosmetics.badge.argentina:
+    description: Equip the argentina badge.
+    default: false
+  voidaris.cosmetics.badge.spain:
+    description: Equip the spain badge.
+    default: false
+  voidaris.cosmetics.badge.colombia:
+    description: Equip the colombia badge.
+    default: false
+  voidaris.cosmetics.badge.chile:
+    description: Equip the chile badge.
+    default: false
+  voidaris.cosmetics.badge.peru:
+    description: Equip the peru badge.
+    default: false
+  voidaris.cosmetics.badge.venezuela:
+    description: Equip the venezuela badge.
+    default: false
+  voidaris.cosmetics.badge.ecuador:
+    description: Equip the ecuador badge.
+    default: false
+  voidaris.cosmetics.badge.uruguay:
+    description: Equip the uruguay badge.
+    default: false
+  voidaris.cosmetics.badge.bolivia:
+    description: Equip the bolivia badge.
+    default: false
+  voidaris.cosmetics.badge.guatemala:
+    description: Equip the guatemala badge.
+    default: false
+  voidaris.cosmetics.badge.usa:
+    description: Equip the usa badge.
+    default: false
+  voidaris.cosmetics.badge.crown:
+    description: Equip the crown badge.
+    default: false
+  voidaris.cosmetics.badge.diamond:
+    description: Equip the diamond badge.
+    default: false
+  voidaris.cosmetics.badge.blossom:
+    description: Equip the blossom badge.
+    default: false
+  voidaris.cosmetics.badge.snowflake:
+    description: Equip the snowflake badge.
+    default: false
+  voidaris.cosmetics.badge.comet:
+    description: Equip the comet badge.
+    default: false
+  voidaris.cosmetics.badge.moon:
+    description: Equip the moon badge.
+    default: false
+  voidaris.cosmetics.badge.infinity:
+    description: Equip the infinity badge.
+    default: false
+  voidaris.cosmetics.badge.trident:
+    description: Equip the trident badge.
+    default: false
+  voidaris.cosmetics.badge.burst:
+    description: Equip the burst badge.
+    default: false
+  voidaris.cosmetics.badge.love:
+    description: Equip the love badge.
+    default: false
+  voidaris.cosmetics.badge.voidaris:
+    description: Equip the voidaris badge.
+    default: false
+  voidaris.cosmetics.badge.voidaris_dark:
+    description: Equip the voidaris dark badge.
+    default: false
+  voidaris.cosmetics.badge.voidaris_star:
+    description: Equip the voidaris star badge.
+    default: false
+  voidaris.cosmetics.badge.event:
+    description: Equip the event badge.
+    default: false
+  voidaris.cosmetics.custombadge:
+    description: Write and equip a custom badge with /badges custom.
+    default: false
   voidaris.cosmetics.killmessage.default:
     description: Equip the default kill message.
     default: true
