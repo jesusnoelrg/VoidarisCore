@@ -13,6 +13,7 @@ import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -72,7 +73,7 @@ public final class MenuLoader {
     }
 
     /**
-     * Builds the item with the display_name, lore and glow of the section, using material instead of the section's one.
+     * Builds the item with the display_name, lore, glow and item_flags of the section, using material instead of the section's one.
      *
      * @return empty when the material is invalid (a warning is logged)
      */
@@ -91,6 +92,13 @@ public final class MenuLoader {
         }
         if (section.getBoolean("glow")) {
             meta.setEnchantmentGlintOverride(true);
+        }
+        for (String flag : section.getStringList("item_flags")) {
+            try {
+                meta.addItemFlags(ItemFlag.valueOf(flag.toUpperCase(Locale.ROOT)));
+            } catch (IllegalArgumentException e) {
+                logger.warning("Unknown item flag '" + flag + "' in menu item " + section.getCurrentPath());
+            }
         }
         item.setItemMeta(meta);
         return Optional.of(item);

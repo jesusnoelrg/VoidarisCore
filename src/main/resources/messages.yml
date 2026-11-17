@@ -158,6 +158,9 @@ help:
     cosmetics-aura:
       arguments: "[aura]"
       description: "Equipa un aura de rastro"
+    cosmetics-joineffect:
+      arguments: "[efecto]"
+      description: "Equipa un efecto de entrada"
     spawn:
       description: "Teletranspórtate al spawn"
     setspawn:
@@ -565,6 +568,10 @@ cosmetics:
     selected: "<prefix><white>Equipaste el aura <cosmetic><white>."
     not-found: "<prefix><white>No existe el aura <light_purple><id></light_purple>."
     locked: "<prefix><white>No tienes desbloqueada el aura <cosmetic><white>."
+  join-effect:
+    selected: "<prefix><white>Equipaste el efecto de entrada <cosmetic><white>."
+    not-found: "<prefix><white>No existe el efecto de entrada <light_purple><id></light_purple>."
+    locked: "<prefix><white>No tienes desbloqueado el efecto de entrada <cosmetic><white>."
 
 death-messages:
   # Wraps every translated death message. Kill messages equipped as cosmetics (cosmetics.yml) use their own format.

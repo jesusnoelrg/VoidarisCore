@@ -89,13 +89,31 @@ public record ParticleLayer(Particle particle, Shape shape, int count, double sp
     }
 
     void play(Plugin plugin, Player player, boolean visibleToOthers) {
-        Emitter emitter = (at, amount, offset, data) -> {
+        play(plugin, player, (at, amount, offset, data) -> {
             if (visibleToOthers) {
                 at.getWorld().spawnParticle(particle, at, amount, offset, offset, offset, speed, data, true);
             } else {
                 player.spawnParticle(particle, at, amount, offset, offset, offset, speed, data);
             }
-        };
+        });
+    }
+
+    /**
+     * Plays the layer for the players within {@code range} blocks who can see {@code player}.
+     */
+    void play(Plugin plugin, Player player, int range) {
+        play(plugin, player, (at, amount, offset, data) -> particle.builder()
+                .location(at)
+                .count(amount)
+                .offset(offset, offset, offset)
+                .speed(speed)
+                .data(data)
+                .source(player)
+                .receivers(range, true)
+                .spawn());
+    }
+
+    private void play(Plugin plugin, Player player, Emitter emitter) {
         if (shape == Shape.BURST || shape == Shape.TRAIL || duration <= 0) {
             draw(player, duration <= 0 ? 1 : duration, duration <= 0 ? 1 : duration, emitter);
             return;

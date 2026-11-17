@@ -408,6 +408,39 @@ permissions:
   voidaris.cosmetics.aura.event:
     description: Equip the event aura.
     default: false
+  voidaris.cosmetics.joineffect.none:
+    description: Equip the none join effect.
+    default: true
+  voidaris.cosmetics.joineffect.thunder:
+    description: Equip the thunder join effect.
+    default: false
+  voidaris.cosmetics.joineffect.firework:
+    description: Equip the firework join effect.
+    default: false
+  voidaris.cosmetics.joineffect.explosion:
+    description: Equip the explosion join effect.
+    default: false
+  voidaris.cosmetics.joineffect.colors:
+    description: Equip the colors join effect.
+    default: false
+  voidaris.cosmetics.joineffect.minerals:
+    description: Equip the minerals join effect.
+    default: false
+  voidaris.cosmetics.joineffect.discs:
+    description: Equip the discs join effect.
+    default: false
+  voidaris.cosmetics.joineffect.totems:
+    description: Equip the totems join effect.
+    default: false
+  voidaris.cosmetics.joineffect.voidaris:
+    description: Equip the Voidaris join effect.
+    default: false
+  voidaris.cosmetics.joineffect.spring:
+    description: Equip the spring join effect.
+    default: false
+  voidaris.cosmetics.joineffect.event:
+    description: Equip the event join effect.
+    default: false
   voidaris.cosmetics.killmessage.default:
     description: Equip the default kill message.
     default: true

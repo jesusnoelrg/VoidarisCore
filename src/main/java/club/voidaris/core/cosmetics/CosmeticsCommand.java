@@ -26,6 +26,7 @@ public final class CosmeticsCommand {
     private static final String KILL_MESSAGE = "killmessage";
     private static final String TELEPORT_PARTICLE = "teleportparticle";
     private static final String AURA = "aura";
+    private static final String JOIN_EFFECT = "joineffect";
     private static final String ARGUMENT = "cosmetic";
 
     private final CosmeticsModule module;
@@ -34,6 +35,7 @@ public final class CosmeticsCommand {
     private final MessageCosmeticsMenu killMessagesMenu;
     private final TeleportParticlesMenu particlesMenu;
     private final AurasMenu aurasMenu;
+    private final JoinEffectsMenu joinEffectsMenu;
 
     public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
                             PlayerFormatter formatter, MenuLoader loader) {
@@ -48,6 +50,7 @@ public final class CosmeticsCommand {
                                 messages.get(Keys.Message.COSMETICS_KILL_MESSAGE_PREVIEW_VICTIM))));
         this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
         this.aurasMenu = new AurasMenu(plugin, configs, module, messages, loader);
+        this.joinEffectsMenu = new JoinEffectsMenu(plugin, configs, module, messages, loader);
     }
 
     public LiteralCommandNode<CommandSourceStack> build() {
@@ -75,6 +78,16 @@ public final class CosmeticsCommand {
                                     return builder.buildFuture();
                                 })
                                 .executes(this::selectAura)))
+                .then(Commands.literal(JOIN_EFFECT)
+                        .executes(this::openJoinEffects)
+                        .then(Commands.argument(ARGUMENT, StringArgumentType.word())
+                                .suggests((context, builder) -> {
+                                    if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
+                                        module.joinEffects().usable(player).forEach(effect -> builder.suggest(effect.id()));
+                                    }
+                                    return builder.buildFuture();
+                                })
+                                .executes(this::selectJoinEffect)))
                 .build();
     }
 
@@ -93,7 +106,10 @@ public final class CosmeticsCommand {
                         Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION, null, module),
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + AURA,
                         Keys.Message.HELP_COSMETICS_AURA_ARGUMENTS,
-                        Keys.Message.HELP_COSMETICS_AURA_DESCRIPTION, null, module));
+                        Keys.Message.HELP_COSMETICS_AURA_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + JOIN_EFFECT,
+                        Keys.Message.HELP_COSMETICS_JOIN_EFFECT_ARGUMENTS,
+                        Keys.Message.HELP_COSMETICS_JOIN_EFFECT_DESCRIPTION, null, module));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> messageLiteral(String literal, MessageCosmeticsMenu menu,
@@ -206,6 +222,40 @@ public final class CosmeticsCommand {
         }
         module.selections().select(player.getUniqueId(), CosmeticsModule.AURA_SLOT, id)
                 .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_AURA_SELECTED, name))
+                .exceptionally(e -> {
+                    messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
+                    return null;
+                });
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int openJoinEffects(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        joinEffectsMenu.open(player);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int selectJoinEffect(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        String id = StringArgumentType.getString(context, ARGUMENT);
+        var effect = module.joinEffects().find(id);
+        if (effect.isEmpty()) {
+            messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_NOT_FOUND, Placeholder.unparsed("id", id));
+            return 0;
+        }
+        var name = Placeholder.parsed("cosmetic", effect.get().name());
+        if (!player.hasPermission(Keys.Permission.COSMETICS_JOIN_EFFECT + id)) {
+            messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_LOCKED, name);
+            return 0;
+        }
+        module.selections().select(player.getUniqueId(), CosmeticsModule.JOIN_EFFECT_SLOT, id)
+                .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_SELECTED, name))
                 .exceptionally(e -> {
                     messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
                     return null;
