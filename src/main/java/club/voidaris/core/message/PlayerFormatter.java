@@ -12,15 +12,15 @@ public final class PlayerFormatter {
 
     private final Messages messages;
     private final Integrations integrations;
-    private final Function<Player, Component> nickname;
+    private final Function<Player, TagResolver> cosmetics;
 
     /**
-     * @param nickname what {@code <nickname>} resolves to: the player's name in their nick color cosmetic
+     * @param cosmetics the placeholders of the player's cosmetics, such as {@code <nickname>} and {@code <badge>}
      */
-    public PlayerFormatter(Messages messages, Integrations integrations, Function<Player, Component> nickname) {
+    public PlayerFormatter(Messages messages, Integrations integrations, Function<Player, TagResolver> cosmetics) {
         this.messages = messages;
         this.integrations = integrations;
-        this.nickname = nickname;
+        this.cosmetics = cosmetics;
     }
 
     public Component format(Player player, String raw, TagResolver... extra) {
@@ -34,7 +34,7 @@ public final class PlayerFormatter {
         // PlaceholderAPI runs first so its values can carry MiniMessage tags; the name stays unparsed to block tag injection.
         return messages.parse(integrations.setPlaceholders(player, raw),
                 Placeholder.component("player", name),
-                Placeholder.component("nickname", nickname.apply(player)),
+                cosmetics.apply(player),
                 Placeholder.component("displayname", player.displayName()),
                 Placeholder.parsed("prefix_lp", integrations.prefix(player)),
                 Placeholder.parsed("suffix_lp", integrations.suffix(player)),

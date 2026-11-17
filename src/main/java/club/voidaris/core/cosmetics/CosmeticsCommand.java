@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public final class CosmeticsCommand {
 
@@ -32,6 +33,10 @@ public final class CosmeticsCommand {
     private static final String TELEPORT_PARTICLE = "teleportparticle";
     private static final String AURA = "aura";
     private static final String JOIN_EFFECT = "joineffect";
+    private static final String BADGE = "badge";
+    private static final String BADGES = "badges";
+    private static final String CUSTOM = "custom";
+    private static final String TEXT_ARGUMENT = "text";
     private static final String ARGUMENT = "cosmetic";
     private static final String COLOR_ARGUMENT = "color";
 
@@ -39,6 +44,7 @@ public final class CosmeticsCommand {
     private final Messages messages;
     private final MessageCosmeticsMenu joinMessagesMenu;
     private final MessageCosmeticsMenu killMessagesMenu;
+    private final BadgesMenu badgesMenu;
     private final TeleportParticlesMenu particlesMenu;
     private final AurasMenu aurasMenu;
     private final JoinEffectsMenu joinEffectsMenu;
@@ -55,6 +61,12 @@ public final class CosmeticsCommand {
                 MessageCategory.KILL, (player, format) -> formatter.format(player, format,
                         KillMessagePlaceholders.of(messages, player,
                                 messages.get(Keys.Message.COSMETICS_KILL_MESSAGE_PREVIEW_VICTIM))));
+        // <preview_badge> rather than <badge>, which the formatter already resolves to the badge the player has equipped.
+        var badgeListMenu = new MessageCosmeticsMenu(plugin, configs, module, messages, loader,
+                MessageCategory.BADGE, (player, format) -> formatter.format(player,
+                        messages.raw(Keys.Message.COSMETICS_BADGE_PREVIEW),
+                        Placeholder.component("preview_badge", module.renderBadge(format))));
+        this.badgesMenu = new BadgesMenu(plugin, configs, module, messages, loader, badgeListMenu);
         this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
         this.aurasMenu = new AurasMenu(plugin, configs, module, messages, loader);
         this.joinEffectsMenu = new JoinEffectsMenu(plugin, configs, module, messages, loader);
@@ -68,6 +80,7 @@ public final class CosmeticsCommand {
                 .executes(context -> open(context, joinMessagesMenu))
                 .then(messageLiteral(JOIN_MESSAGE, joinMessagesMenu, MessageCategory.JOIN))
                 .then(messageLiteral(KILL_MESSAGE, killMessagesMenu, MessageCategory.KILL))
+                .then(badgeLiteral(BADGE, "/" + NAME + " " + BADGE))
                 .then(Commands.literal(TELEPORT_PARTICLE)
                         .executes(this::openTeleportParticles)
                         .then(Commands.argument(ARGUMENT, StringArgumentType.word())
@@ -104,9 +117,11 @@ public final class CosmeticsCommand {
     }
 
     /**
-     * Registers /chatcolor and /nickcolor, shortcuts to their /cosmetics subcommands.
+     * Registers /badges, /chatcolor and /nickcolor, shortcuts to their /cosmetics subcommands.
      */
-    public void registerColorCommands(Commands registrar) {
+    public void registerShortcuts(Commands registrar) {
+        registrar.register(badgeLiteral(BADGES, "/" + BADGES).build(),
+                messages.raw(Keys.Message.COMMAND_BADGES_DESCRIPTION), List.of("insignias"));
         for (ColorCategory category : ColorCategory.values()) {
             registrar.register(colorLiteral(category, "/" + category.command).build(),
                     messages.raw(category.commandDescription), List.of(category.alias));
@@ -132,8 +147,91 @@ public final class CosmeticsCommand {
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + JOIN_EFFECT,
                         Keys.Message.HELP_COSMETICS_JOIN_EFFECT_ARGUMENTS,
                         Keys.Message.HELP_COSMETICS_JOIN_EFFECT_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + BADGES,
+                        Keys.Message.HELP_BADGES_ARGUMENTS,
+                        Keys.Message.HELP_BADGES_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + BADGES + " " + CUSTOM,
+                        Keys.Message.HELP_BADGES_CUSTOM_ARGUMENTS,
+                        Keys.Message.HELP_BADGES_CUSTOM_DESCRIPTION, null, module),
                 colorHelpEntry(ColorCategory.CHAT),
                 colorHelpEntry(ColorCategory.NICK));
+    }
+
+    // The custom literal wins over the badge id argument, so "custom" cannot be a badge id (see CosmeticsModule).
+    private LiteralArgumentBuilder<CommandSourceStack> badgeLiteral(String literal, String command) {
+        return Commands.literal(literal)
+                .executes(this::openBadges)
+                .then(Commands.literal(CUSTOM)
+                        .executes(context -> equipCustomBadge(context, command + " " + CUSTOM))
+                        .then(Commands.argument(TEXT_ARGUMENT, StringArgumentType.greedyString())
+                                .executes(this::createCustomBadge)))
+                .then(Commands.argument(ARGUMENT, StringArgumentType.word())
+                        .suggests((context, builder) -> {
+                            if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
+                                module.messageCosmetics(MessageCategory.BADGE).usable(player)
+                                        .forEach(badge -> builder.suggest(badge.id()));
+                            }
+                            return builder.buildFuture();
+                        })
+                        .executes(context -> selectMessage(context, MessageCategory.BADGE)));
+    }
+
+    private int openBadges(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        badgesMenu.open(player);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int equipCustomBadge(CommandContext<CommandSourceStack> context, String command) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        if (!player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_BADGE)) {
+            messages.send(player, Keys.Message.COSMETICS_BADGE_CUSTOM_LOCKED);
+            return 0;
+        }
+        var text = module.customBadge(player);
+        if (text.isEmpty()) {
+            return CommandUsage.send(messages, player, command, Keys.Message.HELP_BADGES_CUSTOM_ARGUMENTS);
+        }
+        return saveCustomBadge(player, module.selections()
+                .select(player.getUniqueId(), MessageCategory.BADGE.slot, CosmeticsModule.CUSTOM_BADGE_ID), text.get());
+    }
+
+    private int createCustomBadge(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        if (!player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_BADGE)) {
+            messages.send(player, Keys.Message.COSMETICS_BADGE_CUSTOM_LOCKED);
+            return 0;
+        }
+        String text = StringArgumentType.getString(context, TEXT_ARGUMENT).strip();
+        int max = module.customBadgeMaxLength();
+        int length = CosmeticsModule.visibleLength(text);
+        if (length == 0 || length > max || text.length() > CosmeticsModule.MAX_STORED_LENGTH) {
+            messages.send(player, Keys.Message.COSMETICS_BADGE_CUSTOM_INVALID, Placeholder.unparsed("max", String.valueOf(max)));
+            return 0;
+        }
+        var selections = module.selections();
+        return saveCustomBadge(player, selections.select(player.getUniqueId(), CosmeticsModule.CUSTOM_BADGE_SLOT, text)
+                .thenCompose(ignored -> selections.select(player.getUniqueId(), MessageCategory.BADGE.slot,
+                        CosmeticsModule.CUSTOM_BADGE_ID)), text);
+    }
+
+    private int saveCustomBadge(Player player, CompletableFuture<Void> save, String text) {
+        var badge = Placeholder.component("custom_badge", module.withSeparator(CosmeticsModule.customBadgeContent(text)));
+        save.thenRun(() -> messages.send(player, Keys.Message.COSMETICS_BADGE_CUSTOM_SELECTED, badge))
+                .exceptionally(e -> {
+                    messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
+                    return null;
+                });
+        return Command.SINGLE_SUCCESS;
     }
 
     private HelpEntry colorHelpEntry(ColorCategory category) {

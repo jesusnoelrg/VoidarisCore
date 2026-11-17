@@ -7,7 +7,7 @@ import club.voidaris.core.config.ConfigManager;
 import java.util.function.Function;
 
 /**
- * Cosmetic categories made of MiniMessage formats under {@code <section>.cosmetics} in cosmetics.yml.
+ * Cosmetic categories made of MiniMessage formats (badges are formats too, shown before the name) under {@code <section>.cosmetics} in cosmetics.yml.
  *
  * @param slot       the selection slot stored in the database
  * @param guiSection the section of the menu file that holds the icon template
@@ -21,7 +21,11 @@ enum MessageCategory {
     KILL("kill-messages", "kill-message", Keys.Permission.COSMETICS_KILL_MESSAGE,
             ConfigManager::killMessagesGui, "kill_messages",
             Keys.Message.COSMETICS_KILL_MESSAGE_SELECTED, Keys.Message.COSMETICS_KILL_MESSAGE_NOT_FOUND,
-            Keys.Message.COSMETICS_KILL_MESSAGE_LOCKED, Keys.Message.COSMETICS_KILL_MESSAGE_PREVIEW_DEFAULT);
+            Keys.Message.COSMETICS_KILL_MESSAGE_LOCKED, Keys.Message.COSMETICS_KILL_MESSAGE_PREVIEW_DEFAULT),
+    BADGE("badges", "badge", Keys.Permission.COSMETICS_BADGE,
+            ConfigManager::badgeListGui, "badges",
+            Keys.Message.COSMETICS_BADGE_SELECTED, Keys.Message.COSMETICS_BADGE_NOT_FOUND,
+            Keys.Message.COSMETICS_BADGE_LOCKED, Keys.Message.COSMETICS_BADGE_PREVIEW_NONE);
 
     final String section;
     final String slot;

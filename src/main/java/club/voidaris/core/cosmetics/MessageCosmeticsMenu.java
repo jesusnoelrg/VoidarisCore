@@ -51,17 +51,25 @@ final class MessageCosmeticsMenu {
     }
 
     void open(Player player) {
-        var menu = loader.load(category.gui.apply(configs).get(), player);
-        renderPage(menu, player, 0);
+        var template = category.gui.apply(configs).get().getConfigurationSection(category.guiSection);
+        open(player, template == null ? null : template.getConfigurationSection("icons"));
+    }
+
+    /**
+     * @param icons     the {@code <id>: <material>} icons to list, which may come from another file (such as a tag section)
+     * @param resolvers placeholders available in the title and the static items
+     */
+    void open(Player player, ConfigurationSection icons, TagResolver... resolvers) {
+        var menu = loader.load(category.gui.apply(configs).get(), player, resolvers);
+        renderPage(menu, player, icons, 0);
         player.openInventory(menu.getInventory());
     }
 
-    private void renderPage(Menu menu, Player player, int page) {
+    private void renderPage(Menu menu, Player player, ConfigurationSection icons, int page) {
         var file = category.gui.apply(configs).get();
         var template = file.getConfigurationSection(category.guiSection);
-        var icons = template == null ? null : template.getConfigurationSection("icons");
         List<MenuEntry> entries = new ArrayList<>();
-        if (icons != null) {
+        if (template != null && icons != null) {
             String equipped = module.equipped(player, category).orElse(null);
             for (String id : icons.getKeys(false)) {
                 // Unknown or out-of-season cosmetics are skipped so they leave no gap in the page.
@@ -69,14 +77,14 @@ final class MessageCosmeticsMenu {
                     Status status = id.equals(equipped) ? Status.SELECTED
                             : player.hasPermission(category.permission + id) ? Status.AVAILABLE
                             : Status.LOCKED;
-                    entry(menu, player, page, template, icons.getString(id), message, status).ifPresent(entries::add);
+                    entry(menu, player, icons, page, template, icons.getString(id), message, status).ifPresent(entries::add);
                 });
             }
         }
-        loader.page(menu, file, player, entries, page, newPage -> renderPage(menu, player, newPage));
+        loader.page(menu, file, player, entries, page, newPage -> renderPage(menu, player, icons, newPage));
     }
 
-    private Optional<MenuEntry> entry(Menu menu, Player player, int page, ConfigurationSection template,
+    private Optional<MenuEntry> entry(Menu menu, Player player, ConfigurationSection icons, int page, ConfigurationSection template,
                                       String material, MessageCosmetic message, Status status) {
         TagResolver resolvers = Placeholder.parsed("cosmetic", message.name());
         var preview = LoreWrapper.wrap(preview(player, message), template.getInt("preview_width", DEFAULT_PREVIEW_WIDTH));
@@ -98,7 +106,7 @@ final class MessageCosmeticsMenu {
                     meta.setEnchantmentGlintOverride(true);
                 }
             });
-            return new MenuEntry(item, event -> click(menu, player, page, template, message, status));
+            return new MenuEntry(item, event -> click(menu, player, icons, page, template, message, status));
         });
     }
 
@@ -108,7 +116,8 @@ final class MessageCosmeticsMenu {
                 : preview.apply(player, message.format());
     }
 
-    private void click(Menu menu, Player player, int page, ConfigurationSection template, MessageCosmetic message, Status status) {
+    private void click(Menu menu, Player player, ConfigurationSection icons, int page, ConfigurationSection template,
+                       MessageCosmetic message, Status status) {
         if (!module.isEnabled()) {
             player.closeInventory();
             return;
@@ -131,7 +140,7 @@ final class MessageCosmeticsMenu {
                         loader.run(player, template.getStringList("select_commands"));
                         // Redraws the page so the glow and the selected lore move to the new choice.
                         if (player.getOpenInventory().getTopInventory().getHolder(false) == menu) {
-                            renderPage(menu, player, page);
+                            renderPage(menu, player, icons, page);
                         }
                     }, null));
         }

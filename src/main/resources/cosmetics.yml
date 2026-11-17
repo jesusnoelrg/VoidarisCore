@@ -887,3 +887,160 @@ nick-colors:
       name: "<rainbow>Arcoíris</rainbow>"
       premium: true
       color: "<rainbow>"
+
+badges:
+  # A symbol shown before the player's name wherever <badge> is used (chat formats of chat-format.yml, join and kill
+  # messages) and in the PlaceholderAPI placeholder %voidaris_badge% (e.g. for TAB), which uses &#RRGGBB colors.
+  # Each cosmetic is unlocked with voidaris.cosmetics.badge.<id> (give it to ranks in LuckPerms).
+  # Players who never picked one, or lost the one they picked, use this cosmetic if they own it, and no badge otherwise.
+  # The sections of the menu (common, countries, exclusive) are set in guis/badges.yml.
+  default-selection: none
+  # Added after the badge only when the player has one, so formats can write <badge><player> without a double space.
+  separator: " "
+  custom:
+    # Players with voidaris.cosmetics.custombadge write their own badge with /badges custom <text>, using & color codes
+    # (&a, &k, &#RRGGBB...) like in chat. Codes do not count towards this limit of visible characters.
+    max-length: 5
+  # name: shown in /badges. format: the badge in MiniMessage; an empty format ("") shows no badge.
+  # seasons: same as in join-messages. The id custom is reserved for custom badges.
+  cosmetics:
+    none:
+      name: "<gray>Ninguna"
+      format: ""
+    # Common symbols
+    heart:
+      name: "<red>Corazón"
+      format: "<red>❤"
+    star:
+      name: "<yellow>Estrella"
+      format: "<yellow>★"
+    sparkle:
+      name: "<light_purple>Destello"
+      format: "<light_purple>✦"
+    skull:
+      name: "<gray>Calavera"
+      format: "<gray>☠"
+    lightning:
+      name: "<gold>Rayo"
+      format: "<gold>⚡"
+    sun:
+      name: "<yellow>Sol"
+      format: "<yellow>☀"
+    snowman:
+      name: "<white>Muñeco de nieve"
+      format: "<white>☃"
+    music:
+      name: "<aqua>Música"
+      format: "<aqua>♫"
+    flower:
+      name: "<light_purple>Flor"
+      format: "<light_purple>✿"
+    yinyang:
+      name: "<white>Yin yang"
+      format: "<white>☯"
+    smile:
+      name: "<yellow>Sonrisa"
+      format: "<yellow>☺"
+    swords:
+      name: "<red>Espadas"
+      format: "<red>⚔"
+    pickaxe:
+      name: "<gray>Pico"
+      format: "<gray>⛏"
+    umbrella:
+      name: "<blue>Paraguas"
+      format: "<blue>☂"
+    anchor:
+      name: "<dark_aqua>Ancla"
+      format: "<dark_aqua>⚓"
+    peace:
+      name: "<green>Paz"
+      format: "<green>☮"
+    # Countries: their ISO code (3 letters at most) inside brackets
+    mexico:
+      name: "<gradient:#006847:#FFFFFF:#CE1126>México</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#006847:#FFFFFF:#CE1126>MEX</gradient><dark_gray>]</dark_gray>"
+    argentina:
+      name: "<gradient:#74ACDF:#FFFFFF:#74ACDF>Argentina</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#74ACDF:#FFFFFF:#74ACDF>ARG</gradient><dark_gray>]</dark_gray>"
+    spain:
+      name: "<gradient:#AA151B:#F1BF00:#AA151B>España</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#AA151B:#F1BF00:#AA151B>ESP</gradient><dark_gray>]</dark_gray>"
+    colombia:
+      name: "<gradient:#FCD116:#003893:#CE1126>Colombia</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#FCD116:#003893:#CE1126>COL</gradient><dark_gray>]</dark_gray>"
+    chile:
+      name: "<gradient:#0039A6:#FFFFFF:#D52B1E>Chile</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#0039A6:#FFFFFF:#D52B1E>CHL</gradient><dark_gray>]</dark_gray>"
+    peru:
+      name: "<gradient:#D91023:#FFFFFF:#D91023>Perú</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#D91023:#FFFFFF:#D91023>PER</gradient><dark_gray>]</dark_gray>"
+    venezuela:
+      name: "<gradient:#FFCC00:#00247D:#CF142B>Venezuela</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#FFCC00:#00247D:#CF142B>VEN</gradient><dark_gray>]</dark_gray>"
+    ecuador:
+      name: "<gradient:#FFDD00:#034EA2:#ED1C24>Ecuador</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#FFDD00:#034EA2:#ED1C24>ECU</gradient><dark_gray>]</dark_gray>"
+    uruguay:
+      name: "<gradient:#0038A8:#FFFFFF:#0038A8>Uruguay</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#0038A8:#FFFFFF:#0038A8>URY</gradient><dark_gray>]</dark_gray>"
+    bolivia:
+      name: "<gradient:#D52B1E:#F9E300:#007934>Bolivia</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#D52B1E:#F9E300:#007934>BOL</gradient><dark_gray>]</dark_gray>"
+    guatemala:
+      name: "<gradient:#4997D0:#FFFFFF:#4997D0>Guatemala</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#4997D0:#FFFFFF:#4997D0>GTM</gradient><dark_gray>]</dark_gray>"
+    usa:
+      name: "<gradient:#B22234:#FFFFFF:#3C3B6E>Estados Unidos</gradient>"
+      format: "<dark_gray>[</dark_gray><gradient:#B22234:#FFFFFF:#3C3B6E>USA</gradient><dark_gray>]</dark_gray>"
+    # Exclusive
+    crown:
+      name: "<gradient:#FFD700:#FF8C00>Corona real</gradient>"
+      format: "<gradient:#FFD700:#FF8C00>♛</gradient>"
+    diamond:
+      name: "<gradient:#00F2FE:#4FACFE>Diamante</gradient>"
+      format: "<gradient:#00F2FE:#4FACFE>◆</gradient>"
+    blossom:
+      name: "<gradient:#FF9A9E:#FECFEF>Flor de cerezo</gradient>"
+      format: "<gradient:#FF9A9E:#FECFEF>❀</gradient>"
+    snowflake:
+      name: "<gradient:#E0F7FF:#7FDBFF>Copo de nieve</gradient>"
+      format: "<gradient:#E0F7FF:#7FDBFF>❄</gradient>"
+    comet:
+      name: "<gradient:#FFE259:#FF4E00>Cometa</gradient>"
+      format: "<gradient:#FFE259:#FF4E00>☄</gradient>"
+    moon:
+      name: "<gradient:#C9D6FF:#8E9EFF>Luna</gradient>"
+      format: "<gradient:#C9D6FF:#8E9EFF>☽</gradient>"
+    infinity:
+      name: "<gradient:#B65CFF:#00F2FE>Infinito</gradient>"
+      format: "<gradient:#B65CFF:#00F2FE>∞</gradient>"
+    trident:
+      name: "<gradient:#00C9A7:#0072FF>Tridente</gradient>"
+      format: "<gradient:#00C9A7:#0072FF>♆</gradient>"
+    burst:
+      name: "<gradient:#FF5F6D:#FFC371>Estallido</gradient>"
+      format: "<gradient:#FF5F6D:#FFC371>✵</gradient>"
+    love:
+      name: "<gradient:#FF0844:#FFB199>Amor</gradient>"
+      format: "<gradient:#FF0844:#FFB199>❤</gradient>"
+    voidaris:
+      name: "<gradient:#B65CFF:#5B1E9E>Voidaris</gradient>"
+      format: "<light_purple><obfuscated>i</obfuscated></light_purple><gradient:#B65CFF:#5B1E9E><bold>V</bold></gradient><light_purple><obfuscated>i</obfuscated></light_purple>"
+    voidaris_dark:
+      name: "<dark_purple>Voidaris oscuro"
+      format: "<dark_gray><obfuscated>i</obfuscated></dark_gray><dark_purple><bold>V</bold></dark_purple><dark_gray><obfuscated>i</obfuscated></dark_gray>"
+    voidaris_star:
+      name: "<gradient:#FF9AF5:#B65CFF>Estrella de Voidaris</gradient>"
+      format: "<gradient:#FF9AF5:#B65CFF>✦<bold>V</bold>✦</gradient>"
+    event:
+      name: "<gold>Evento"
+      seasons:
+        christmas:
+          from: "11-15"
+          to: "01-06"
+          format: "<gradient:#FF3B3B:#FFFFFF:#2ECC40>❄</gradient>"
+        halloween:
+          from: "10-15"
+          to: "11-02"
+          format: "<gradient:#FF7518:#8E44AD>☠</gradient>"

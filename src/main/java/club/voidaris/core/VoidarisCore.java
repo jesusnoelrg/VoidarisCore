@@ -145,7 +145,7 @@ public final class VoidarisCore extends JavaPlugin {
 
     private void registerModules() {
         cosmeticsModule = new CosmeticsModule(this, configManager, database);
-        formatter = new PlayerFormatter(messages, integrations, cosmeticsModule::nickname);
+        formatter = new PlayerFormatter(messages, integrations, cosmeticsModule::placeholders);
         moduleManager.register(cosmeticsModule);
         moduleManager.register(new ChatModule(configManager, formatter, integrations, cosmeticsModule));
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
@@ -207,7 +207,7 @@ public final class VoidarisCore extends JavaPlugin {
             registrar.register(voidarisCommand.build(), messages.raw(Keys.Message.COMMAND_VOIDARIS_DESCRIPTION));
             registrar.register(cosmeticsCommand.build(), messages.raw(Keys.Message.COMMAND_COSMETICS_DESCRIPTION),
                     List.of("cosmeticos"));
-            cosmeticsCommand.registerColorCommands(registrar);
+            cosmeticsCommand.registerShortcuts(registrar);
             spawnCommands.register(registrar);
             warpCommands.register(registrar);
             homeCommands.register(registrar);

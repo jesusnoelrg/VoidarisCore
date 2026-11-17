@@ -1,16 +1,17 @@
 # VoidarisCore - chat, private messages and join formats (MiniMessage).
 # Placeholders below also apply to the join message cosmetics in cosmetics.yml.
 # Placeholders: <player>, <displayname>, <message>, <prefix_lp>, <suffix_lp>, <target>,
-# <nickname> (the name in the player's nick color cosmetic of cosmetics.yml; uncolored when they have none).
+# <nickname> (the name in the player's nick color cosmetic of cosmetics.yml; uncolored when they have none),
+# <badge> (the player's badge cosmetic followed by badges.separator of cosmetics.yml; empty when they have none).
 # PlaceholderAPI placeholders (%...%) are resolved when the integration is enabled.
 # LuckPerms prefixes and suffixes (<prefix_lp>, <suffix_lp>) are parsed as MiniMessage.
 
 chat:
   # Format for players whose LuckPerms primary group is not listed under groups.
-  default-format: "<gray><player></gray> <dark_gray>»</dark_gray> <white><message>"
+  default-format: "<badge><gray><player></gray> <dark_gray>»</dark_gray> <white><message>"
   groups:
-    admin: "<prefix_lp><red><player></red> <dark_gray>»</dark_gray> <white><message>"
-    vip: "<prefix_lp><gold><player></gold> <dark_gray>»</dark_gray> <white><message>"
+    admin: "<prefix_lp><badge><red><player></red> <dark_gray>»</dark_gray> <white><message>"
+    vip: "<prefix_lp><badge><gold><player></gold> <dark_gray>»</dark_gray> <white><message>"
   # Shown when hovering over a player's name in chat. Remove all lines to disable it.
   # Extra placeholder: <group> (LuckPerms primary group).
   hover:
