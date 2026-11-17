@@ -5,3 +5,4 @@
 - **cosmetics:** `AurasMenu`, `TeleportParticlesMenu` and `JoinEffectsMenu` are near-identical; extract a shared paginated cosmetic menu.
 - **cosmetics:** add a preview of join effects from `/cosmetics joineffect` (e.g. right-click on an icon plays it for the viewer only).
 - **cosmetics:** no menu links to `/cosmetics joineffect`, `/cosmetics aura` or `/cosmetics killmessage` yet; a cosmetics hub menu is missing.
+- **Idea (cosmetics/chat):** chat formats can use `<nickname>` but it has no hover/click; `ChatListener#name` could build the clickable name from `CosmeticsModule#nickname` so `<player>` shows the nick color in chat. Existing servers keep their old join message formats (user-owned `join-messages.cosmetics`), so `<nickname>` must be added there by hand.

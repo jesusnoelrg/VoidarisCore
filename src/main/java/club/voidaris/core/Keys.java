@@ -28,6 +28,10 @@ public final class Keys {
         public static final String COSMETICS_CHAT_COLOR = "voidaris.cosmetics.chatcolor.";
         /** Any hex chat color chosen with /chatcolor #RRGGBB. */
         public static final String COSMETICS_CUSTOM_CHAT_COLOR = "voidaris.cosmetics.customchatcolor";
+        /** Followed by the cosmetic id under nick-colors.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_NICK_COLOR = "voidaris.cosmetics.nickcolor.";
+        /** Any hex nick color chosen with /nickcolor #RRGGBB. */
+        public static final String COSMETICS_CUSTOM_NICK_COLOR = "voidaris.cosmetics.customnickcolor";
 
         // teleport
         public static final String TELEPORT_BYPASS = "voidaris.teleport.bypass";
@@ -148,6 +152,7 @@ public final class Keys {
         public static final String COMMAND_VOIDARIS_DESCRIPTION = "commands.voidaris.description";
         public static final String COMMAND_COSMETICS_DESCRIPTION = "commands.cosmetics.description";
         public static final String COMMAND_CHATCOLOR_DESCRIPTION = "commands.chatcolor.description";
+        public static final String COMMAND_NICKCOLOR_DESCRIPTION = "commands.nickcolor.description";
         public static final String COMMAND_SPAWN_DESCRIPTION = "commands.spawn.description";
         public static final String COMMAND_SETSPAWN_DESCRIPTION = "commands.setspawn.description";
         public static final String COMMAND_DELSPAWN_DESCRIPTION = "commands.delspawn.description";
@@ -228,6 +233,8 @@ public final class Keys {
         public static final String HELP_COSMETICS_JOIN_EFFECT_DESCRIPTION = "help.commands.cosmetics-joineffect.description";
         public static final String HELP_CHATCOLOR_ARGUMENTS = "help.commands.chatcolor.arguments";
         public static final String HELP_CHATCOLOR_DESCRIPTION = "help.commands.chatcolor.description";
+        public static final String HELP_NICKCOLOR_ARGUMENTS = "help.commands.nickcolor.arguments";
+        public static final String HELP_NICKCOLOR_DESCRIPTION = "help.commands.nickcolor.description";
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
@@ -508,6 +515,12 @@ public final class Keys {
         public static final String COSMETICS_CHAT_COLOR_CUSTOM_LOCKED = "cosmetics.chat-color.custom-locked";
         public static final String COSMETICS_CHAT_COLOR_CUSTOM_HINT = "cosmetics.chat-color.custom-hint";
         public static final String COSMETICS_CHAT_COLOR_PREVIEW = "cosmetics.chat-color.preview";
+        public static final String COSMETICS_NICK_COLOR_SELECTED = "cosmetics.nick-color.selected";
+        public static final String COSMETICS_NICK_COLOR_NOT_FOUND = "cosmetics.nick-color.not-found";
+        public static final String COSMETICS_NICK_COLOR_LOCKED = "cosmetics.nick-color.locked";
+        public static final String COSMETICS_NICK_COLOR_CUSTOM_SELECTED = "cosmetics.nick-color.custom-selected";
+        public static final String COSMETICS_NICK_COLOR_CUSTOM_LOCKED = "cosmetics.nick-color.custom-locked";
+        public static final String COSMETICS_NICK_COLOR_CUSTOM_HINT = "cosmetics.nick-color.custom-hint";
 
         // death-messages
         public static final String DEATH_MESSAGES_FORMAT = "death-messages.format";
