@@ -5,7 +5,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.time.MonthDay;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -71,25 +70,13 @@ final class MessageCosmetics {
             MonthDay today = MonthDay.now();
             for (String name : seasons.getKeys(false)) {
                 var season = seasons.getConfigurationSection(name);
-                if (season != null && season.isSet("format") && isActive(id + ".seasons." + name, season, today)) {
+                if (season != null && season.isSet("format")
+                        && Season.parse(season, path + "." + id + ".seasons." + name, logger)
+                        .filter(range -> range.contains(today)).isPresent()) {
                     return Optional.of(season.getString("format"));
                 }
             }
         }
         return cosmetic.isSet("format") ? Optional.of(cosmetic.getString("format")) : Optional.empty();
-    }
-
-    private boolean isActive(String path, ConfigurationSection season, MonthDay today) {
-        try {
-            MonthDay from = MonthDay.parse("--" + season.getString("from"));
-            MonthDay to = MonthDay.parse("--" + season.getString("to"));
-            // A range such as 12-01 to 01-06 wraps around the new year.
-            return from.isAfter(to)
-                    ? !today.isBefore(from) || !today.isAfter(to)
-                    : !today.isBefore(from) && !today.isAfter(to);
-        } catch (DateTimeParseException e) {
-            logger.warning("Invalid date in cosmetics.yml at " + path + "." + path + " (expected MM-dd): " + e.getParsedString());
-            return false;
-        }
     }
 }

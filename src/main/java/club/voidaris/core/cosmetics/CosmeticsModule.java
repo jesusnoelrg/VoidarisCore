@@ -20,11 +20,13 @@ import java.util.Set;
 public final class CosmeticsModule extends Module {
 
     static final String TELEPORT_PARTICLE_SLOT = "teleport-particle";
+    static final String AURA_SLOT = "aura";
 
     private final JavaPlugin plugin;
     private final Selections selections;
     private final Map<MessageCategory, MessageCosmetics> messageCosmetics = new EnumMap<>(MessageCategory.class);
     private final TeleportParticles teleportParticles;
+    private final Auras auras;
 
     public CosmeticsModule(JavaPlugin plugin, ConfigManager configs, Database database) {
         super("cosmetics");
@@ -34,15 +36,17 @@ public final class CosmeticsModule extends Module {
             messageCosmetics.put(category, new MessageCosmetics(configs, plugin.getLogger(), category));
         }
         this.teleportParticles = new TeleportParticles(configs, plugin.getLogger());
+        this.auras = new Auras(configs, plugin.getLogger());
     }
 
     @Override
     protected List<Listener> listeners() {
-        return List.of(new SelectionListener(selections, plugin.getLogger()));
+        return List.of(new SelectionListener(selections, plugin.getLogger()), new AuraListener(this));
     }
 
     @Override
     protected void onEnable() {
+        auras.load();
         registerPermissions();
         // Players already online when the module is toggled on never went through AsyncPlayerPreLoginEvent.
         Bukkit.getOnlinePlayers().forEach(player -> selections.load(player.getUniqueId()));
@@ -50,12 +54,14 @@ public final class CosmeticsModule extends Module {
 
     @Override
     protected void onReload() {
+        auras.load();
         registerPermissions();
     }
 
     @Override
     protected void onDisable() {
         selections.clear();
+        auras.clear();
     }
 
     /**
@@ -115,6 +121,33 @@ public final class CosmeticsModule extends Module {
                 .map(TeleportParticle::id);
     }
 
+    /**
+     * The aura the player has equipped. Empty when the module is disabled, the player owns none or the equipped one
+     * shows nothing.
+     */
+    public Optional<Aura> aura(Player player) {
+        return equippedAura(player)
+                .flatMap(auras::find)
+                .filter(aura -> !aura.layers().isEmpty());
+    }
+
+    /**
+     * Same fallback as {@link #equipped(Player, MessageCategory)}.
+     */
+    Optional<String> equippedAura(Player player) {
+        if (!isEnabled()) {
+            return Optional.empty();
+        }
+        return selections.get(player.getUniqueId(), AURA_SLOT)
+                .flatMap(id -> auras.usable(player, id))
+                .or(() -> auras.usable(player, auras.defaultSelection()))
+                .map(Aura::id);
+    }
+
+    Auras auras() {
+        return auras;
+    }
+
     TeleportParticles teleportParticles() {
         return teleportParticles;
     }
@@ -131,6 +164,7 @@ public final class CosmeticsModule extends Module {
     private void registerPermissions() {
         messageCosmetics.values().forEach(cosmetics -> registerPermissions(cosmetics.category().permission, cosmetics.ids()));
         registerPermissions(Keys.Permission.COSMETICS_TELEPORT_PARTICLE, teleportParticles.ids());
+        registerPermissions(Keys.Permission.COSMETICS_AURA, auras.ids());
         // Parsed eagerly only to log config mistakes on enable/reload instead of on the first teleport.
         long invalid = teleportParticles.ids().stream().filter(id -> teleportParticles.find(id).isEmpty()).count();
         plugin.getLogger().info("Loaded " + (teleportParticles.ids().size() - invalid) + " teleport particle cosmetics"

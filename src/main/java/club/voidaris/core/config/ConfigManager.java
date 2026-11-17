@@ -26,6 +26,7 @@ public final class ConfigManager {
     private final ConfigFile joinMessagesGui;
     private final ConfigFile teleportParticlesGui;
     private final ConfigFile killMessagesGui;
+    private final ConfigFile aurasGui;
     private final ConfigFile homesGui;
     private final ConfigFile kitsGui;
     private final ConfigFile kitPreviewGui;
@@ -48,20 +49,22 @@ public final class ConfigManager {
         privateMessages = new ConfigFile(plugin, "private-messages.yml");
         database = new ConfigFile(plugin, "database.yml");
         cosmetics = new ConfigFile(plugin, "cosmetics.yml",
-                Set.of("join-messages.cosmetics", "teleport-particles.cosmetics", "kill-messages.cosmetics"), List.of());
+                Set.of("join-messages.cosmetics", "teleport-particles.cosmetics", "kill-messages.cosmetics",
+                        "auras.cosmetics"), List.of());
         joinMessagesGui = new ConfigFile(plugin, "guis/join-messages.yml",
                 Set.of("items", "join_messages.icons"), List.of());
         teleportParticlesGui = new ConfigFile(plugin, "guis/teleport-particles.yml",
                 Set.of("items", "teleport_particles.icons"), List.of());
         killMessagesGui = new ConfigFile(plugin, "guis/kill-messages.yml",
                 Set.of("items", "kill_messages.icons"), List.of());
+        aurasGui = new ConfigFile(plugin, "guis/auras.yml", Set.of("items", "auras.icons"), List.of());
         homesGui = new ConfigFile(plugin, "guis/homes.yml", Set.of("items"), List.of());
         kitsGui = new ConfigFile(plugin, "guis/kits.yml", Set.of("items"), List.of());
         kitPreviewGui = new ConfigFile(plugin, "guis/kit-preview.yml", Set.of("items"), List.of());
     }
 
     public void reload() {
-        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, motd, privateMessages, database, cosmetics, joinMessagesGui, teleportParticlesGui, killMessagesGui, homesGui, kitsGui, kitPreviewGui}) {
+        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, motd, privateMessages, database, cosmetics, joinMessagesGui, teleportParticlesGui, killMessagesGui, aurasGui, homesGui, kitsGui, kitPreviewGui}) {
             file.reload();
         }
     }
@@ -81,6 +84,7 @@ public final class ConfigManager {
     public ConfigFile joinMessagesGui() { return joinMessagesGui; }
     public ConfigFile teleportParticlesGui() { return teleportParticlesGui; }
     public ConfigFile killMessagesGui() { return killMessagesGui; }
+    public ConfigFile aurasGui() { return aurasGui; }
     public ConfigFile homesGui() { return homesGui; }
     public ConfigFile kitsGui() { return kitsGui; }
     public ConfigFile kitPreviewGui() { return kitPreviewGui; }

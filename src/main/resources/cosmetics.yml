@@ -280,3 +280,200 @@ teleport-particles:
         count: 20
         spread: 0.5
         speed: 0.1
+
+auras:
+  # A trail drawn behind the player while they move (not when standing still, in spectator or invisible;
+  # vanished players are hidden as usual). Seen by every player within 32 blocks who can see the wearer.
+  # Each cosmetic is unlocked with voidaris.cosmetics.aura.<id>; players with none of them show nothing.
+  default-selection: none
+  # name: shown in /cosmetics aura. premium: true adds premium_lore of guis/auras.yml to its icon.
+  # interval: ticks between two frames while moving (default 2); higher is subtler.
+  # layers: same keys as teleport-particles, but only these shapes:
+  #   trail  count particles at the feet (raised by height, default 0.3); DUST picks a random color of colors each frame.
+  #   orbit  strands points circling the player at height (default 1), radius away, one turn every duration ticks (default 40).
+  # seasons: optional layers that replace layers between two dates (MM-dd, inclusive, may wrap around the new year).
+  # The first active season wins; an aura with no active season and no layers cannot be equipped or shown.
+  cosmetics:
+    none:
+      name: "<gray>Ninguna"
+      layers: []
+    cloud:
+      name: "<white>Nube"
+      layers:
+      - particle: CLOUD
+        shape: "trail"
+        count: 2
+        spread: 0.12
+        speed: 0.01
+    flame:
+      name: "<gold>Llama"
+      layers:
+      - particle: FLAME
+        shape: "trail"
+        count: 2
+        spread: 0.1
+        speed: 0.01
+    soul:
+      name: "<aqua>Alma"
+      layers:
+      - particle: SOUL_FIRE_FLAME
+        shape: "trail"
+        count: 2
+        spread: 0.1
+        speed: 0.01
+    hearts:
+      name: "<red>Amor"
+      interval: 5
+      layers:
+      - particle: HEART
+        shape: "trail"
+        height: 0.6
+        spread: 0.2
+    notes:
+      name: "<green>Melodía"
+      interval: 5
+      layers:
+      - particle: NOTE
+        shape: "trail"
+        height: 0.6
+        spread: 0.2
+        speed: 1.0
+    totem:
+      name: "<yellow>Tótem"
+      layers:
+      - particle: TOTEM_OF_UNDYING
+        shape: "trail"
+        count: 3
+        spread: 0.15
+        speed: 0.1
+    cherry:
+      name: "<light_purple>Cerezo"
+      interval: 3
+      layers:
+      - particle: CHERRY_LEAVES
+        shape: "trail"
+        count: 2
+        height: 0.8
+        spread: 0.3
+    lava:
+      name: "<red>Lava"
+      interval: 4
+      layers:
+      - particle: LAVA
+        shape: "trail"
+        spread: 0.1
+    emerald:
+      name: "<green>Esmeralda"
+      layers:
+      - particle: HAPPY_VILLAGER
+        shape: "trail"
+        count: 2
+        height: 0.4
+        spread: 0.2
+    witch:
+      name: "<dark_purple>Hechizo"
+      layers:
+      - particle: WITCH
+        shape: "trail"
+        count: 3
+        height: 0.4
+        spread: 0.15
+        speed: 0.05
+    voidaris:
+      name: "<gradient:#B65CFF:#5B1E9E:#3A0A6B>Voidaris</gradient>"
+      premium: true
+      layers:
+      - particle: DUST_COLOR_TRANSITION
+        shape: "trail"
+        colors: ["#B65CFF", "#3A0A6B"]
+        count: 3
+        size: 1.5
+      - particle: DUST
+        shape: "orbit"
+        colors: ["#B65CFF", "#7B2FF7"]
+        size: 1.1
+        strands: 2
+        radius: 0.6
+        height: 1.0
+        duration: 30
+    rainbow:
+      name: "<rainbow>Arcoíris</rainbow>"
+      premium: true
+      layers:
+      # One layer per color so every frame shows the whole palette.
+      - particle: DUST
+        shape: "trail"
+        colors: ["#FF0000", "#FF7F00", "#FFFF00"]
+        count: 2
+        size: 1.4
+      - particle: DUST
+        shape: "trail"
+        colors: ["#00FF00", "#0000FF", "#8B00FF"]
+        count: 2
+        size: 1.4
+    galaxy:
+      name: "<gradient:#7B2FF7:#4B6CB7:#1E3A8A>Galaxia</gradient>"
+      premium: true
+      layers:
+      - particle: DUST
+        shape: "trail"
+        colors: ["#7B2FF7", "#4B6CB7", "#1E3A8A", "#FFFFFF"]
+        count: 3
+        size: 1.4
+      - particle: END_ROD
+        shape: "orbit"
+        strands: 2
+        radius: 0.6
+        height: 1.1
+        duration: 36
+    royal:
+      name: "<gradient:#FFD700:#DAA520>Realeza</gradient>"
+      premium: true
+      layers:
+      - particle: DUST
+        shape: "trail"
+        colors: ["#FFD700", "#DAA520"]
+        count: 3
+        size: 1.4
+      # A small crown over the head.
+      - particle: DUST
+        shape: "orbit"
+        colors: ["#FFD700"]
+        size: 0.9
+        strands: 4
+        radius: 0.35
+        height: 2.2
+        duration: 40
+    event:
+      name: "<gold>Evento"
+      premium: true
+      seasons:
+        christmas:
+          from: "11-15"
+          to: "01-06"
+          layers:
+          - particle: DUST
+            shape: "trail"
+            colors: ["#D42426", "#FFFFFF", "#1E8C3A"]
+            count: 3
+            size: 1.4
+          - particle: SNOWFLAKE
+            shape: "trail"
+            count: 2
+            height: 0.8
+            spread: 0.3
+        halloween:
+          from: "10-15"
+          to: "11-02"
+          layers:
+          - particle: DUST
+            shape: "trail"
+            colors: ["#FF7518", "#8E44AD"]
+            count: 3
+            size: 1.4
+          - particle: WITCH
+            shape: "orbit"
+            strands: 2
+            radius: 0.6
+            height: 1.0
+            duration: 30

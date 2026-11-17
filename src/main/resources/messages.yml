@@ -155,6 +155,9 @@ help:
     cosmetics-killmessage:
       arguments: "[cosmético]"
       description: "Equipa un mensaje de asesinato"
+    cosmetics-aura:
+      arguments: "[aura]"
+      description: "Equipa un aura de rastro"
     spawn:
       description: "Teletranspórtate al spawn"
     setspawn:
@@ -558,6 +561,10 @@ cosmetics:
     preview-victim: "Steve"
     # <weapon> when the killer has nothing in the main hand.
     no-weapon: "sus puños"
+  aura:
+    selected: "<prefix><white>Equipaste el aura <cosmetic><white>."
+    not-found: "<prefix><white>No existe el aura <light_purple><id></light_purple>."
+    locked: "<prefix><white>No tienes desbloqueada el aura <cosmetic><white>."
 
 death-messages:
   # Wraps every translated death message. Kill messages equipped as cosmetics (cosmetics.yml) use their own format.
