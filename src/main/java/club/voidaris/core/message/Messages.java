@@ -33,6 +33,10 @@ public final class Messages {
         return value != null ? value : key;
     }
 
+    public boolean has(String key) {
+        return configs.messages().get().getString(key) != null;
+    }
+
     public void send(CommandSender target, String key, TagResolver... resolvers) {
         target.sendMessage(get(key, resolvers));
     }

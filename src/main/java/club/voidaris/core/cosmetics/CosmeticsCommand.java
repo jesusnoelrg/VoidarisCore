@@ -8,6 +8,7 @@ import club.voidaris.core.message.Messages;
 import club.voidaris.core.message.PlayerFormatter;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -22,35 +23,35 @@ public final class CosmeticsCommand {
 
     private static final String NAME = "cosmetics";
     private static final String JOIN_MESSAGE = "joinmessage";
+    private static final String KILL_MESSAGE = "killmessage";
     private static final String TELEPORT_PARTICLE = "teleportparticle";
     private static final String ARGUMENT = "cosmetic";
 
     private final CosmeticsModule module;
     private final Messages messages;
-    private final JoinMessagesMenu menu;
+    private final MessageCosmeticsMenu joinMessagesMenu;
+    private final MessageCosmeticsMenu killMessagesMenu;
     private final TeleportParticlesMenu particlesMenu;
 
     public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
                             PlayerFormatter formatter, MenuLoader loader) {
         this.module = module;
         this.messages = messages;
-        this.menu = new JoinMessagesMenu(plugin, configs, module, messages, formatter, loader);
+        this.joinMessagesMenu = new MessageCosmeticsMenu(plugin, configs, module, messages, loader,
+                MessageCategory.JOIN, formatter::format);
+        // The preview shows the player as the killer of a sample victim, with the item they are holding.
+        this.killMessagesMenu = new MessageCosmeticsMenu(plugin, configs, module, messages, loader,
+                MessageCategory.KILL, (player, format) -> formatter.format(player, format,
+                        KillMessagePlaceholders.of(messages, player,
+                                messages.get(Keys.Message.COSMETICS_KILL_MESSAGE_PREVIEW_VICTIM))));
         this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
     }
 
     public LiteralCommandNode<CommandSourceStack> build() {
         return Commands.literal(NAME)
-                .executes(this::openJoinMessages)
-                .then(Commands.literal(JOIN_MESSAGE)
-                        .executes(this::openJoinMessages)
-                        .then(Commands.argument(ARGUMENT, StringArgumentType.word())
-                                .suggests((context, builder) -> {
-                                    if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
-                                        module.joinMessages().usable(player).forEach(message -> builder.suggest(message.id()));
-                                    }
-                                    return builder.buildFuture();
-                                })
-                                .executes(this::selectJoinMessage)))
+                .executes(context -> open(context, joinMessagesMenu))
+                .then(messageLiteral(JOIN_MESSAGE, joinMessagesMenu, MessageCategory.JOIN))
+                .then(messageLiteral(KILL_MESSAGE, killMessagesMenu, MessageCategory.KILL))
                 .then(Commands.literal(TELEPORT_PARTICLE)
                         .executes(this::openTeleportParticles)
                         .then(Commands.argument(ARGUMENT, StringArgumentType.word())
@@ -71,12 +72,30 @@ public final class CosmeticsCommand {
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + JOIN_MESSAGE,
                         Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_ARGUMENTS,
                         Keys.Message.HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + KILL_MESSAGE,
+                        Keys.Message.HELP_COSMETICS_KILL_MESSAGE_ARGUMENTS,
+                        Keys.Message.HELP_COSMETICS_KILL_MESSAGE_DESCRIPTION, null, module),
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + TELEPORT_PARTICLE,
                         Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_ARGUMENTS,
                         Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION, null, module));
     }
 
-    private int openJoinMessages(CommandContext<CommandSourceStack> context) {
+    private LiteralArgumentBuilder<CommandSourceStack> messageLiteral(String literal, MessageCosmeticsMenu menu,
+                                                                      MessageCategory category) {
+        return Commands.literal(literal)
+                .executes(context -> open(context, menu))
+                .then(Commands.argument(ARGUMENT, StringArgumentType.word())
+                        .suggests((context, builder) -> {
+                            if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
+                                module.messageCosmetics(category).usable(player)
+                                        .forEach(message -> builder.suggest(message.id()));
+                            }
+                            return builder.buildFuture();
+                        })
+                        .executes(context -> selectMessage(context, category)));
+    }
+
+    private int open(CommandContext<CommandSourceStack> context, MessageCosmeticsMenu menu) {
         Player player = requirePlayer(context);
         if (player == null) {
             return 0;
@@ -85,24 +104,24 @@ public final class CosmeticsCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int selectJoinMessage(CommandContext<CommandSourceStack> context) {
+    private int selectMessage(CommandContext<CommandSourceStack> context, MessageCategory category) {
         Player player = requirePlayer(context);
         if (player == null) {
             return 0;
         }
         String id = StringArgumentType.getString(context, ARGUMENT);
-        var message = module.joinMessages().find(id);
+        var message = module.messageCosmetics(category).find(id);
         if (message.isEmpty()) {
-            messages.send(player, Keys.Message.COSMETICS_JOIN_MESSAGE_NOT_FOUND, Placeholder.unparsed("id", id));
+            messages.send(player, category.notFoundMessage, Placeholder.unparsed("id", id));
             return 0;
         }
         var name = Placeholder.parsed("cosmetic", message.get().name());
-        if (!player.hasPermission(Keys.Permission.COSMETICS_JOIN_MESSAGE + id)) {
-            messages.send(player, Keys.Message.COSMETICS_JOIN_MESSAGE_LOCKED, name);
+        if (!player.hasPermission(category.permission + id)) {
+            messages.send(player, category.lockedMessage, name);
             return 0;
         }
-        module.selections().select(player.getUniqueId(), CosmeticsModule.JOIN_MESSAGE_SLOT, id)
-                .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_JOIN_MESSAGE_SELECTED, name))
+        module.selections().select(player.getUniqueId(), category.slot, id)
+                .thenRun(() -> messages.send(player, category.selectedMessage, name))
                 .exceptionally(e -> {
                     messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
                     return null;

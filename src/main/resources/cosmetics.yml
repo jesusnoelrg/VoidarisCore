@@ -59,6 +59,53 @@ join-messages:
       name: "<gradient:#FFD700:#DAA520>Realeza</gradient>"
       format: "<gradient:#FFD700:#FFF3B0:#DAA520>♛ Su majestad <player> ha llegado.</gradient>"
 
+kill-messages:
+  # Replace the death message when a player kills another player (requires the death-messages module).
+  # Each cosmetic is unlocked with voidaris.cosmetics.killmessage.<id> (give it to ranks in LuckPerms).
+  # Players who never picked one, or lost the one they picked, use this cosmetic if they own it, and the
+  # translated death message otherwise.
+  default-selection: default
+  # name: shown in /cosmetics killmessage. format: the kill message; an empty format ("") keeps the translated
+  # death message of messages.yml. Placeholders: <killer>, <victim>, <weapon> (the item in the killer's main hand, with its hover)
+  # and those of chat-format.yml for the killer (<player>, <displayname>, <prefix_lp>, <suffix_lp>, PlaceholderAPI).
+  # seasons: same as in join-messages.
+  cosmetics:
+    default:
+      name: "<white>Predeterminado"
+      format: ""
+    blade:
+      name: "<red>Espadachín"
+      format: "<dark_red>⚔</dark_red> <red><victim></red> <gray>cayó ante el filo de</gray> <gold><killer></gold> <gray>con</gray> <weapon>"
+    fire:
+      name: "<gradient:#FFE259:#FF4E00>Fuego</gradient>"
+      format: "<gradient:#FFE259:#FFA751:#FF4E00:#C70000>☄ <killer> redujo a cenizas a <victim>.</gradient>"
+    thunder:
+      name: "<yellow>Trueno"
+      format: "<yellow>⚡</yellow> <white><killer></white> <yellow>fulminó a</yellow> <white><victim></white> <yellow>con la furia de los dioses.</yellow>"
+    void:
+      name: "<gradient:#B65CFF:#3A0A6B>Vacío</gradient>"
+      format: "<gradient:#B65CFF:#5B1E9E:#3A0A6B>✦ <killer> arrastró a <victim> hacia el vacío.</gradient>"
+    hacker:
+      name: "<dark_green>Hacker"
+      format: "<dark_green><obfuscated>##</obfuscated></dark_green> <green><killer> ejecutó</green> <white>rm -rf <victim></white><green>... borrado del sistema.</green> <dark_green><obfuscated>##</obfuscated></dark_green>"
+    box:
+      name: "<red>Boxeo"
+      format: "<red><bold>¡K.O.!</bold></red> <gold><killer></gold> <white>noqueó a</white> <gray><victim></gray> <white>en el primer asalto."
+    royal:
+      name: "<gradient:#FFD700:#DAA520>Realeza</gradient>"
+      format: "<gradient:#FFD700:#FFF3B0:#DAA520>♛ <victim> fue ejecutado por orden de su majestad <killer>.</gradient>"
+    event:
+      name: "<gold>Evento"
+      seasons:
+        christmas:
+          from: "11-15"
+          to: "01-06"
+          format: "<red>❄</red> <gradient:#FF3B3B:#FFFFFF:#2ECC40><killer> dejó a <victim> congelado bajo el árbol de Navidad.</gradient> <green>❄</green>"
+        halloween:
+          from: "10-15"
+          to: "11-02"
+          format: "<gradient:#FF7518:#8E44AD>☠ <killer> mandó a <victim> de vuelta a su tumba.</gradient>"
+
 teleport-particles:
   # Shown around the player on every teleport (see effects in teleports.yml; the sound is not a cosmetic).
   # Each cosmetic is unlocked with voidaris.cosmetics.teleportparticle.<id>; players with none of them show nothing.

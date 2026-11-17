@@ -8,6 +8,7 @@ import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.cosmetics.CosmeticsCommand;
 import club.voidaris.core.cosmetics.CosmeticsModule;
+import club.voidaris.core.deathmessages.DeathMessagesModule;
 import club.voidaris.core.gui.MenuListener;
 import club.voidaris.core.homes.HomeCommands;
 import club.voidaris.core.homes.HomesModule;
@@ -132,6 +133,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(cosmeticsModule);
         moduleManager.register(new ChatModule(configManager, formatter, integrations));
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
+        moduleManager.register(new DeathMessagesModule(messages, formatter, cosmeticsModule));
         teleporter = new Teleporter(this, messages);
         teleporter.cooldowns().load();
         getServer().getPluginManager().registerEvents(teleporter, this);
