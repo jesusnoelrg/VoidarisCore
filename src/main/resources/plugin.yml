@@ -360,3 +360,30 @@ permissions:
   voidaris.cosmetics.teleportparticle.void:
     description: Equip the void teleport particles.
     default: false
+  voidaris.cosmetics.killmessage.default:
+    description: Equip the default kill message.
+    default: true
+  voidaris.cosmetics.killmessage.blade:
+    description: Equip the blade kill message.
+    default: false
+  voidaris.cosmetics.killmessage.fire:
+    description: Equip the fire kill message.
+    default: false
+  voidaris.cosmetics.killmessage.thunder:
+    description: Equip the thunder kill message.
+    default: false
+  voidaris.cosmetics.killmessage.void:
+    description: Equip the void kill message.
+    default: false
+  voidaris.cosmetics.killmessage.hacker:
+    description: Equip the hacker kill message.
+    default: false
+  voidaris.cosmetics.killmessage.box:
+    description: Equip the box kill message.
+    default: false
+  voidaris.cosmetics.killmessage.royal:
+    description: Equip the royal kill message.
+    default: false
+  voidaris.cosmetics.killmessage.event:
+    description: Equip the event kill message.
+    default: false

@@ -1,6 +1,5 @@
 package club.voidaris.core.cosmetics;
 
-import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -13,51 +12,56 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * Join message cosmetics defined under join-messages in cosmetics.yml.
+ * The cosmetics of one {@link MessageCategory}.
  */
-final class JoinMessages {
-
-    private static final String SECTION = "join-messages.";
-    private static final String COSMETICS = SECTION + "cosmetics";
+final class MessageCosmetics {
 
     private final ConfigManager configs;
     private final Logger logger;
+    private final MessageCategory category;
+    private final String path;
 
-    JoinMessages(ConfigManager configs, Logger logger) {
+    MessageCosmetics(ConfigManager configs, Logger logger, MessageCategory category) {
         this.configs = configs;
         this.logger = logger;
+        this.category = category;
+        this.path = category.section + ".cosmetics";
+    }
+
+    MessageCategory category() {
+        return category;
     }
 
     Set<String> ids() {
         // Read from the file on disk only (no bundled defaults), so a cosmetic deleted by the admin stops existing.
-        var cosmetics = configs.cosmetics().get().getConfigurationSection(COSMETICS);
+        var cosmetics = configs.cosmetics().get().getConfigurationSection(path);
         return cosmetics == null ? Set.of() : cosmetics.getKeys(false);
     }
 
     String defaultSelection() {
-        return configs.cosmetics().get().getString(SECTION + "default-selection", "");
+        return configs.cosmetics().get().getString(category.section + ".default-selection", "");
     }
 
     /**
      * Empty when the cosmetic does not exist or has no format today (e.g. a seasonal one out of season).
      */
-    Optional<JoinMessage> find(String id) {
+    Optional<MessageCosmetic> find(String id) {
         if (!ids().contains(id)) {
             return Optional.empty();
         }
-        var cosmetic = configs.cosmetics().get().getConfigurationSection(COSMETICS + "." + id);
+        var cosmetic = configs.cosmetics().get().getConfigurationSection(path + "." + id);
         if (cosmetic == null) {
             return Optional.empty();
         }
         String name = cosmetic.isSet("name") ? cosmetic.getString("name") : id;
-        return format(id, cosmetic).map(format -> new JoinMessage(id, name, format));
+        return format(id, cosmetic).map(format -> new MessageCosmetic(id, name, format));
     }
 
-    Optional<JoinMessage> usable(Player player, String id) {
-        return find(id).filter(message -> player.hasPermission(Keys.Permission.COSMETICS_JOIN_MESSAGE + id));
+    Optional<MessageCosmetic> usable(Player player, String id) {
+        return find(id).filter(message -> player.hasPermission(category.permission + id));
     }
 
-    List<JoinMessage> usable(Player player) {
+    List<MessageCosmetic> usable(Player player) {
         return ids().stream().flatMap(id -> usable(player, id).stream()).toList();
     }
 
@@ -84,7 +88,7 @@ final class JoinMessages {
                     ? !today.isBefore(from) || !today.isAfter(to)
                     : !today.isBefore(from) && !today.isAfter(to);
         } catch (DateTimeParseException e) {
-            logger.warning("Invalid date in cosmetics.yml at join-messages.cosmetics." + path + " (expected MM-dd): " + e.getParsedString());
+            logger.warning("Invalid date in cosmetics.yml at " + path + "." + path + " (expected MM-dd): " + e.getParsedString());
             return false;
         }
     }

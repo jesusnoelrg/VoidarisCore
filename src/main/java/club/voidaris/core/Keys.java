@@ -18,6 +18,8 @@ public final class Keys {
         public static final String COSMETICS_JOIN_MESSAGE = "voidaris.cosmetics.joinmessage.";
         /** Followed by the cosmetic id under teleport-particles.cosmetics in cosmetics.yml. */
         public static final String COSMETICS_TELEPORT_PARTICLE = "voidaris.cosmetics.teleportparticle.";
+        /** Followed by the cosmetic id under kill-messages.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_KILL_MESSAGE = "voidaris.cosmetics.killmessage.";
 
         // teleport
         public static final String TELEPORT_BYPASS = "voidaris.teleport.bypass";
@@ -207,6 +209,8 @@ public final class Keys {
         public static final String HELP_COSMETICS_DESCRIPTION = "help.commands.cosmetics.description";
         public static final String HELP_COSMETICS_JOIN_MESSAGE_ARGUMENTS = "help.commands.cosmetics-joinmessage.arguments";
         public static final String HELP_COSMETICS_JOIN_MESSAGE_DESCRIPTION = "help.commands.cosmetics-joinmessage.description";
+        public static final String HELP_COSMETICS_KILL_MESSAGE_ARGUMENTS = "help.commands.cosmetics-killmessage.arguments";
+        public static final String HELP_COSMETICS_KILL_MESSAGE_DESCRIPTION = "help.commands.cosmetics-killmessage.description";
         public static final String HELP_COSMETICS_TELEPORT_PARTICLE_ARGUMENTS = "help.commands.cosmetics-teleportparticle.arguments";
         public static final String HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION = "help.commands.cosmetics-teleportparticle.description";
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
@@ -470,5 +474,16 @@ public final class Keys {
         public static final String COSMETICS_TELEPORT_PARTICLE_SELECTED = "cosmetics.teleport-particle.selected";
         public static final String COSMETICS_TELEPORT_PARTICLE_NOT_FOUND = "cosmetics.teleport-particle.not-found";
         public static final String COSMETICS_TELEPORT_PARTICLE_LOCKED = "cosmetics.teleport-particle.locked";
+        public static final String COSMETICS_KILL_MESSAGE_SELECTED = "cosmetics.kill-message.selected";
+        public static final String COSMETICS_KILL_MESSAGE_NOT_FOUND = "cosmetics.kill-message.not-found";
+        public static final String COSMETICS_KILL_MESSAGE_LOCKED = "cosmetics.kill-message.locked";
+        public static final String COSMETICS_KILL_MESSAGE_PREVIEW_DEFAULT = "cosmetics.kill-message.preview-default";
+        public static final String COSMETICS_KILL_MESSAGE_PREVIEW_VICTIM = "cosmetics.kill-message.preview-victim";
+        public static final String COSMETICS_KILL_MESSAGE_NO_WEAPON = "cosmetics.kill-message.no-weapon";
+
+        // death-messages
+        public static final String DEATH_MESSAGES_FORMAT = "death-messages.format";
+        /** Followed by the vanilla key without "death." and with dots replaced by underscores. */
+        public static final String DEATH_MESSAGES_CAUSE = "death-messages.causes.";
     }
 }
