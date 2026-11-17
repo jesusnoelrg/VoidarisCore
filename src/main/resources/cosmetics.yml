@@ -727,3 +727,82 @@ join-effects:
             speed: 0.02
           - type: sound
             key: "minecraft:entity.witch.celebrate"
+
+chat-colors:
+  # Color applied automatically to everything the player writes in chat (requires the chat module).
+  # Each cosmetic is unlocked with voidaris.cosmetics.chatcolor.<id>. Any hex color can also be picked with
+  # /chatcolor #RRGGBB, which requires voidaris.cosmetics.customchatcolor.
+  # Players who never picked one, or lost the one they picked, use this cosmetic if they own it.
+  default-selection: none
+  # name: shown in /chatcolor. premium: true adds premium_lore of guis/chat-colors.yml to its icon.
+  # color: MiniMessage tag(s) placed before the message (<red>, <#FF5555>, <gradient:#A:#B>, <rainbow>, <bold>...);
+  # an empty color ("") keeps the color of the chat format. Ids cannot look like a hex color (#RRGGBB).
+  # & codes the player is allowed to type (chat-format.yml) still override it.
+  cosmetics:
+    none:
+      name: "<gray>Ninguno"
+      color: ""
+    black:
+      name: "<black>Negro"
+      color: "<black>"
+    dark_blue:
+      name: "<dark_blue>Azul oscuro"
+      color: "<dark_blue>"
+    dark_green:
+      name: "<dark_green>Verde oscuro"
+      color: "<dark_green>"
+    dark_aqua:
+      name: "<dark_aqua>Aguamarina oscuro"
+      color: "<dark_aqua>"
+    dark_red:
+      name: "<dark_red>Rojo oscuro"
+      color: "<dark_red>"
+    dark_purple:
+      name: "<dark_purple>Morado"
+      color: "<dark_purple>"
+    gold:
+      name: "<gold>Dorado"
+      color: "<gold>"
+    gray:
+      name: "<gray>Gris"
+      color: "<gray>"
+    dark_gray:
+      name: "<dark_gray>Gris oscuro"
+      color: "<dark_gray>"
+    blue:
+      name: "<blue>Azul"
+      color: "<blue>"
+    green:
+      name: "<green>Verde"
+      color: "<green>"
+    aqua:
+      name: "<aqua>Aguamarina"
+      color: "<aqua>"
+    red:
+      name: "<red>Rojo"
+      color: "<red>"
+    light_purple:
+      name: "<light_purple>Rosa"
+      color: "<light_purple>"
+    yellow:
+      name: "<yellow>Amarillo"
+      color: "<yellow>"
+    white:
+      name: "<white>Blanco"
+      color: "<white>"
+    fire:
+      name: "<gradient:#FFE259:#FF4E00>Fuego</gradient>"
+      premium: true
+      color: "<gradient:#FFE259:#FFA751:#FF4E00>"
+    ocean:
+      name: "<gradient:#00F2FE:#0072FF>Océano</gradient>"
+      premium: true
+      color: "<gradient:#00F2FE:#0072FF>"
+    void:
+      name: "<gradient:#B65CFF:#3A0A6B>Vacío</gradient>"
+      premium: true
+      color: "<gradient:#B65CFF:#5B1E9E>"
+    rainbow:
+      name: "<rainbow>Arcoíris</rainbow>"
+      premium: true
+      color: "<rainbow>"

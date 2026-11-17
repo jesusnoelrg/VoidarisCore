@@ -441,6 +441,72 @@ permissions:
   voidaris.cosmetics.joineffect.event:
     description: Equip the event join effect.
     default: false
+  voidaris.cosmetics.chatcolor.none:
+    description: Equip the none chat color.
+    default: true
+  voidaris.cosmetics.chatcolor.black:
+    description: Equip the black chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.dark_blue:
+    description: Equip the dark blue chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.dark_green:
+    description: Equip the dark green chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.dark_aqua:
+    description: Equip the dark aqua chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.dark_red:
+    description: Equip the dark red chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.dark_purple:
+    description: Equip the dark purple chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.gold:
+    description: Equip the gold chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.gray:
+    description: Equip the gray chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.dark_gray:
+    description: Equip the dark gray chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.blue:
+    description: Equip the blue chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.green:
+    description: Equip the green chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.aqua:
+    description: Equip the aqua chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.red:
+    description: Equip the red chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.light_purple:
+    description: Equip the light purple chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.yellow:
+    description: Equip the yellow chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.white:
+    description: Equip the white chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.fire:
+    description: Equip the fire chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.ocean:
+    description: Equip the ocean chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.void:
+    description: Equip the void chat color.
+    default: false
+  voidaris.cosmetics.chatcolor.rainbow:
+    description: Equip the rainbow chat color.
+    default: false
+  voidaris.cosmetics.customchatcolor:
+    description: Pick any hex chat color with /chatcolor #RRGGBB.
+    default: false
   voidaris.cosmetics.killmessage.default:
     description: Equip the default kill message.
     default: true
