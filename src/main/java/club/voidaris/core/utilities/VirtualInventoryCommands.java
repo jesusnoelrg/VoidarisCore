@@ -7,6 +7,10 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.MenuType;
 import org.bukkit.inventory.view.builder.LocationInventoryViewBuilder;
@@ -21,6 +25,8 @@ public final class VirtualInventoryCommands {
 
     private static final String ENDER_CHEST = "enderchest";
     private static final String INVSEE = "invsee";
+    private static final LegacyComponentSerializer LEGACY_TITLE = LegacyComponentSerializer.builder()
+            .hexColors().useUnusualXRepeatedCharacterHexFormat().build();
 
     private record Station(
             String command,
@@ -109,7 +115,7 @@ public final class VirtualInventoryCommands {
         return Command.SINGLE_SUCCESS;
     }
 
-    // Opens the live inventory, so changes apply at once; like /enderchest, its title is the vanilla one.
+    // Opens the live inventory, so changes apply at once; the title is replaced once the view exists.
     private int invsee(CommandContext<CommandSourceStack> context) {
         Player viewer = support.requirePlayer(context, Keys.Permission.UTILITIES_INVSEE);
         if (viewer == null) {
@@ -126,9 +132,12 @@ public final class VirtualInventoryCommands {
             return 0;
         }
         var inventory = target.getInventory();
-        if (viewer.openInventory(inventory) == null) {
+        var view = viewer.openInventory(inventory);
+        if (view == null) {
             return 0;
         }
+        retitle(view, support.messages().get(Keys.Message.UTILITIES_TITLE_INVSEE,
+                Placeholder.unparsed("player", target.getName())));
         if (!viewer.hasPermission(Keys.Permission.UTILITIES_INVSEE_MODIFY)) {
             support.module().addReadOnlyView(viewer, inventory);
         }
@@ -145,7 +154,19 @@ public final class VirtualInventoryCommands {
             support.messages().send(context.getSource().getSender(), Keys.Message.GENERAL_PLAYER_ONLY);
             return 0;
         }
-        viewer.openInventory(target.getEnderChest());
+        var view = viewer.openInventory(target.getEnderChest());
+        if (view != null) {
+            var title = target == viewer
+                    ? support.messages().get(Keys.Message.UTILITIES_TITLE_ENDERCHEST)
+                    : support.messages().get(Keys.Message.UTILITIES_TITLE_ENDERCHEST_OTHER,
+                    Placeholder.unparsed("player", target.getName()));
+            retitle(view, title);
+        }
         return Command.SINGLE_SUCCESS;
+    }
+
+    // Opening an existing inventory offers no title parameter, and InventoryView only accepts a legacy string.
+    private static void retitle(InventoryView view, Component title) {
+        view.setTitle(LEGACY_TITLE.serialize(title));
     }
 }

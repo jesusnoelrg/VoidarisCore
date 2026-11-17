@@ -375,6 +375,10 @@ utilities:
     loom: "<dark_purple>Telar"
     cartography: "<dark_purple>Mesa de cartografía"
     smithing: "<dark_purple>Mesa de herrería"
+    enderchest: "<dark_purple>Cofre del End"
+    # <player> is the owner of the ender chest or inventory being viewed.
+    enderchest-other: "<dark_purple>Cofre del End de <player>"
+    invsee: "<dark_purple>Inventario de <player>"
   # Each "-other" message goes to whoever ran the command on someone else; <player> is the target.
   gamemode:
     changed: "<prefix><white>Tu modo de juego ahora es <light_purple><gamemode></light_purple>."
