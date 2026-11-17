@@ -116,6 +116,8 @@ commands:
     description: "Activa o desactiva el modo espía de mensajes privados"
   msgtoggle:
     description: "Activa o desactiva la recepción de mensajes privados"
+  announcetoggle:
+    description: "Activa o desactiva la recepción de anuncios automáticos"
 
 help:
   # <page> and <pages> are the current page and the page count.
@@ -298,6 +300,8 @@ help:
       description: "Activa o desactiva el modo espía de mensajes privados"
     msgtoggle:
       description: "Activa o desactiva la recepción de mensajes privados"
+    announcetoggle:
+      description: "Activa o desactiva la recepción de anuncios automáticos"
 
 teleport:
   warmup: "<prefix><white>Teletransportando en <light_purple><seconds></light_purple> segundos. No te muevas."
@@ -437,6 +441,10 @@ utilities:
     sun: "<prefix><white>El clima se despejó en <light_purple><world></light_purple>."
     rain: "<prefix><white>Comenzó a llover en <light_purple><world></light_purple>."
     thunder: "<prefix><white>Comenzó una tormenta eléctrica en <light_purple><world></light_purple>."
+
+announcements:
+  disabled-self: "<prefix><white>Has desactivado los anuncios automáticos."
+  enabled-self: "<prefix><white>Has activado los anuncios automáticos."
 
 motd:
   empty: "<prefix><white>No hay ningún mensaje de bienvenida configurado."
