@@ -20,6 +20,8 @@ public final class Keys {
         public static final String COSMETICS_TELEPORT_PARTICLE = "voidaris.cosmetics.teleportparticle.";
         /** Followed by the cosmetic id under kill-messages.cosmetics in cosmetics.yml. */
         public static final String COSMETICS_KILL_MESSAGE = "voidaris.cosmetics.killmessage.";
+        /** Followed by the cosmetic id under auras.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_AURA = "voidaris.cosmetics.aura.";
 
         // teleport
         public static final String TELEPORT_BYPASS = "voidaris.teleport.bypass";
@@ -213,6 +215,8 @@ public final class Keys {
         public static final String HELP_COSMETICS_KILL_MESSAGE_DESCRIPTION = "help.commands.cosmetics-killmessage.description";
         public static final String HELP_COSMETICS_TELEPORT_PARTICLE_ARGUMENTS = "help.commands.cosmetics-teleportparticle.arguments";
         public static final String HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION = "help.commands.cosmetics-teleportparticle.description";
+        public static final String HELP_COSMETICS_AURA_ARGUMENTS = "help.commands.cosmetics-aura.arguments";
+        public static final String HELP_COSMETICS_AURA_DESCRIPTION = "help.commands.cosmetics-aura.description";
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
@@ -480,6 +484,9 @@ public final class Keys {
         public static final String COSMETICS_KILL_MESSAGE_PREVIEW_DEFAULT = "cosmetics.kill-message.preview-default";
         public static final String COSMETICS_KILL_MESSAGE_PREVIEW_VICTIM = "cosmetics.kill-message.preview-victim";
         public static final String COSMETICS_KILL_MESSAGE_NO_WEAPON = "cosmetics.kill-message.no-weapon";
+        public static final String COSMETICS_AURA_SELECTED = "cosmetics.aura.selected";
+        public static final String COSMETICS_AURA_NOT_FOUND = "cosmetics.aura.not-found";
+        public static final String COSMETICS_AURA_LOCKED = "cosmetics.aura.locked";
 
         // death-messages
         public static final String DEATH_MESSAGES_FORMAT = "death-messages.format";

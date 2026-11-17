@@ -25,6 +25,7 @@ public final class CosmeticsCommand {
     private static final String JOIN_MESSAGE = "joinmessage";
     private static final String KILL_MESSAGE = "killmessage";
     private static final String TELEPORT_PARTICLE = "teleportparticle";
+    private static final String AURA = "aura";
     private static final String ARGUMENT = "cosmetic";
 
     private final CosmeticsModule module;
@@ -32,6 +33,7 @@ public final class CosmeticsCommand {
     private final MessageCosmeticsMenu joinMessagesMenu;
     private final MessageCosmeticsMenu killMessagesMenu;
     private final TeleportParticlesMenu particlesMenu;
+    private final AurasMenu aurasMenu;
 
     public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
                             PlayerFormatter formatter, MenuLoader loader) {
@@ -45,6 +47,7 @@ public final class CosmeticsCommand {
                         KillMessagePlaceholders.of(messages, player,
                                 messages.get(Keys.Message.COSMETICS_KILL_MESSAGE_PREVIEW_VICTIM))));
         this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
+        this.aurasMenu = new AurasMenu(plugin, configs, module, messages, loader);
     }
 
     public LiteralCommandNode<CommandSourceStack> build() {
@@ -62,6 +65,16 @@ public final class CosmeticsCommand {
                                     return builder.buildFuture();
                                 })
                                 .executes(this::selectTeleportParticle)))
+                .then(Commands.literal(AURA)
+                        .executes(this::openAuras)
+                        .then(Commands.argument(ARGUMENT, StringArgumentType.word())
+                                .suggests((context, builder) -> {
+                                    if (module.isEnabled() && context.getSource().getSender() instanceof Player player) {
+                                        module.auras().usable(player).forEach(aura -> builder.suggest(aura.id()));
+                                    }
+                                    return builder.buildFuture();
+                                })
+                                .executes(this::selectAura)))
                 .build();
     }
 
@@ -77,7 +90,10 @@ public final class CosmeticsCommand {
                         Keys.Message.HELP_COSMETICS_KILL_MESSAGE_DESCRIPTION, null, module),
                 new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + TELEPORT_PARTICLE,
                         Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_ARGUMENTS,
-                        Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION, null, module));
+                        Keys.Message.HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION, null, module),
+                new HelpEntry(HelpEntry.Category.PLAYER, "/" + NAME + " " + AURA,
+                        Keys.Message.HELP_COSMETICS_AURA_ARGUMENTS,
+                        Keys.Message.HELP_COSMETICS_AURA_DESCRIPTION, null, module));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> messageLiteral(String literal, MessageCosmeticsMenu menu,
@@ -156,6 +172,40 @@ public final class CosmeticsCommand {
         }
         module.selections().select(player.getUniqueId(), CosmeticsModule.TELEPORT_PARTICLE_SLOT, id)
                 .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_TELEPORT_PARTICLE_SELECTED, name))
+                .exceptionally(e -> {
+                    messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
+                    return null;
+                });
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int openAuras(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        aurasMenu.open(player);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int selectAura(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        String id = StringArgumentType.getString(context, ARGUMENT);
+        var aura = module.auras().find(id);
+        if (aura.isEmpty()) {
+            messages.send(player, Keys.Message.COSMETICS_AURA_NOT_FOUND, Placeholder.unparsed("id", id));
+            return 0;
+        }
+        var name = Placeholder.parsed("cosmetic", aura.get().name());
+        if (!player.hasPermission(Keys.Permission.COSMETICS_AURA + id)) {
+            messages.send(player, Keys.Message.COSMETICS_AURA_LOCKED, name);
+            return 0;
+        }
+        module.selections().select(player.getUniqueId(), CosmeticsModule.AURA_SLOT, id)
+                .thenRun(() -> messages.send(player, Keys.Message.COSMETICS_AURA_SELECTED, name))
                 .exceptionally(e -> {
                     messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
                     return null;

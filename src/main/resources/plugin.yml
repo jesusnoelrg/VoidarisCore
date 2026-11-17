@@ -360,6 +360,54 @@ permissions:
   voidaris.cosmetics.teleportparticle.void:
     description: Equip the void teleport particles.
     default: false
+  voidaris.cosmetics.aura.none:
+    description: Equip the none aura.
+    default: true
+  voidaris.cosmetics.aura.cloud:
+    description: Equip the cloud aura.
+    default: false
+  voidaris.cosmetics.aura.flame:
+    description: Equip the flame aura.
+    default: false
+  voidaris.cosmetics.aura.soul:
+    description: Equip the soul aura.
+    default: false
+  voidaris.cosmetics.aura.hearts:
+    description: Equip the hearts aura.
+    default: false
+  voidaris.cosmetics.aura.notes:
+    description: Equip the notes aura.
+    default: false
+  voidaris.cosmetics.aura.totem:
+    description: Equip the totem aura.
+    default: false
+  voidaris.cosmetics.aura.cherry:
+    description: Equip the cherry aura.
+    default: false
+  voidaris.cosmetics.aura.lava:
+    description: Equip the lava aura.
+    default: false
+  voidaris.cosmetics.aura.emerald:
+    description: Equip the emerald aura.
+    default: false
+  voidaris.cosmetics.aura.witch:
+    description: Equip the witch aura.
+    default: false
+  voidaris.cosmetics.aura.voidaris:
+    description: Equip the Voidaris aura.
+    default: false
+  voidaris.cosmetics.aura.rainbow:
+    description: Equip the rainbow aura.
+    default: false
+  voidaris.cosmetics.aura.galaxy:
+    description: Equip the galaxy aura.
+    default: false
+  voidaris.cosmetics.aura.royal:
+    description: Equip the royal aura.
+    default: false
+  voidaris.cosmetics.aura.event:
+    description: Equip the event aura.
+    default: false
   voidaris.cosmetics.killmessage.default:
     description: Equip the default kill message.
     default: true
