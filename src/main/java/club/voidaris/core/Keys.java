@@ -415,6 +415,9 @@ public final class Keys {
         public static final String UTILITIES_TITLE_LOOM = "utilities.titles.loom";
         public static final String UTILITIES_TITLE_CARTOGRAPHY = "utilities.titles.cartography";
         public static final String UTILITIES_TITLE_SMITHING = "utilities.titles.smithing";
+        public static final String UTILITIES_TITLE_ENDERCHEST = "utilities.titles.enderchest";
+        public static final String UTILITIES_TITLE_ENDERCHEST_OTHER = "utilities.titles.enderchest-other";
+        public static final String UTILITIES_TITLE_INVSEE = "utilities.titles.invsee";
         public static final String UTILITIES_GAMEMODE_CHANGED = "utilities.gamemode.changed";
         public static final String UTILITIES_GAMEMODE_CHANGED_OTHER = "utilities.gamemode.changed-other";
         public static final String UTILITIES_GAMEMODE_NAME_SURVIVAL = "utilities.gamemode.names.survival";
