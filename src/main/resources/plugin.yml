@@ -507,6 +507,72 @@ permissions:
   voidaris.cosmetics.customchatcolor:
     description: Pick any hex chat color with /chatcolor #RRGGBB.
     default: false
+  voidaris.cosmetics.nickcolor.none:
+    description: Equip the none nick color.
+    default: true
+  voidaris.cosmetics.nickcolor.black:
+    description: Equip the black nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.dark_blue:
+    description: Equip the dark blue nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.dark_green:
+    description: Equip the dark green nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.dark_aqua:
+    description: Equip the dark aqua nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.dark_red:
+    description: Equip the dark red nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.dark_purple:
+    description: Equip the dark purple nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.gold:
+    description: Equip the gold nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.gray:
+    description: Equip the gray nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.dark_gray:
+    description: Equip the dark gray nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.blue:
+    description: Equip the blue nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.green:
+    description: Equip the green nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.aqua:
+    description: Equip the aqua nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.red:
+    description: Equip the red nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.light_purple:
+    description: Equip the light purple nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.yellow:
+    description: Equip the yellow nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.white:
+    description: Equip the white nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.fire:
+    description: Equip the fire nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.ocean:
+    description: Equip the ocean nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.void:
+    description: Equip the void nick color.
+    default: false
+  voidaris.cosmetics.nickcolor.rainbow:
+    description: Equip the rainbow nick color.
+    default: false
+  voidaris.cosmetics.customnickcolor:
+    description: Pick any hex nick color with /nickcolor #RRGGBB.
+    default: false
   voidaris.cosmetics.killmessage.default:
     description: Equip the default kill message.
     default: true

@@ -1,6 +1,5 @@
 package club.voidaris.core.cosmetics;
 
-import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.ParsingException;
@@ -17,49 +16,56 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
- * Chat color cosmetics defined under chat-colors in cosmetics.yml, parsed once per {@link #load()}, plus the
- * custom hex colors players pick with /chatcolor.
+ * Color cosmetics of one {@link ColorCategory}, parsed once per {@link #load()}, plus the custom hex colors players
+ * pick with its command.
  */
-final class ChatColors {
+final class ColorCosmetics {
 
-    private static final String SECTION = "chat-colors.";
-    private static final String COSMETICS = SECTION + "cosmetics";
     private static final Pattern HEX = Pattern.compile("(?:&?#)?([0-9a-fA-F]{6})");
 
     private final ConfigManager configs;
     private final Logger logger;
-    private volatile Map<String, ChatColor> definitions = Map.of();
+    private final ColorCategory category;
+    private final String cosmeticsPath;
+    private volatile Map<String, ColorCosmetic> definitions = Map.of();
 
-    ChatColors(ConfigManager configs, Logger logger) {
+    ColorCosmetics(ConfigManager configs, Logger logger, ColorCategory category) {
         this.configs = configs;
         this.logger = logger;
+        this.category = category;
+        this.cosmeticsPath = category.section + ".cosmetics";
+    }
+
+    ColorCategory category() {
+        return category;
     }
 
     void load() {
-        var cosmetics = configs.cosmetics().get().getConfigurationSection(COSMETICS);
-        Map<String, ChatColor> loaded = new LinkedHashMap<>();
+        var cosmetics = configs.cosmetics().get().getConfigurationSection(cosmeticsPath);
+        Map<String, ColorCosmetic> loaded = new LinkedHashMap<>();
         int invalid = 0;
         if (cosmetics != null) {
             for (String id : cosmetics.getKeys(false)) {
                 var cosmetic = cosmetics.getConfigurationSection(id);
                 // Custom picks are stored as #rrggbb in the same selection slot, so ids must never look like one.
                 if (cosmetic == null || isCustom(id)) {
-                    logger.warning("Invalid chat color " + COSMETICS + "." + id + ".");
+                    logger.warning("Invalid " + category.label + " " + cosmeticsPath + "." + id + ".");
                     invalid++;
                     continue;
                 }
                 String color = cosmetic.getString("color", "");
                 if (!isValid(color)) {
-                    logger.warning("Invalid MiniMessage color '" + color + "' in " + COSMETICS + "." + id + ".");
+                    logger.warning("Invalid MiniMessage color '" + color + "' in " + cosmeticsPath + "." + id + ".");
                     invalid++;
                     continue;
                 }
                 String name = cosmetic.isSet("name") ? cosmetic.getString("name") : id;
-                loaded.put(id, new ChatColor(id, name, cosmetic.getBoolean("premium"), color));
+                loaded.put(id, new ColorCosmetic(id, name, cosmetic.getBoolean("premium"), color));
             }
         }
         definitions = Map.copyOf(loaded);
-        logger.info("Loaded " + loaded.size() + " chat color cosmetics" + (invalid > 0 ? " (" + invalid + " invalid)." : "."));
+        logger.info("Loaded " + loaded.size() + " " + category.label + " cosmetics"
+                + (invalid > 0 ? " (" + invalid + " invalid)." : "."));
     }
 
     void clear() {
@@ -74,24 +80,24 @@ final class ChatColors {
      * In the order of cosmetics.yml, since Map.copyOf does not keep it.
      */
     List<String> orderedIds() {
-        var cosmetics = configs.cosmetics().get().getConfigurationSection(COSMETICS);
+        var cosmetics = configs.cosmetics().get().getConfigurationSection(cosmeticsPath);
         return cosmetics == null ? List.of()
                 : cosmetics.getKeys(false).stream().filter(definitions::containsKey).toList();
     }
 
     String defaultSelection() {
-        return configs.cosmetics().get().getString(SECTION + "default-selection", "");
+        return configs.cosmetics().get().getString(category.section + ".default-selection", "");
     }
 
-    Optional<ChatColor> find(String id) {
+    Optional<ColorCosmetic> find(String id) {
         return Optional.ofNullable(definitions.get(id));
     }
 
-    Optional<ChatColor> usable(Player player, String id) {
-        return find(id).filter(color -> player.hasPermission(Keys.Permission.COSMETICS_CHAT_COLOR + id));
+    Optional<ColorCosmetic> usable(Player player, String id) {
+        return find(id).filter(color -> player.hasPermission(category.permission + id));
     }
 
-    List<ChatColor> usable(Player player) {
+    List<ColorCosmetic> usable(Player player) {
         return orderedIds().stream().flatMap(id -> usable(player, id).stream()).toList();
     }
 

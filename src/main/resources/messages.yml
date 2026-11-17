@@ -22,6 +22,8 @@ commands:
     description: "Equipa tus cosméticos"
   chatcolor:
     description: "Elige el color con el que escribes en el chat"
+  nickcolor:
+    description: "Elige el color de tu nombre"
   spawn:
     description: "Teletranspórtate al spawn"
   setspawn:
@@ -166,6 +168,9 @@ help:
     chatcolor:
       arguments: "[color|#RRGGBB]"
       description: "Elige el color con el que escribes en el chat"
+    nickcolor:
+      arguments: "[color|#RRGGBB]"
+      description: "Elige el color de tu nombre"
     spawn:
       description: "Teletranspórtate al spawn"
     setspawn:
@@ -588,6 +593,15 @@ cosmetics:
     custom-hint: "<prefix><white>Escribe <click:suggest_command:'/chatcolor #'><hover:show_text:'<gray>Clic para autocompletar'><light_purple>/chatcolor #RRGGBB</light_purple></hover></click> <white>con el color que quieras, por ejemplo <#FF5555>#FF5555</#FF5555><white>."
     # Sample text shown in each icon of the menu, written in its color.
     preview: "¡Hola, Voidaris!"
+  nick-color:
+    selected: "<prefix><white>Ahora tu nombre se muestra con el color <cosmetic><white>."
+    not-found: "<prefix><white>No existe el color <light_purple><id></light_purple>. Usa un color del menú o un hexadecimal como <light_purple>#FF5555</light_purple>."
+    locked: "<prefix><white>No tienes desbloqueado el color <cosmetic><white>."
+    # <color> is the hex color written in that color.
+    custom-selected: "<prefix><white>Ahora tu nombre se muestra con el color <color><white>."
+    custom-locked: "<prefix><white>No tienes desbloqueados los colores de nick personalizados."
+    # Sent when clicking the custom color icon of the menu.
+    custom-hint: "<prefix><white>Escribe <click:suggest_command:'/nickcolor #'><hover:show_text:'<gray>Clic para autocompletar'><light_purple>/nickcolor #RRGGBB</light_purple></hover></click> <white>con el color que quieras, por ejemplo <#FF5555>#FF5555</#FF5555><white>."
 
 death-messages:
   # Wraps every translated death message. Kill messages equipped as cosmetics (cosmetics.yml) use their own format.

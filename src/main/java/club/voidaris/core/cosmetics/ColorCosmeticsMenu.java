@@ -19,12 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * guis/chat-colors.yml: the static items plus one paginated icon per chat color under chat_colors.icons, followed by
- * the custom hex color icon.
+ * The menu of a {@link ColorCategory}: the static items plus one paginated icon per color under
+ * {@code <guiSection>.icons}, followed by the custom hex color icon.
  */
-final class ChatColorsMenu {
+final class ColorCosmeticsMenu {
 
-    private static final String SECTION = "chat_colors";
     private static final String CUSTOM = "custom";
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
@@ -33,34 +32,37 @@ final class ChatColorsMenu {
     private final CosmeticsModule module;
     private final Messages messages;
     private final MenuLoader loader;
+    private final ColorCategory category;
 
-    ChatColorsMenu(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages, MenuLoader loader) {
+    ColorCosmeticsMenu(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
+                       MenuLoader loader, ColorCategory category) {
         this.plugin = plugin;
         this.configs = configs;
         this.module = module;
         this.messages = messages;
         this.loader = loader;
+        this.category = category;
     }
 
     void open(Player player) {
-        var menu = loader.load(configs.chatColorsGui().get(), player);
+        var menu = loader.load(category.gui.apply(configs).get(), player);
         renderPage(menu, player, 0);
         player.openInventory(menu.getInventory());
     }
 
     private void renderPage(Menu menu, Player player, int page) {
-        var file = configs.chatColorsGui().get();
-        var template = file.getConfigurationSection(SECTION);
+        var file = category.gui.apply(configs).get();
+        var template = file.getConfigurationSection(category.guiSection);
         List<MenuEntry> entries = new ArrayList<>();
         if (template != null) {
-            String equipped = module.equippedChatColor(player).orElse(null);
+            String equipped = module.equippedColor(player, category).orElse(null);
             var icons = template.getConfigurationSection("icons");
             if (icons != null) {
                 for (String id : icons.getKeys(false)) {
                     // Unknown colors are skipped so they leave no gap in the page.
-                    module.chatColors().find(id).ifPresent(color -> {
+                    module.colors(category).find(id).ifPresent(color -> {
                         Status status = id.equals(equipped) ? Status.SELECTED
-                                : player.hasPermission(Keys.Permission.COSMETICS_CHAT_COLOR + id) ? Status.AVAILABLE
+                                : player.hasPermission(category.permission + id) ? Status.AVAILABLE
                                 : Status.LOCKED;
                         entry(menu, player, page, template, icons.getString(id), color, status).ifPresent(entries::add);
                     });
@@ -72,9 +74,9 @@ final class ChatColorsMenu {
     }
 
     private Optional<MenuEntry> entry(Menu menu, Player player, int page, ConfigurationSection template,
-                                      String material, ChatColor color, Status status) {
+                                      String material, ColorCosmetic color, Status status) {
         TagResolver resolvers = TagResolver.resolver(Placeholder.parsed("cosmetic", color.name()),
-                Placeholder.component("preview", preview(color.color())));
+                Placeholder.component("preview", preview(player, color.color())));
         return loader.item(template, material, player, resolvers).map(item -> {
             var lore = new ArrayList<Component>(loader.lore(player, template.getStringList("lore"), resolvers));
             if (color.premium()) {
@@ -96,9 +98,9 @@ final class ChatColorsMenu {
         if (custom == null) {
             return Optional.empty();
         }
-        boolean selected = equipped != null && ChatColors.isCustom(equipped);
+        boolean selected = equipped != null && ColorCosmetics.isCustom(equipped);
         Status status = selected ? Status.SELECTED
-                : player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_CHAT_COLOR) ? Status.AVAILABLE
+                : player.hasPermission(category.customPermission) ? Status.AVAILABLE
                 : Status.LOCKED;
         TagResolver resolvers = Placeholder.component("color",
                 selected ? MINI_MESSAGE.deserialize("<" + equipped + ">" + equipped) : Component.empty());
@@ -117,23 +119,24 @@ final class ChatColorsMenu {
                     return;
                 }
                 if (status == Status.LOCKED) {
-                    messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_CUSTOM_LOCKED);
+                    messages.send(player, category.customLockedMessage);
                     loader.run(player, template.getStringList("locked_commands"));
                     return;
                 }
                 // Typing the color needs the chat box, so the menu closes and the hint suggests the command.
                 player.closeInventory();
-                messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_CUSTOM_HINT);
+                messages.send(player, category.customHintMessage);
                 loader.run(player, custom.getStringList("click_commands"));
             });
         });
     }
 
-    private Component preview(String color) {
-        return MINI_MESSAGE.deserialize(color + MINI_MESSAGE.escapeTags(messages.raw(Keys.Message.COSMETICS_CHAT_COLOR_PREVIEW)));
+    private Component preview(Player player, String color) {
+        String text = category.previewMessage == null ? player.getName() : messages.raw(category.previewMessage);
+        return MINI_MESSAGE.deserialize(color + MINI_MESSAGE.escapeTags(text));
     }
 
-    private void click(Menu menu, Player player, int page, ConfigurationSection template, ChatColor color, Status status) {
+    private void click(Menu menu, Player player, int page, ConfigurationSection template, ColorCosmetic color, Status status) {
         if (!module.isEnabled()) {
             player.closeInventory();
             return;
@@ -142,17 +145,17 @@ final class ChatColorsMenu {
         switch (status) {
             case SELECTED -> loader.run(player, template.getStringList("selected_commands"));
             case LOCKED -> {
-                messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_LOCKED, name);
+                messages.send(player, category.lockedMessage, name);
                 loader.run(player, template.getStringList("locked_commands"));
             }
             case AVAILABLE -> module.selections()
-                    .select(player.getUniqueId(), CosmeticsModule.CHAT_COLOR_SLOT, color.id())
+                    .select(player.getUniqueId(), category.slot, color.id())
                     .whenComplete((ignored, e) -> player.getScheduler().run(plugin, task -> {
                         if (e != null) {
                             messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
                             return;
                         }
-                        messages.send(player, Keys.Message.COSMETICS_CHAT_COLOR_SELECTED, name);
+                        messages.send(player, category.selectedMessage, name);
                         loader.run(player, template.getStringList("select_commands"));
                         // Redraws the page so the glow and the selected lore move to the new choice.
                         if (player.getOpenInventory().getTopInventory().getHolder(false) == menu) {

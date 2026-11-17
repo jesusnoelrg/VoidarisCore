@@ -8,6 +8,7 @@ import club.voidaris.core.command.VoidarisCommand;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.cosmetics.CosmeticsCommand;
 import club.voidaris.core.cosmetics.CosmeticsModule;
+import club.voidaris.core.cosmetics.CosmeticsPlaceholders;
 import club.voidaris.core.deathmessages.DeathMessagesModule;
 import club.voidaris.core.gui.MenuListener;
 import club.voidaris.core.homes.HomeCommands;
@@ -63,6 +64,7 @@ public final class VoidarisCore extends JavaPlugin {
     private PrivateMessagesModule privateMessagesModule;
     private AnnouncementsModule announcementsModule;
     private BukkitTask autosaveTask;
+    private Runnable unregisterPlaceholders;
 
     @Override
     public void onEnable() {
@@ -78,6 +80,7 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.reload();
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         registerCommands();
+        registerPlaceholders();
         scheduleAutosave();
 
         getLogger().info("VoidarisCore " + getPluginMeta().getVersion() + " habilitado.");
@@ -86,6 +89,9 @@ public final class VoidarisCore extends JavaPlugin {
     @Override
     public void onDisable() {
         MenuListener.closeAll();
+        if (unregisterPlaceholders != null) {
+            unregisterPlaceholders.run();
+        }
         if (moduleManager != null) {
             moduleManager.disableAll();
         }
@@ -113,6 +119,16 @@ public final class VoidarisCore extends JavaPlugin {
         autosaveTask = getServer().getScheduler().runTaskTimer(this, teleporter.cooldowns()::saveAsync, ticks, ticks);
     }
 
+    private void registerPlaceholders() {
+        if (!integrations.hasPlaceholderApi()) {
+            return;
+        }
+        var placeholders = new CosmeticsPlaceholders(this, cosmeticsModule);
+        if (placeholders.register()) {
+            unregisterPlaceholders = placeholders::unregister;
+        }
+    }
+
     private void connectDatabase() {
         database = new Database(this);
         var settings = configManager.database().get();
@@ -128,8 +144,8 @@ public final class VoidarisCore extends JavaPlugin {
     }
 
     private void registerModules() {
-        formatter = new PlayerFormatter(messages, integrations);
         cosmeticsModule = new CosmeticsModule(this, configManager, database);
+        formatter = new PlayerFormatter(messages, integrations, cosmeticsModule::nickname);
         moduleManager.register(cosmeticsModule);
         moduleManager.register(new ChatModule(configManager, formatter, integrations, cosmeticsModule));
         moduleManager.register(new JoinQuitModule(configManager, formatter, integrations, cosmeticsModule));
@@ -191,8 +207,7 @@ public final class VoidarisCore extends JavaPlugin {
             registrar.register(voidarisCommand.build(), messages.raw(Keys.Message.COMMAND_VOIDARIS_DESCRIPTION));
             registrar.register(cosmeticsCommand.build(), messages.raw(Keys.Message.COMMAND_COSMETICS_DESCRIPTION),
                     List.of("cosmeticos"));
-            registrar.register(cosmeticsCommand.buildChatColor(), messages.raw(Keys.Message.COMMAND_CHATCOLOR_DESCRIPTION),
-                    List.of("colorchat"));
+            cosmeticsCommand.registerColorCommands(registrar);
             spawnCommands.register(registrar);
             warpCommands.register(registrar);
             homeCommands.register(registrar);

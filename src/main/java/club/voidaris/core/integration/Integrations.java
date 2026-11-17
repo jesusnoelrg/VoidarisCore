@@ -36,6 +36,10 @@ public final class Integrations {
         return luckPerms == null ? "" : LegacyColors.toMiniMessage(luckPerms.suffix(player));
     }
 
+    public boolean hasPlaceholderApi() {
+        return placeholderApi != null;
+    }
+
     public String setPlaceholders(Player player, String text) {
         return placeholderApi == null ? text : placeholderApi.apply(player, text);
     }

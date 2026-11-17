@@ -4,6 +4,8 @@ import club.voidaris.core.Keys;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.module.Module;
 import club.voidaris.core.storage.Database;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -23,7 +25,8 @@ public final class CosmeticsModule extends Module {
     static final String TELEPORT_PARTICLE_SLOT = "teleport-particle";
     static final String AURA_SLOT = "aura";
     static final String JOIN_EFFECT_SLOT = "join-effect";
-    static final String CHAT_COLOR_SLOT = "chat-color";
+
+    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
     private final JavaPlugin plugin;
     private final Selections selections;
@@ -31,7 +34,7 @@ public final class CosmeticsModule extends Module {
     private final TeleportParticles teleportParticles;
     private final Auras auras;
     private final JoinEffects joinEffects;
-    private final ChatColors chatColors;
+    private final Map<ColorCategory, ColorCosmetics> colors = new EnumMap<>(ColorCategory.class);
     private final NamespacedKey joinEffectMarker;
 
     public CosmeticsModule(JavaPlugin plugin, ConfigManager configs, Database database) {
@@ -44,7 +47,9 @@ public final class CosmeticsModule extends Module {
         this.teleportParticles = new TeleportParticles(configs, plugin.getLogger());
         this.auras = new Auras(configs, plugin.getLogger());
         this.joinEffects = new JoinEffects(configs, plugin.getLogger());
-        this.chatColors = new ChatColors(configs, plugin.getLogger());
+        for (ColorCategory category : ColorCategory.values()) {
+            colors.put(category, new ColorCosmetics(configs, plugin.getLogger(), category));
+        }
         this.joinEffectMarker = new NamespacedKey(plugin, "join_effect");
     }
 
@@ -58,7 +63,7 @@ public final class CosmeticsModule extends Module {
     protected void onEnable() {
         auras.load();
         joinEffects.load();
-        chatColors.load();
+        colors.values().forEach(ColorCosmetics::load);
         registerPermissions();
         // Players already online when the module is toggled on never went through AsyncPlayerPreLoginEvent.
         Bukkit.getOnlinePlayers().forEach(player -> selections.load(player.getUniqueId()));
@@ -68,7 +73,7 @@ public final class CosmeticsModule extends Module {
     protected void onReload() {
         auras.load();
         joinEffects.load();
-        chatColors.load();
+        colors.values().forEach(ColorCosmetics::load);
         registerPermissions();
     }
 
@@ -77,7 +82,7 @@ public final class CosmeticsModule extends Module {
         selections.clear();
         auras.clear();
         joinEffects.clear();
-        chatColors.clear();
+        colors.values().forEach(ColorCosmetics::clear);
     }
 
     /**
@@ -188,27 +193,42 @@ public final class CosmeticsModule extends Module {
      * equipped color keeps the chat format's own color.
      */
     public Optional<String> chatColor(Player player) {
-        return equippedChatColor(player)
-                .map(id -> ChatColors.isCustom(id) ? "<" + id + ">" : chatColors.find(id).map(ChatColor::color).orElse(""))
+        return color(player, ColorCategory.CHAT);
+    }
+
+    /**
+     * The player's name in their equipped nick color, or uncolored so the surrounding format colors it.
+     */
+    public Component nickname(Player player) {
+        return color(player, ColorCategory.NICK)
+                .map(color -> MINI_MESSAGE.deserialize(color + MINI_MESSAGE.escapeTags(player.getName())))
+                .orElseGet(() -> Component.text(player.getName()));
+    }
+
+    private Optional<String> color(Player player, ColorCategory category) {
+        return equippedColor(player, category)
+                .map(id -> ColorCosmetics.isCustom(id) ? "<" + id + ">"
+                        : colors.get(category).find(id).map(ColorCosmetic::color).orElse(""))
                 .filter(color -> !color.isEmpty());
     }
 
     /**
      * Same fallback as {@link #equipped(Player, MessageCategory)}; a custom pick is its {@code #rrggbb} color.
      */
-    Optional<String> equippedChatColor(Player player) {
+    Optional<String> equippedColor(Player player, ColorCategory category) {
         if (!isEnabled()) {
             return Optional.empty();
         }
-        return selections.get(player.getUniqueId(), CHAT_COLOR_SLOT)
-                .flatMap(id -> ChatColors.isCustom(id)
-                        ? Optional.of(id).filter(custom -> player.hasPermission(Keys.Permission.COSMETICS_CUSTOM_CHAT_COLOR))
-                        : chatColors.usable(player, id).map(ChatColor::id))
-                .or(() -> chatColors.usable(player, chatColors.defaultSelection()).map(ChatColor::id));
+        var cosmetics = colors.get(category);
+        return selections.get(player.getUniqueId(), category.slot)
+                .flatMap(id -> ColorCosmetics.isCustom(id)
+                        ? Optional.of(id).filter(custom -> player.hasPermission(category.customPermission))
+                        : cosmetics.usable(player, id).map(ColorCosmetic::id))
+                .or(() -> cosmetics.usable(player, cosmetics.defaultSelection()).map(ColorCosmetic::id));
     }
 
-    ChatColors chatColors() {
-        return chatColors;
+    ColorCosmetics colors(ColorCategory category) {
+        return colors.get(category);
     }
 
     JoinEffects joinEffects() {
@@ -241,7 +261,7 @@ public final class CosmeticsModule extends Module {
         registerPermissions(Keys.Permission.COSMETICS_TELEPORT_PARTICLE, teleportParticles.ids());
         registerPermissions(Keys.Permission.COSMETICS_AURA, auras.ids());
         registerPermissions(Keys.Permission.COSMETICS_JOIN_EFFECT, joinEffects.ids());
-        registerPermissions(Keys.Permission.COSMETICS_CHAT_COLOR, chatColors.ids());
+        colors.values().forEach(cosmetics -> registerPermissions(cosmetics.category().permission, cosmetics.ids()));
         // Parsed eagerly only to log config mistakes on enable/reload instead of on the first teleport.
         long invalid = teleportParticles.ids().stream().filter(id -> teleportParticles.find(id).isEmpty()).count();
         plugin.getLogger().info("Loaded " + (teleportParticles.ids().size() - invalid) + " teleport particle cosmetics"

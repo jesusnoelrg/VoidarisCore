@@ -7,7 +7,8 @@ join-messages:
   # Players who never picked one, or lost the one they picked, use this cosmetic if they own it, and no message otherwise.
   default-selection: default
   # name: shown in /cosmetics joinmessage. format: the join message; an empty format ("") hides the join.
-  # Formats support the placeholders of chat-format.yml (<player>, <displayname>, <prefix_lp>, <suffix_lp>, PlaceholderAPI).
+  # Formats support the placeholders of chat-format.yml (<player>, <nickname>, <displayname>, <prefix_lp>, <suffix_lp>,
+  # PlaceholderAPI). <nickname> shows the player's nick color; the name inside a gradient is better left as <player>.
   # seasons: optional formats that replace format between two dates (MM-dd, inclusive, may wrap around the new year).
   # The first active season wins; a cosmetic with no active season and no format cannot be equipped or shown.
   cosmetics:
@@ -16,7 +17,7 @@ join-messages:
       format: ""
     default:
       name: "<white>Predeterminado"
-      format: "<dark_gray>[<green>+</green>]</dark_gray> %luckperms_prefix%<white><player> <gray>se ha unido."
+      format: "<dark_gray>[<green>+</green>]</dark_gray> %luckperms_prefix%<white><nickname> <gray>se ha unido."
     wizard:
       name: "<gradient:#B06AB3:#4568DC>Mago</gradient>"
       format: "<light_purple>✦</light_purple> <gradient:#B06AB3:#4568DC>Con un destello arcano, <player> se materializó en Voidaris.</gradient>"
@@ -42,19 +43,19 @@ join-messages:
           format: "<gradient:#FF7518:#8E44AD>☠ <player> salió de su tumba... ¡Feliz Halloween!</gradient>"
     box:
       name: "<red>Boxeo"
-      format: "<red><bold>¡DING DING!</bold></red> <white>En esta esquina, con cero derrotas... <gold><bold><player></bold></gold><white>!"
+      format: "<red><bold>¡DING DING!</bold></red> <white>En esta esquina, con cero derrotas... <gold><bold><nickname></bold></gold><white>!"
     pc:
       name: "<green>Computadora"
-      format: '<dark_gray>[<green>✔</green>]</dark_gray> <green>C:\Voidaris> <white>login <player></white><gray>... conexión establecida.'
+      format: '<dark_gray>[<green>✔</green>]</dark_gray> <green>C:\Voidaris> <white>login <nickname></white><gray>... conexión establecida.'
     hacker:
       name: "<dark_green>Hacker"
-      format: "<dark_green><obfuscated>##</obfuscated></dark_green> <green>Inyectando <white>killaura.jar</white>... <white><player></white> entró con 300 CPS.</green> <dark_green><obfuscated>##</obfuscated></dark_green>"
+      format: "<dark_green><obfuscated>##</obfuscated></dark_green> <green>Inyectando <white>killaura.jar</white>... <white><nickname></white> entró con 300 CPS.</green> <dark_green><obfuscated>##</obfuscated></dark_green>"
     void:
       name: "<gradient:#B65CFF:#3A0A6B>Vacío</gradient>"
       format: "<gradient:#B65CFF:#5B1E9E:#3A0A6B>✦ <player> emergió del vacío.</gradient>"
     creeper:
       name: "<green>Creeper"
-      format: "<green>Ssss...</green> <red><bold>¡BOOM!</bold></red> <white>Llegó <green><player></green>."
+      format: "<green>Ssss...</green> <red><bold>¡BOOM!</bold></red> <white>Llegó <green><nickname></green>."
     royal:
       name: "<gradient:#FFD700:#DAA520>Realeza</gradient>"
       format: "<gradient:#FFD700:#FFF3B0:#DAA520>♛ Su majestad <player> ha llegado.</gradient>"
@@ -738,6 +739,86 @@ chat-colors:
   # color: MiniMessage tag(s) placed before the message (<red>, <#FF5555>, <gradient:#A:#B>, <rainbow>, <bold>...);
   # an empty color ("") keeps the color of the chat format. Ids cannot look like a hex color (#RRGGBB).
   # & codes the player is allowed to type (chat-format.yml) still override it.
+  cosmetics:
+    none:
+      name: "<gray>Ninguno"
+      color: ""
+    black:
+      name: "<black>Negro"
+      color: "<black>"
+    dark_blue:
+      name: "<dark_blue>Azul oscuro"
+      color: "<dark_blue>"
+    dark_green:
+      name: "<dark_green>Verde oscuro"
+      color: "<dark_green>"
+    dark_aqua:
+      name: "<dark_aqua>Aguamarina oscuro"
+      color: "<dark_aqua>"
+    dark_red:
+      name: "<dark_red>Rojo oscuro"
+      color: "<dark_red>"
+    dark_purple:
+      name: "<dark_purple>Morado"
+      color: "<dark_purple>"
+    gold:
+      name: "<gold>Dorado"
+      color: "<gold>"
+    gray:
+      name: "<gray>Gris"
+      color: "<gray>"
+    dark_gray:
+      name: "<dark_gray>Gris oscuro"
+      color: "<dark_gray>"
+    blue:
+      name: "<blue>Azul"
+      color: "<blue>"
+    green:
+      name: "<green>Verde"
+      color: "<green>"
+    aqua:
+      name: "<aqua>Aguamarina"
+      color: "<aqua>"
+    red:
+      name: "<red>Rojo"
+      color: "<red>"
+    light_purple:
+      name: "<light_purple>Rosa"
+      color: "<light_purple>"
+    yellow:
+      name: "<yellow>Amarillo"
+      color: "<yellow>"
+    white:
+      name: "<white>Blanco"
+      color: "<white>"
+    fire:
+      name: "<gradient:#FFE259:#FF4E00>Fuego</gradient>"
+      premium: true
+      color: "<gradient:#FFE259:#FFA751:#FF4E00>"
+    ocean:
+      name: "<gradient:#00F2FE:#0072FF>Océano</gradient>"
+      premium: true
+      color: "<gradient:#00F2FE:#0072FF>"
+    void:
+      name: "<gradient:#B65CFF:#3A0A6B>Vacío</gradient>"
+      premium: true
+      color: "<gradient:#B65CFF:#5B1E9E>"
+    rainbow:
+      name: "<rainbow>Arcoíris</rainbow>"
+      premium: true
+      color: "<rainbow>"
+
+nick-colors:
+  # Color of the player's name wherever <nickname> is used (join, kill and chat formats of chat-format.yml and
+  # cosmetics.yml) and in the PlaceholderAPI placeholder %voidaris_nickname% (e.g. for TAB), which returns the name with
+  # &#RRGGBB colors.
+  # Each cosmetic is unlocked with voidaris.cosmetics.nickcolor.<id>. Any hex color can also be picked with
+  # /nickcolor #RRGGBB, which requires voidaris.cosmetics.customnickcolor.
+  # Players who never picked one, or lost the one they picked, use this cosmetic if they own it.
+  default-selection: none
+  # name: shown in /nickcolor. premium: true adds premium_lore of guis/nick-colors.yml to its icon.
+  # color: MiniMessage tag(s) placed before the name (<red>, <#FF5555>, <gradient:#A:#B>, <rainbow>, <bold>...);
+  # an empty color ("") leaves the name uncolored so the surrounding format colors it. Ids cannot look like a hex color.
   cosmetics:
     none:
       name: "<gray>Ninguno"
