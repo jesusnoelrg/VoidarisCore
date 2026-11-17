@@ -22,6 +22,8 @@ public final class Keys {
         public static final String COSMETICS_KILL_MESSAGE = "voidaris.cosmetics.killmessage.";
         /** Followed by the cosmetic id under auras.cosmetics in cosmetics.yml. */
         public static final String COSMETICS_AURA = "voidaris.cosmetics.aura.";
+        /** Followed by the cosmetic id under join-effects.cosmetics in cosmetics.yml. */
+        public static final String COSMETICS_JOIN_EFFECT = "voidaris.cosmetics.joineffect.";
 
         // teleport
         public static final String TELEPORT_BYPASS = "voidaris.teleport.bypass";
@@ -217,6 +219,8 @@ public final class Keys {
         public static final String HELP_COSMETICS_TELEPORT_PARTICLE_DESCRIPTION = "help.commands.cosmetics-teleportparticle.description";
         public static final String HELP_COSMETICS_AURA_ARGUMENTS = "help.commands.cosmetics-aura.arguments";
         public static final String HELP_COSMETICS_AURA_DESCRIPTION = "help.commands.cosmetics-aura.description";
+        public static final String HELP_COSMETICS_JOIN_EFFECT_ARGUMENTS = "help.commands.cosmetics-joineffect.arguments";
+        public static final String HELP_COSMETICS_JOIN_EFFECT_DESCRIPTION = "help.commands.cosmetics-joineffect.description";
         public static final String HELP_SPAWN_DESCRIPTION = "help.commands.spawn.description";
         public static final String HELP_SETSPAWN_DESCRIPTION = "help.commands.setspawn.description";
         public static final String HELP_DELSPAWN_DESCRIPTION = "help.commands.delspawn.description";
@@ -487,6 +491,9 @@ public final class Keys {
         public static final String COSMETICS_AURA_SELECTED = "cosmetics.aura.selected";
         public static final String COSMETICS_AURA_NOT_FOUND = "cosmetics.aura.not-found";
         public static final String COSMETICS_AURA_LOCKED = "cosmetics.aura.locked";
+        public static final String COSMETICS_JOIN_EFFECT_SELECTED = "cosmetics.join-effect.selected";
+        public static final String COSMETICS_JOIN_EFFECT_NOT_FOUND = "cosmetics.join-effect.not-found";
+        public static final String COSMETICS_JOIN_EFFECT_LOCKED = "cosmetics.join-effect.locked";
 
         // death-messages
         public static final String DEATH_MESSAGES_FORMAT = "death-messages.format";

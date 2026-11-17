@@ -1,7 +1,8 @@
 # VoidarisCore - join messages menu (/cosmetics joinmessage).
 # Same layout as the server's DeluxeMenus menus (menu_title, size, items, material, slot/slots, display_name, lore,
 # *_click_commands), but texts use MiniMessage. material accepts any item or basehead-<texture> for custom heads;
-# glow: true adds the glint.
+# glow: true adds the glint; item_flags: list of Bukkit ItemFlag (HIDE_ADDITIONAL_TOOLTIP hides extra vanilla lines such as
+# the flight duration of a firework, HIDE_ATTRIBUTES the armor/damage stats).
 # Actions: [player] command, [console] command (<player> is the player's name), [message] text, [sound] SOUND, [close].
 #
 # Layout shared by every menu in guis/ (54 slots):

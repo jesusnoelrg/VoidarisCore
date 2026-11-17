@@ -5,6 +5,7 @@ import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.module.Module;
 import club.voidaris.core.storage.Database;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
@@ -21,12 +22,15 @@ public final class CosmeticsModule extends Module {
 
     static final String TELEPORT_PARTICLE_SLOT = "teleport-particle";
     static final String AURA_SLOT = "aura";
+    static final String JOIN_EFFECT_SLOT = "join-effect";
 
     private final JavaPlugin plugin;
     private final Selections selections;
     private final Map<MessageCategory, MessageCosmetics> messageCosmetics = new EnumMap<>(MessageCategory.class);
     private final TeleportParticles teleportParticles;
     private final Auras auras;
+    private final JoinEffects joinEffects;
+    private final NamespacedKey joinEffectMarker;
 
     public CosmeticsModule(JavaPlugin plugin, ConfigManager configs, Database database) {
         super("cosmetics");
@@ -37,16 +41,20 @@ public final class CosmeticsModule extends Module {
         }
         this.teleportParticles = new TeleportParticles(configs, plugin.getLogger());
         this.auras = new Auras(configs, plugin.getLogger());
+        this.joinEffects = new JoinEffects(configs, plugin.getLogger());
+        this.joinEffectMarker = new NamespacedKey(plugin, "join_effect");
     }
 
     @Override
     protected List<Listener> listeners() {
-        return List.of(new SelectionListener(selections, plugin.getLogger()), new AuraListener(this));
+        return List.of(new SelectionListener(selections, plugin.getLogger()), new AuraListener(this),
+                new JoinEffectListener(plugin, this));
     }
 
     @Override
     protected void onEnable() {
         auras.load();
+        joinEffects.load();
         registerPermissions();
         // Players already online when the module is toggled on never went through AsyncPlayerPreLoginEvent.
         Bukkit.getOnlinePlayers().forEach(player -> selections.load(player.getUniqueId()));
@@ -55,6 +63,7 @@ public final class CosmeticsModule extends Module {
     @Override
     protected void onReload() {
         auras.load();
+        joinEffects.load();
         registerPermissions();
     }
 
@@ -62,6 +71,7 @@ public final class CosmeticsModule extends Module {
     protected void onDisable() {
         selections.clear();
         auras.clear();
+        joinEffects.clear();
     }
 
     /**
@@ -144,6 +154,37 @@ public final class CosmeticsModule extends Module {
                 .map(Aura::id);
     }
 
+    /**
+     * The join effect the player has equipped. Empty when the module is disabled, the player owns none or the
+     * equipped one shows nothing.
+     */
+    public Optional<JoinEffect> joinEffect(Player player) {
+        return equippedJoinEffect(player)
+                .flatMap(joinEffects::find)
+                .filter(effect -> !effect.steps().isEmpty());
+    }
+
+    /**
+     * Same fallback as {@link #equipped(Player, MessageCategory)}.
+     */
+    Optional<String> equippedJoinEffect(Player player) {
+        if (!isEnabled()) {
+            return Optional.empty();
+        }
+        return selections.get(player.getUniqueId(), JOIN_EFFECT_SLOT)
+                .flatMap(id -> joinEffects.usable(player, id))
+                .or(() -> joinEffects.usable(player, joinEffects.defaultSelection()))
+                .map(JoinEffect::id);
+    }
+
+    JoinEffects joinEffects() {
+        return joinEffects;
+    }
+
+    JoinEffectStep.Stage joinEffectStage() {
+        return new JoinEffectStep.Stage(plugin, joinEffectMarker, joinEffects.range());
+    }
+
     Auras auras() {
         return auras;
     }
@@ -165,6 +206,7 @@ public final class CosmeticsModule extends Module {
         messageCosmetics.values().forEach(cosmetics -> registerPermissions(cosmetics.category().permission, cosmetics.ids()));
         registerPermissions(Keys.Permission.COSMETICS_TELEPORT_PARTICLE, teleportParticles.ids());
         registerPermissions(Keys.Permission.COSMETICS_AURA, auras.ids());
+        registerPermissions(Keys.Permission.COSMETICS_JOIN_EFFECT, joinEffects.ids());
         // Parsed eagerly only to log config mistakes on enable/reload instead of on the first teleport.
         long invalid = teleportParticles.ids().stream().filter(id -> teleportParticles.find(id).isEmpty()).count();
         plugin.getLogger().info("Loaded " + (teleportParticles.ids().size() - invalid) + " teleport particle cosmetics"
