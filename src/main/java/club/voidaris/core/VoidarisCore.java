@@ -1,5 +1,6 @@
 package club.voidaris.core;
 
+import club.voidaris.core.announcements.AnnouncementsCommand;
 import club.voidaris.core.announcements.AnnouncementsModule;
 import club.voidaris.core.chat.ChatModule;
 import club.voidaris.core.command.ExtraArguments;
@@ -59,6 +60,7 @@ public final class VoidarisCore extends JavaPlugin {
     private UtilitiesModule utilitiesModule;
     private MotdModule motdModule;
     private PrivateMessagesModule privateMessagesModule;
+    private AnnouncementsModule announcementsModule;
     private BukkitTask autosaveTask;
 
     @Override
@@ -148,7 +150,8 @@ public final class VoidarisCore extends JavaPlugin {
         moduleManager.register(motdModule);
         privateMessagesModule = new PrivateMessagesModule(this, configManager, messages);
         moduleManager.register(privateMessagesModule);
-        moduleManager.register(new AnnouncementsModule(this, configManager, formatter));
+        announcementsModule = new AnnouncementsModule(this, configManager, messages, formatter);
+        moduleManager.register(announcementsModule);
     }
 
     private void registerCommands() {
@@ -172,6 +175,8 @@ public final class VoidarisCore extends JavaPlugin {
         voidarisCommand.help().register(playerCommands.helpEntries());
         var worldCommands = new WorldCommands(utilitiesModule, messages);
         voidarisCommand.help().register(worldCommands.helpEntries());
+        var announcementsCommand = new AnnouncementsCommand(announcementsModule);
+        voidarisCommand.help().register(announcementsCommand.helpEntries());
         var motdCommand = new MotdCommand(motdModule, messages);
         voidarisCommand.help().register(motdCommand.helpEntries());
         var privateMessageCommands = new PrivateMessageCommands(privateMessagesModule);
@@ -193,6 +198,7 @@ public final class VoidarisCore extends JavaPlugin {
             playerCommands.register(registrar);
             worldCommands.register(registrar);
             motdCommand.register(registrar);
+            announcementsCommand.register(registrar);
             privateMessageCommands.register(registrar);
             ignoreCommands.register(registrar);
         });

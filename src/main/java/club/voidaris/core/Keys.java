@@ -60,6 +60,9 @@ public final class Keys {
         public static final String CHAT_COLOR = "voidaris.chat.color";
         public static final String CHAT_HEX = "voidaris.chat.hex";
 
+        // announcements
+        public static final String ANNOUNCEMENTS_TOGGLE = "voidaris.announcements.toggle";
+
         // motd
         public static final String MOTD_USE = "voidaris.motd.use";
 
@@ -182,6 +185,7 @@ public final class Keys {
         public static final String COMMAND_LISTIGNORE_DESCRIPTION = "commands.listignore.description";
         public static final String COMMAND_SPY_DESCRIPTION = "commands.spy.description";
         public static final String COMMAND_MSGTOGGLE_DESCRIPTION = "commands.msgtoggle.description";
+        public static final String COMMAND_ANNOUNCETOGGLE_DESCRIPTION = "commands.announcetoggle.description";
 
         // help
         public static final String HELP_HEADER = "help.header";
@@ -288,6 +292,7 @@ public final class Keys {
         public static final String HELP_LISTIGNORE_DESCRIPTION = "help.commands.listignore.description";
         public static final String HELP_SPY_DESCRIPTION = "help.commands.spy.description";
         public static final String HELP_MSGTOGGLE_DESCRIPTION = "help.commands.msgtoggle.description";
+        public static final String HELP_ANNOUNCETOGGLE_DESCRIPTION = "help.commands.announcetoggle.description";
 
         // teleport
         public static final String TELEPORT_WARMUP = "teleport.warmup";
@@ -367,6 +372,10 @@ public final class Keys {
         public static final String WARPS_LIST_ENTRY = "warps.list-entry";
         public static final String WARPS_LIST_SEPARATOR = "warps.list-separator";
         public static final String WARPS_LIST_HOVER = "warps.list-hover";
+
+        // announcements
+        public static final String ANNOUNCEMENTS_DISABLED_SELF = "announcements.disabled-self";
+        public static final String ANNOUNCEMENTS_ENABLED_SELF = "announcements.enabled-self";
 
         // motd
         public static final String MOTD_EMPTY = "motd.empty";

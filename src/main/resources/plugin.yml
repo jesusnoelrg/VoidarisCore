@@ -89,6 +89,9 @@ permissions:
   voidaris.chat.hex:
     description: Use hex (&#RRGGBB) colors in chat.
     default: op
+  voidaris.announcements.toggle:
+    description: Turn receiving automatic announcements on or off with /announcetoggle.
+    default: op
   voidaris.motd.use:
     description: Show the message of the day.
     default: true
