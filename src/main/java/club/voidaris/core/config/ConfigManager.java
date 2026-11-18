@@ -23,6 +23,7 @@ public final class ConfigManager {
     private final ConfigFile privateMessages;
     private final ConfigFile database;
     private final ConfigFile cosmetics;
+    private final ConfigFile cosmeticsGui;
     private final ConfigFile joinMessagesGui;
     private final ConfigFile teleportParticlesGui;
     private final ConfigFile killMessagesGui;
@@ -39,7 +40,7 @@ public final class ConfigManager {
     public ConfigManager(JavaPlugin plugin) {
         main = new ConfigFile(plugin, "config.yml");
         // Version 2 drops homes.list and kits.list, left behind when their modules replaced the chat lists with menus.
-        messages = new ConfigFile(plugin, "messages.yml", Set.of(), List.of(disk -> {
+        messages = new ConfigFile(plugin, "messages.yml", Set.of(), List.of((disk, bundled) -> {
             disk.set("homes.list", null);
             disk.set("kits.list", null);
         }));
@@ -47,7 +48,7 @@ public final class ConfigManager {
         homes = new ConfigFile(plugin, "homes.yml", Set.of("limits"), List.of());
         warps = new ConfigFile(plugin, "warps.yml");
         // Version 2 moved kits to data/kits/, created in-game with /createkit; the old item lists cannot be converted.
-        kits = new ConfigFile(plugin, "kits.yml", Set.of(), List.of(disk -> disk.set("kits", null)));
+        kits = new ConfigFile(plugin, "kits.yml", Set.of(), List.of((disk, bundled) -> disk.set("kits", null)));
         chatFormat = new ConfigFile(plugin, "chat-format.yml", Set.of("chat.groups"), List.of());
         announces = new ConfigFile(plugin, "announces.yml", Set.of("announcements"), List.of());
         motd = new ConfigFile(plugin, "motd.yml");
@@ -56,25 +57,30 @@ public final class ConfigManager {
         cosmetics = new ConfigFile(plugin, "cosmetics.yml",
                 Set.of("join-messages.cosmetics", "teleport-particles.cosmetics", "kill-messages.cosmetics",
                         "auras.cosmetics", "join-effects.cosmetics", "chat-colors.cosmetics", "nick-colors.cosmetics", "badges.cosmetics"), List.of());
-        joinMessagesGui = new ConfigFile(plugin, "guis/join-messages.yml",
-                Set.of("items", "join_messages.icons"), List.of());
+        // Version 2 of every menu replaced the slot 18 link to join messages with one to the cosmetics menu.
+        var cosmeticsLink = List.of(ConfigMigration.restore("items.mensajes-entrada", "items.cosmeticos"));
+        cosmeticsGui = new ConfigFile(plugin, "guis/cosmetics.yml", Set.of("items"), List.of());
+        // Join messages also took slot 36 as its own section, like the other cosmetic menus.
+        joinMessagesGui = new ConfigFile(plugin, "guis/join-messages.yml", Set.of("items", "join_messages.icons"),
+                List.of(ConfigMigration.restore("items.mensajes-entrada", "items.particulas", "items.cosmeticos",
+                        "items.glass1", "items.glass2selection")));
         teleportParticlesGui = new ConfigFile(plugin, "guis/teleport-particles.yml",
-                Set.of("items", "teleport_particles.icons"), List.of());
+                Set.of("items", "teleport_particles.icons"), cosmeticsLink);
         killMessagesGui = new ConfigFile(plugin, "guis/kill-messages.yml",
-                Set.of("items", "kill_messages.icons"), List.of());
-        aurasGui = new ConfigFile(plugin, "guis/auras.yml", Set.of("items", "auras.icons"), List.of());
-        joinEffectsGui = new ConfigFile(plugin, "guis/join-effects.yml", Set.of("items", "join_effects.icons"), List.of());
-        chatColorsGui = new ConfigFile(plugin, "guis/chat-colors.yml", Set.of("items", "chat_colors.icons"), List.of());
-        nickColorsGui = new ConfigFile(plugin, "guis/nick-colors.yml", Set.of("items", "nick_colors.icons"), List.of());
-        badgesGui = new ConfigFile(plugin, "guis/badges.yml", Set.of("items", "sections"), List.of());
-        badgeListGui = new ConfigFile(plugin, "guis/badge-list.yml", Set.of("items"), List.of());
-        homesGui = new ConfigFile(plugin, "guis/homes.yml", Set.of("items"), List.of());
-        kitsGui = new ConfigFile(plugin, "guis/kits.yml", Set.of("items"), List.of());
-        kitPreviewGui = new ConfigFile(plugin, "guis/kit-preview.yml", Set.of("items"), List.of());
+                Set.of("items", "kill_messages.icons"), cosmeticsLink);
+        aurasGui = new ConfigFile(plugin, "guis/auras.yml", Set.of("items", "auras.icons"), cosmeticsLink);
+        joinEffectsGui = new ConfigFile(plugin, "guis/join-effects.yml", Set.of("items", "join_effects.icons"), cosmeticsLink);
+        chatColorsGui = new ConfigFile(plugin, "guis/chat-colors.yml", Set.of("items", "chat_colors.icons"), cosmeticsLink);
+        nickColorsGui = new ConfigFile(plugin, "guis/nick-colors.yml", Set.of("items", "nick_colors.icons"), cosmeticsLink);
+        badgesGui = new ConfigFile(plugin, "guis/badges.yml", Set.of("items", "sections"), cosmeticsLink);
+        badgeListGui = new ConfigFile(plugin, "guis/badge-list.yml", Set.of("items"), cosmeticsLink);
+        homesGui = new ConfigFile(plugin, "guis/homes.yml", Set.of("items"), cosmeticsLink);
+        kitsGui = new ConfigFile(plugin, "guis/kits.yml", Set.of("items"), cosmeticsLink);
+        kitPreviewGui = new ConfigFile(plugin, "guis/kit-preview.yml", Set.of("items"), cosmeticsLink);
     }
 
     public void reload() {
-        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, motd, privateMessages, database, cosmetics, joinMessagesGui, teleportParticlesGui, killMessagesGui, aurasGui, joinEffectsGui, chatColorsGui, nickColorsGui, badgesGui, badgeListGui, homesGui, kitsGui, kitPreviewGui}) {
+        for (ConfigFile file : new ConfigFile[]{main, messages, teleports, homes, warps, kits, chatFormat, announces, motd, privateMessages, database, cosmetics, cosmeticsGui, joinMessagesGui, teleportParticlesGui, killMessagesGui, aurasGui, joinEffectsGui, chatColorsGui, nickColorsGui, badgesGui, badgeListGui, homesGui, kitsGui, kitPreviewGui}) {
             file.reload();
         }
     }
@@ -91,6 +97,7 @@ public final class ConfigManager {
     public ConfigFile privateMessages() { return privateMessages; }
     public ConfigFile database() { return database; }
     public ConfigFile cosmetics() { return cosmetics; }
+    public ConfigFile cosmeticsGui() { return cosmeticsGui; }
     public ConfigFile joinMessagesGui() { return joinMessagesGui; }
     public ConfigFile teleportParticlesGui() { return teleportParticlesGui; }
     public ConfigFile killMessagesGui() { return killMessagesGui; }

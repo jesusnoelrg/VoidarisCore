@@ -14,6 +14,9 @@
 #                35          close
 #   content      11-15 20-24 29-33 38-42
 
+# Version 2 replaced the slot 18 item (Mensajes de entrada) with Cosméticos.
+config-version: 2
+
 menu_title: '<light_purple>↶ <dark_purple><bold>Partículas de teletransporte</bold> <light_purple>↷'
 size: 54
 
@@ -36,21 +39,22 @@ items:
     right_click_commands:
     - '[player]menu'
     - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
-  'mensajes-entrada':
-    material: 'name_tag'
+  'cosmeticos':
+    material: 'armor_stand'
     slot: 18
-    display_name: '<light_purple>✦ <dark_purple><bold>Mensajes de entrada</bold> <light_purple>✦'
+    display_name: '<light_purple>✦ <dark_purple><bold>Cosméticos</bold> <light_purple>✦'
     lore:
     - ''
-    - '<white> Elige cómo se anuncia'
-    - '<white> tu llegada al servidor.'
+    - '<white> Personaliza tus mensajes,'
+    - '<white> colores, insignias y'
+    - '<white> partículas.'
     - ''
     - '<green>✔ Click para seleccionar'
     left_click_commands:
-    - '[player]cosmetics joinmessage'
+    - '[player]cosmetics'
     - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
     right_click_commands:
-    - '[player]cosmetics joinmessage'
+    - '[player]cosmetics'
     - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
   'redes-sociales':
     material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ0MjMzN2JlMGJkY2EyMTI4MDk3ZjFjNWJiMTEwOWU1YzYzM2MxNzkyNmFmNWZiNmZjMjAwMDAwMTFhZWI1MyJ9fX0=

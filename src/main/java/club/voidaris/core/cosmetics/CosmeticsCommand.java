@@ -42,6 +42,8 @@ public final class CosmeticsCommand {
 
     private final CosmeticsModule module;
     private final Messages messages;
+    private final ConfigManager configs;
+    private final MenuLoader loader;
     private final MessageCosmeticsMenu joinMessagesMenu;
     private final MessageCosmeticsMenu killMessagesMenu;
     private final BadgesMenu badgesMenu;
@@ -54,6 +56,8 @@ public final class CosmeticsCommand {
                             PlayerFormatter formatter, MenuLoader loader) {
         this.module = module;
         this.messages = messages;
+        this.configs = configs;
+        this.loader = loader;
         this.joinMessagesMenu = new MessageCosmeticsMenu(plugin, configs, module, messages, loader,
                 MessageCategory.JOIN, formatter::format);
         // The preview shows the player as the killer of a sample victim, with the item they are holding.
@@ -77,7 +81,7 @@ public final class CosmeticsCommand {
 
     public LiteralCommandNode<CommandSourceStack> build() {
         return Commands.literal(NAME)
-                .executes(context -> open(context, joinMessagesMenu))
+                .executes(this::openHub)
                 .then(messageLiteral(JOIN_MESSAGE, joinMessagesMenu, MessageCategory.JOIN))
                 .then(messageLiteral(KILL_MESSAGE, killMessagesMenu, MessageCategory.KILL))
                 .then(badgeLiteral(BADGE, "/" + NAME + " " + BADGE))
@@ -174,6 +178,15 @@ public final class CosmeticsCommand {
                             return builder.buildFuture();
                         })
                         .executes(context -> selectMessage(context, MessageCategory.BADGE)));
+    }
+
+    private int openHub(CommandContext<CommandSourceStack> context) {
+        Player player = requirePlayer(context);
+        if (player == null) {
+            return 0;
+        }
+        player.openInventory(loader.load(configs.cosmeticsGui().get(), player).getInventory());
+        return Command.SINGLE_SUCCESS;
     }
 
     private int openBadges(CommandContext<CommandSourceStack> context) {

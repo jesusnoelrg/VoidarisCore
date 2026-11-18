@@ -1,0 +1,253 @@
+# VoidarisCore - cosmetics menu (/cosmetics): links to every cosmetic menu, which link back here from slot 18.
+# Same layout as the server's DeluxeMenus menus (menu_title, size, items, material, slot/slots, display_name, lore,
+# *_click_commands), but texts use MiniMessage. material accepts any item or basehead-<texture> for custom heads;
+# glow: true adds the glint; item_flags: list of Bukkit ItemFlag (HIDE_ADDITIONAL_TOOLTIP hides extra vanilla lines such as
+# the flight duration of a firework, HIDE_ATTRIBUTES the armor/damage stats).
+# Actions: [player] command, [console] command (<player> is the player's name), [message] text, [sound] SOUND, [close].
+#
+# Layout shared by every menu in guis/ (54 slots):
+#   left column  9 18 27 36  navigation sections; the current one says "¡Ya estás en esta sección!"
+#                            and has the black "« Seleccionado" pane to its right. 9, 18 and 27 are fixed;
+#                            36 (Reglas in the main menu) holds the section specific to the menu
+#   right column 17          options (Ajustes)
+#                26 / 44     previous / next page ("No aplica" when there is no page)
+#                35          close
+#   content      11-15 20-24 29-33 38-42
+
+menu_title: '<light_purple>↶ <dark_purple><bold>Cosméticos</bold> <light_purple>↷'
+size: 54
+
+# Static items; this menu has no paginated content.
+items:
+  'menuprincipal':
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWExZWNhZDQ1NDkzNzg0ZmE2ZmY3OWNhYjBlYTc5ZDk0ZmQ3YWFlMzg0ZDMyYjA3M2E1MTM2MThiZmI1NDBjMSJ9fX0=
+    slot: 9
+    display_name: '<light_purple>✦ <dark_purple><bold>Menú principal</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Aquí se muestra todo el'
+    - '<white> contenido del survival,'
+    - '<white> echale un vistazo.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]menu'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]menu'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'cosmeticos':
+    material: 'armor_stand'
+    slot: 18
+    display_name: '<light_purple>✦ <dark_purple><bold>Cosméticos</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Personaliza tus mensajes,'
+    - '<white> colores, insignias y'
+    - '<white> partículas.'
+    - ''
+    - '<gray>¡Ya estás en esta sección!'
+  'redes-sociales':
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ0MjMzN2JlMGJkY2EyMTI4MDk3ZjFjNWJiMTEwOWU1YzYzM2MxNzkyNmFmNWZiNmZjMjAwMDAwMTFhZWI1MyJ9fX0=
+    slot: 27
+    display_name: '<light_purple>✦ <dark_purple><bold>Redes sociales</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Síguenos en nuestras redes'
+    - '<white> sociales, para estar al tanto'
+    - '<white> de nuestro servidor.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]redes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]redes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'reglas':
+    material: 'book'
+    slot: 36
+    display_name: '<light_purple>✦ <dark_purple><bold>Reglas</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Lee las reglas del'
+    - '<white> servidor antes de jugar.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]reglas'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]reglas'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'opciones':
+    material: 'repeater'
+    slot: 17
+    display_name: '<light_purple>✦ <dark_purple><bold>Ajustes</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> En esta sección puedes modificar'
+    - '<white> algunas opciones que activadas'
+    - '<white> pueden ser un poco molestas para'
+    - '<white> algunos.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]ajustes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]ajustes'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'cerrar':
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==
+    slot: 35
+    display_name: '<light_purple>✘ <dark_purple><bold>Cerrar</bold> <light_purple>✘'
+    left_click_commands:
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    - '[close]'
+    right_click_commands:
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    - '[close]'
+  # Cosmetic menus.
+  'mensajes-entrada':
+    material: 'name_tag'
+    slot: 20
+    display_name: '<light_purple>✦ <dark_purple><bold>Mensajes de entrada</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige cómo se anuncia'
+    - '<white> tu llegada al servidor.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]cosmetics joinmessage'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]cosmetics joinmessage'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'mensajes-asesinato':
+    material: 'iron_sword'
+    slot: 21
+    display_name: '<light_purple>✦ <dark_purple><bold>Mensajes de asesinato</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige cómo se anuncia'
+    - '<white> cuando eliminas a un jugador.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]cosmetics killmessage'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]cosmetics killmessage'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'insignias':
+    material: 'nether_star'
+    slot: 22
+    display_name: '<light_purple>✦ <dark_purple><bold>Insignias</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige la insignia que se'
+    - '<white> muestra junto a tu nombre.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]badges'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]badges'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'color-chat':
+    material: 'paper'
+    slot: 23
+    display_name: '<light_purple>✦ <dark_purple><bold>Color de chat</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige el color con el que'
+    - '<white> escribes en el chat.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]chatcolor'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]chatcolor'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'color-nick':
+    material: 'name_tag'
+    slot: 24
+    display_name: '<light_purple>✦ <dark_purple><bold>Color de nick</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige el color con el que'
+    - '<white> se muestra tu nombre.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]nickcolor'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]nickcolor'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'particulas':
+    material: 'blaze_powder'
+    slot: 30
+    display_name: '<light_purple>✦ <dark_purple><bold>Partículas de teletransporte</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige las partículas que'
+    - '<white> aparecen al teletransportarte.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]cosmetics teleportparticle'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]cosmetics teleportparticle'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'auras':
+    material: 'amethyst_shard'
+    slot: 31
+    display_name: '<light_purple>✦ <dark_purple><bold>Auras</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige el rastro de partículas'
+    - '<white> que dejas al caminar.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]cosmetics aura'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]cosmetics aura'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  'efectos-entrada':
+    material: 'firework_rocket'
+    slot: 32
+    item_flags: [HIDE_ADDITIONAL_TOOLTIP]
+    display_name: '<light_purple>✦ <dark_purple><bold>Efectos de entrada</bold> <light_purple>✦'
+    lore:
+    - ''
+    - '<white> Elige el efecto que aparece'
+    - '<white> a tu alrededor al entrar.'
+    - ''
+    - '<green>✔ Click para seleccionar'
+    left_click_commands:
+    - '[player]cosmetics joineffect'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+    right_click_commands:
+    - '[player]cosmetics joineffect'
+    - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'
+  # No pages: both page buttons show the disabled pane.
+  'sin-pagina':
+    material: 'gray_stained_glass_pane'
+    slots: [26, 44]
+    display_name: '<gray>No aplica'
+  'glass1':
+    material: 'purple_stained_glass_pane'
+    slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 16, 25, 28, 34, 37, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    display_name: '<gray>» mc.voidaris.club «'
+  'glass2selection':
+    material: 'black_stained_glass_pane'
+    slots: [19]
+    display_name: '<gray>« Seleccionado'
