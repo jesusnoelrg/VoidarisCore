@@ -84,7 +84,7 @@ public final class CosmeticsCommand {
                 ConfigManager::joinEffectsGui, "join_effects", CosmeticsModule.JOIN_EFFECT_SLOT,
                 Keys.Permission.COSMETICS_JOIN_EFFECT, Keys.Message.COSMETICS_JOIN_EFFECT_LOCKED,
                 Keys.Message.COSMETICS_JOIN_EFFECT_SELECTED, id -> module.joinEffects().find(id),
-                module::equippedJoinEffect));
+                module::equippedJoinEffect, this::previewJoinEffect));
         for (ColorCategory category : ColorCategory.values()) {
             colorMenus.put(category, new ColorCosmeticsMenu(plugin, configs, module, messages, loader, category));
         }
@@ -455,6 +455,19 @@ public final class CosmeticsCommand {
         }
         joinEffectsMenu.open(player);
         return Command.SINGLE_SUCCESS;
+    }
+
+    private void previewJoinEffect(Player player, JoinEffect effect) {
+        long wait = module.joinEffectPreviewWait(player);
+        if (wait > 0) {
+            messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_PREVIEW_COOLDOWN,
+                    Placeholder.unparsed("seconds", String.valueOf(wait)));
+            return;
+        }
+        // Closed first so the player sees the effect around them instead of the menu.
+        player.closeInventory();
+        messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_PREVIEW, Placeholder.parsed("cosmetic", effect.name()));
+        module.previewJoinEffect(player, effect);
     }
 
     private int selectJoinEffect(CommandContext<CommandSourceStack> context) {

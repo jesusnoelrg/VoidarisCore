@@ -167,6 +167,9 @@ join_effects:
   - '<yellow>¡Ya tienes seleccionado este efecto!'
   locked_lore:
   - '<red>✘ No tienes desbloqueado este efecto'
+  # Appended to every effect that shows something; right-click plays it for the player alone, even when locked.
+  preview_lore:
+  - '<aqua>✦ Click derecho para ver la vista previa'
   # Actions run when equipping an icon, clicking the selected one, or clicking a locked one.
   select_commands:
   - '[sound]ENTITY_EXPERIENCE_ORB_PICKUP'

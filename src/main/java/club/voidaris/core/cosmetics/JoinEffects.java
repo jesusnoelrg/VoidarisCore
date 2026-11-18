@@ -83,6 +83,13 @@ final class JoinEffects {
     }
 
     /**
+     * Seconds between two previews from the menu by the same player.
+     */
+    int previewCooldown() {
+        return Math.max(0, configs.cosmetics().get().getInt(SECTION + "preview-cooldown", 10));
+    }
+
+    /**
      * Empty when the effect does not exist or has no steps today (e.g. a seasonal one out of season).
      */
     Optional<JoinEffect> find(String id) {

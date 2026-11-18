@@ -590,6 +590,10 @@ cosmetics:
     selected: "<prefix><white>Equipaste el efecto de entrada <cosmetic><white>."
     not-found: "<prefix><white>No existe el efecto de entrada <light_purple><id></light_purple>."
     locked: "<prefix><white>No tienes desbloqueado el efecto de entrada <cosmetic><white>."
+    # Right-click on an icon of /cosmetics joineffect. <cosmetic> is its name.
+    preview: "<prefix><white>Vista previa del efecto de entrada <cosmetic><white>. Solo tú puedes verla."
+    # <seconds> is the time left of join-effects.preview-cooldown of cosmetics.yml.
+    preview-cooldown: "<prefix><white>Debes esperar <light_purple><seconds></light_purple> segundos para ver otra vista previa."
   chat-color:
     selected: "<prefix><white>Ahora escribes en el chat con el color <cosmetic><white>."
     not-found: "<prefix><white>No existe el color <light_purple><id></light_purple>. Usa un color del menú o un hexadecimal como <light_purple>#FF5555</light_purple>."

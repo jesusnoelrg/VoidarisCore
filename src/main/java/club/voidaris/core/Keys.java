@@ -517,6 +517,8 @@ public final class Keys {
         public static final String COSMETICS_JOIN_EFFECT_SELECTED = "cosmetics.join-effect.selected";
         public static final String COSMETICS_JOIN_EFFECT_NOT_FOUND = "cosmetics.join-effect.not-found";
         public static final String COSMETICS_JOIN_EFFECT_LOCKED = "cosmetics.join-effect.locked";
+        public static final String COSMETICS_JOIN_EFFECT_PREVIEW = "cosmetics.join-effect.preview";
+        public static final String COSMETICS_JOIN_EFFECT_PREVIEW_COOLDOWN = "cosmetics.join-effect.preview-cooldown";
         public static final String COSMETICS_CHAT_COLOR_SELECTED = "cosmetics.chat-color.selected";
         public static final String COSMETICS_CHAT_COLOR_NOT_FOUND = "cosmetics.chat-color.not-found";
         public static final String COSMETICS_CHAT_COLOR_LOCKED = "cosmetics.chat-color.locked";

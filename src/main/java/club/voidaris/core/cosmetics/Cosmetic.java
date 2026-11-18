@@ -15,4 +15,11 @@ interface Cosmetic {
     default boolean premium() {
         return false;
     }
+
+    /**
+     * Whether right-clicking its icon previews it, in a menu whose {@link CosmeticMenu.Type} has a preview.
+     */
+    default boolean previewable() {
+        return false;
+    }
 }
