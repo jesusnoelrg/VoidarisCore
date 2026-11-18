@@ -57,7 +57,7 @@ final class ConfigUpdater {
         }
         while (current < target) {
             if (current - 1 < migrations.size()) {
-                migrations.get(current - 1).migrate(disk);
+                migrations.get(current - 1).migrate(disk, bundled);
             }
             current++;
             logger.info("Migrated " + name + " to config-version " + current + ".");
@@ -85,7 +85,7 @@ final class ConfigUpdater {
         return !added.isEmpty();
     }
 
-    private void copy(YamlConfiguration disk, YamlConfiguration bundled, String root) {
+    static void copy(YamlConfiguration disk, YamlConfiguration bundled, String root) {
         copyNode(disk, bundled, root);
         var section = bundled.getConfigurationSection(root);
         if (section != null) {
