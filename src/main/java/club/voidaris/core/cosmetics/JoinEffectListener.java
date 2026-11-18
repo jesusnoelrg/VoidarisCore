@@ -36,7 +36,7 @@ final class JoinEffectListener implements Listener {
             if (player.getGameMode() == GameMode.SPECTATOR || player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
                 return;
             }
-            module.joinEffect(player).ifPresent(effect -> effect.play(module.joinEffectStage(), player));
+            module.joinEffect(player).ifPresent(effect -> effect.play(module.joinEffectStage(false), player));
         }, null, module.joinEffects().delay());
     }
 
@@ -69,6 +69,6 @@ final class JoinEffectListener implements Listener {
     }
 
     private boolean isEffect(Entity entity) {
-        return entity.getPersistentDataContainer().has(module.joinEffectStage().marker(), PersistentDataType.BOOLEAN);
+        return entity.getPersistentDataContainer().has(module.joinEffectStage(false).marker(), PersistentDataType.BOOLEAN);
     }
 }

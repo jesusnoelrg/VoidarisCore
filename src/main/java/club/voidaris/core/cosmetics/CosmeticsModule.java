@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class CosmeticsModule extends Module {
 
@@ -46,6 +48,7 @@ public final class CosmeticsModule extends Module {
     private final JoinEffects joinEffects;
     private final Map<ColorCategory, ColorCosmetics> colors = new EnumMap<>(ColorCategory.class);
     private final NamespacedKey joinEffectMarker;
+    private final Map<UUID, Long> previewCooldowns = new ConcurrentHashMap<>();
 
     public CosmeticsModule(JavaPlugin plugin, ConfigManager configs, Database database) {
         super("cosmetics");
@@ -94,6 +97,7 @@ public final class CosmeticsModule extends Module {
         auras.clear();
         joinEffects.clear();
         colors.values().forEach(ColorCosmetics::clear);
+        previewCooldowns.clear();
     }
 
     /**
@@ -312,8 +316,27 @@ public final class CosmeticsModule extends Module {
         return joinEffects;
     }
 
-    JoinEffectStep.Stage joinEffectStage() {
-        return new JoinEffectStep.Stage(plugin, joinEffectMarker, joinEffects.range());
+    JoinEffectStep.Stage joinEffectStage(boolean preview) {
+        return new JoinEffectStep.Stage(plugin, joinEffectMarker, joinEffects.range(), preview);
+    }
+
+    /**
+     * Seconds the player must still wait before previewing another join effect; 0 when they can.
+     */
+    long joinEffectPreviewWait(Player player) {
+        Long until = previewCooldowns.get(player.getUniqueId());
+        return until == null ? 0 : Math.max(0, Math.ceilDiv(until - System.currentTimeMillis(), 1000));
+    }
+
+    /**
+     * Plays the effect for the player alone and starts their preview cooldown.
+     */
+    void previewJoinEffect(Player player, JoinEffect effect) {
+        long now = System.currentTimeMillis();
+        // Expired entries are dropped here so the map only holds players inside their cooldown.
+        previewCooldowns.values().removeIf(until -> until <= now);
+        previewCooldowns.put(player.getUniqueId(), now + joinEffects.previewCooldown() * 1000L);
+        effect.play(joinEffectStage(true), player);
     }
 
     Auras auras() {

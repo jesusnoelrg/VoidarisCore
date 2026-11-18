@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
@@ -35,10 +36,19 @@ final class CosmeticMenu<T extends Cosmetic> {
      * @param selectedMessage message key sent after equipping a cosmetic
      * @param find            the cosmetic with the given id, empty when unknown or out of season
      * @param equipped        the id of the cosmetic the player has equipped
+     * @param preview         run on right-clicking a {@link Cosmetic#previewable()} icon, owned or not; null for
+     *                        none, so right-click selects like left-click
      */
     record Type<T extends Cosmetic>(Function<ConfigManager, ConfigFile> file, String section, String slot,
                                     String permission, String lockedMessage, String selectedMessage,
-                                    Function<String, Optional<T>> find, Function<Player, Optional<String>> equipped) {
+                                    Function<String, Optional<T>> find, Function<Player, Optional<String>> equipped,
+                                    BiConsumer<Player, T> preview) {
+
+        Type(Function<ConfigManager, ConfigFile> file, String section, String slot, String permission,
+             String lockedMessage, String selectedMessage, Function<String, Optional<T>> find,
+             Function<Player, Optional<String>> equipped) {
+            this(file, section, slot, permission, lockedMessage, selectedMessage, find, equipped, null);
+        }
     }
 
     private final JavaPlugin plugin;
@@ -93,14 +103,32 @@ final class CosmeticMenu<T extends Cosmetic> {
                 lore.addAll(loader.lore(player, template.getStringList("premium_lore"), resolvers));
             }
             lore.addAll(loader.lore(player, template.getStringList(status.lore), resolvers));
+            boolean previewable = type.preview() != null && cosmetic.previewable();
+            if (previewable) {
+                lore.addAll(loader.lore(player, template.getStringList("preview_lore"), resolvers));
+            }
             item.editMeta(meta -> {
                 meta.lore(lore);
                 if (status == Status.SELECTED) {
                     meta.setEnchantmentGlintOverride(true);
                 }
             });
-            return new MenuEntry(item, event -> click(menu, player, page, template, cosmetic, status));
+            return new MenuEntry(item, event -> {
+                if (previewable && event.isRightClick()) {
+                    preview(player, cosmetic);
+                } else {
+                    click(menu, player, page, template, cosmetic, status);
+                }
+            });
         });
+    }
+
+    private void preview(Player player, T cosmetic) {
+        if (!module.isEnabled()) {
+            player.closeInventory();
+            return;
+        }
+        type.preview().accept(player, cosmetic);
     }
 
     private void click(Menu menu, Player player, int page, ConfigurationSection template, T cosmetic, Status status) {

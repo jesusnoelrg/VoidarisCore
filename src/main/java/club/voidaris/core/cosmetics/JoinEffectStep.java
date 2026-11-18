@@ -29,14 +29,16 @@ import java.util.logging.Logger;
 
 /**
  * One part of a join effect, played {@link #delay()} ticks after the effect starts. Everything it shows is limited
- * to the players within {@link Stage#range()} blocks who can see the joining player.
+ * to the players within {@link Stage#range()} blocks who can see the joining player, or to the player alone in a
+ * {@link Stage#preview()}.
  */
 sealed interface JoinEffectStep {
 
     /**
-     * @param marker set on every entity a step spawns, so {@link JoinEffectListener} can keep them harmless
+     * @param marker  set on every entity a step spawns, so {@link JoinEffectListener} can keep them harmless
+     * @param preview shown and heard only by the player, as the menu preview
      */
-    record Stage(Plugin plugin, NamespacedKey marker, int range) {
+    record Stage(Plugin plugin, NamespacedKey marker, int range, boolean preview) {
     }
 
     int delay();
@@ -76,7 +78,10 @@ sealed interface JoinEffectStep {
         }
     }
 
-    private static List<Player> viewers(Player player, int range) {
+    private static List<Player> viewers(Stage stage, Player player, int range) {
+        if (stage.preview()) {
+            return List.of(player);
+        }
         return player.getLocation().getNearbyPlayers(range).stream()
                 .filter(viewer -> viewer.equals(player) || viewer.canSee(player))
                 .toList();
@@ -141,7 +146,7 @@ sealed interface JoinEffectStep {
         @Override
         public void play(Stage stage, Player player) {
             repeat(stage, player, count, interval, () -> {
-                var viewers = viewers(player, stage.range());
+                var viewers = viewers(stage, player, stage.range());
                 var at = around(player, radius);
                 PENDING.set(bolt -> restrict(stage, bolt, viewers));
                 try {
@@ -184,7 +189,7 @@ sealed interface JoinEffectStep {
         public void play(Stage stage, Player player) {
             int[] shot = {0};
             repeat(stage, player, count, interval, () -> {
-                var viewers = viewers(player, stage.range());
+                var viewers = viewers(stage, player, stage.range());
                 int first = shot[0]++;
                 var effect = FireworkEffect.builder()
                         .with(type)
@@ -249,7 +254,7 @@ sealed interface JoinEffectStep {
         public void play(Stage stage, Player player) {
             repeat(stage, player, count, Math.max(1, duration / count), () -> {
                 var random = ThreadLocalRandom.current();
-                var viewers = viewers(player, stage.range());
+                var viewers = viewers(stage, player, stage.range());
                 var stack = new ItemStack(materials.get(random.nextInt(materials.size())));
                 double angle = random.nextDouble(2 * Math.PI);
                 double outward = speed * random.nextDouble(0.25, 0.5);
@@ -269,7 +274,7 @@ sealed interface JoinEffectStep {
                     // Same pitch spread as vanilla, so a burst of items does not sound like one repeated note.
                     float pitch = sound.pitch() + (random.nextFloat() - random.nextFloat()) * 0.2f;
                     var played = Sound.sound(sound).pitch(pitch).build();
-                    viewers(player, soundRange).forEach(viewer -> viewer.playSound(played, head.getX(), head.getY(), head.getZ()));
+                    viewers(stage, player, soundRange).forEach(viewer -> viewer.playSound(played, head.getX(), head.getY(), head.getZ()));
                 }
             });
         }
@@ -279,7 +284,11 @@ sealed interface JoinEffectStep {
 
         @Override
         public void play(Stage stage, Player player) {
-            layer.play(stage.plugin(), player, stage.range());
+            if (stage.preview()) {
+                layer.play(stage.plugin(), player, false);
+            } else {
+                layer.play(stage.plugin(), player, stage.range());
+            }
         }
     }
 
@@ -299,7 +308,7 @@ sealed interface JoinEffectStep {
                 return;
             }
             var at = player.getLocation();
-            viewers(player, stage.range()).forEach(viewer -> viewer.playSound(sound, at.getX(), at.getY(), at.getZ()));
+            viewers(stage, player, stage.range()).forEach(viewer -> viewer.playSound(sound, at.getX(), at.getY(), at.getZ()));
         }
     }
 }

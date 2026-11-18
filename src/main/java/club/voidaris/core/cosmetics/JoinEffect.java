@@ -12,6 +12,11 @@ import java.util.List;
 public record JoinEffect(String id, String name, boolean premium, List<JoinEffectStep> steps)
         implements Cosmetic {
 
+    @Override
+    public boolean previewable() {
+        return !steps.isEmpty();
+    }
+
     void play(JoinEffectStep.Stage stage, Player player) {
         for (JoinEffectStep step : steps) {
             if (step.delay() == 0) {

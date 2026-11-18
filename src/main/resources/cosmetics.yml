@@ -488,6 +488,9 @@ join-effects:
   # Only players within this many blocks who can see the joining player (vanish) see the effect and hear its
   # public sounds; nobody else is sent anything.
   range: 32
+  # Seconds a player must wait between two previews (right-click on an icon of /cosmetics joineffect). Previews
+  # are shown and heard only by that player.
+  preview-cooldown: 10
   # name: shown in /cosmetics joineffect. premium: true adds premium_lore of guis/join-effects.yml to its icon.
   # effects: steps played together; each one may start delay ticks later. Step types and their keys:
   #   lightning  count bolts (visual only, no fire or damage) struck radius blocks around the player, interval ticks
