@@ -9,7 +9,8 @@ import java.util.List;
  *
  * @param steps empty for a cosmetic that shows nothing (such as none)
  */
-public record JoinEffect(String id, String name, boolean premium, List<JoinEffectStep> steps) {
+public record JoinEffect(String id, String name, boolean premium, List<JoinEffectStep> steps)
+        implements Cosmetic {
 
     void play(JoinEffectStep.Stage stage, Player player) {
         for (JoinEffectStep step : steps) {
