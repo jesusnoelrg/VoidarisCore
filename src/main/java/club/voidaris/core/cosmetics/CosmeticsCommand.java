@@ -47,9 +47,9 @@ public final class CosmeticsCommand {
     private final MessageCosmeticsMenu joinMessagesMenu;
     private final MessageCosmeticsMenu killMessagesMenu;
     private final BadgesMenu badgesMenu;
-    private final TeleportParticlesMenu particlesMenu;
-    private final AurasMenu aurasMenu;
-    private final JoinEffectsMenu joinEffectsMenu;
+    private final CosmeticMenu<TeleportParticle> particlesMenu;
+    private final CosmeticMenu<Aura> aurasMenu;
+    private final CosmeticMenu<JoinEffect> joinEffectsMenu;
     private final Map<ColorCategory, ColorCosmeticsMenu> colorMenus = new EnumMap<>(ColorCategory.class);
 
     public CosmeticsCommand(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages,
@@ -71,9 +71,20 @@ public final class CosmeticsCommand {
                         messages.raw(Keys.Message.COSMETICS_BADGE_PREVIEW),
                         Placeholder.component("preview_badge", module.renderBadge(format))));
         this.badgesMenu = new BadgesMenu(plugin, configs, module, messages, loader, badgeListMenu);
-        this.particlesMenu = new TeleportParticlesMenu(plugin, configs, module, messages, loader);
-        this.aurasMenu = new AurasMenu(plugin, configs, module, messages, loader);
-        this.joinEffectsMenu = new JoinEffectsMenu(plugin, configs, module, messages, loader);
+        this.particlesMenu = new CosmeticMenu<>(plugin, configs, module, messages, loader, new CosmeticMenu.Type<>(
+                ConfigManager::teleportParticlesGui, "teleport_particles", CosmeticsModule.TELEPORT_PARTICLE_SLOT,
+                Keys.Permission.COSMETICS_TELEPORT_PARTICLE, Keys.Message.COSMETICS_TELEPORT_PARTICLE_LOCKED,
+                Keys.Message.COSMETICS_TELEPORT_PARTICLE_SELECTED, id -> module.teleportParticles().find(id),
+                module::equippedTeleportParticle));
+        this.aurasMenu = new CosmeticMenu<>(plugin, configs, module, messages, loader, new CosmeticMenu.Type<>(
+                ConfigManager::aurasGui, "auras", CosmeticsModule.AURA_SLOT,
+                Keys.Permission.COSMETICS_AURA, Keys.Message.COSMETICS_AURA_LOCKED,
+                Keys.Message.COSMETICS_AURA_SELECTED, id -> module.auras().find(id), module::equippedAura));
+        this.joinEffectsMenu = new CosmeticMenu<>(plugin, configs, module, messages, loader, new CosmeticMenu.Type<>(
+                ConfigManager::joinEffectsGui, "join_effects", CosmeticsModule.JOIN_EFFECT_SLOT,
+                Keys.Permission.COSMETICS_JOIN_EFFECT, Keys.Message.COSMETICS_JOIN_EFFECT_LOCKED,
+                Keys.Message.COSMETICS_JOIN_EFFECT_SELECTED, id -> module.joinEffects().find(id),
+                module::equippedJoinEffect));
         for (ColorCategory category : ColorCategory.values()) {
             colorMenus.put(category, new ColorCosmeticsMenu(plugin, configs, module, messages, loader, category));
         }

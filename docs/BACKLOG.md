@@ -7,3 +7,4 @@
 - **cosmetics:** no menu links to `/cosmetics joineffect`, `/cosmetics aura` or `/cosmetics killmessage` yet; a cosmetics hub menu is missing.
 - **Idea (cosmetics/chat):** chat formats can use `<nickname>` but it has no hover/click; `ChatListener#name` could build the clickable name from `CosmeticsModule#nickname` so `<player>` shows the nick color in chat. Existing servers keep their old join message formats (user-owned `join-messages.cosmetics`), so `<nickname>` must be added there by hand.
 - **Idea (cosmetics/badges):** custom badges (`/badges custom`) have no word filter; staff may need a blocked-words list or a command to reset a player's custom badge.
+- **cosmetics:** `CosmeticsCommand#selectTeleportParticle`, `#selectAura` and `#selectJoinEffect` are near-identical; they could take the same `CosmeticMenu.Type` the menus now use.

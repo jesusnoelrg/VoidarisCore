@@ -1,6 +1,7 @@
 package club.voidaris.core.cosmetics;
 
 import club.voidaris.core.Keys;
+import club.voidaris.core.config.ConfigFile;
 import club.voidaris.core.config.ConfigManager;
 import club.voidaris.core.gui.Menu;
 import club.voidaris.core.gui.MenuEntry;
@@ -16,48 +17,67 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
- * guis/join-effects.yml: the static items plus one paginated icon per join effect under join_effects.icons.
+ * A menu in guis/ with its static items plus one paginated icon per cosmetic under {@code <section>.icons}.
  */
-final class JoinEffectsMenu {
+final class CosmeticMenu<T extends Cosmetic> {
 
-    private static final String SECTION = "join_effects";
+    /**
+     * What differs between the cosmetic types that share this menu.
+     *
+     * @param file            the menu file in guis/
+     * @param section         the section of the file with the icon template and icons
+     * @param slot            the selection slot the choice is stored in
+     * @param permission      permission prefix; the cosmetic id completes it
+     * @param lockedMessage   message key sent when clicking a cosmetic the player does not own
+     * @param selectedMessage message key sent after equipping a cosmetic
+     * @param find            the cosmetic with the given id, empty when unknown or out of season
+     * @param equipped        the id of the cosmetic the player has equipped
+     */
+    record Type<T extends Cosmetic>(Function<ConfigManager, ConfigFile> file, String section, String slot,
+                                    String permission, String lockedMessage, String selectedMessage,
+                                    Function<String, Optional<T>> find, Function<Player, Optional<String>> equipped) {
+    }
 
     private final JavaPlugin plugin;
     private final ConfigManager configs;
     private final CosmeticsModule module;
     private final Messages messages;
     private final MenuLoader loader;
+    private final Type<T> type;
 
-    JoinEffectsMenu(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages, MenuLoader loader) {
+    CosmeticMenu(JavaPlugin plugin, ConfigManager configs, CosmeticsModule module, Messages messages, MenuLoader loader,
+                 Type<T> type) {
         this.plugin = plugin;
         this.configs = configs;
         this.module = module;
         this.messages = messages;
         this.loader = loader;
+        this.type = type;
     }
 
     void open(Player player) {
-        var menu = loader.load(configs.joinEffectsGui().get(), player);
+        var menu = loader.load(type.file().apply(configs).get(), player);
         renderPage(menu, player, 0);
         player.openInventory(menu.getInventory());
     }
 
     private void renderPage(Menu menu, Player player, int page) {
-        var file = configs.joinEffectsGui().get();
-        var template = file.getConfigurationSection(SECTION);
+        var file = type.file().apply(configs).get();
+        var template = file.getConfigurationSection(type.section());
         var icons = template == null ? null : template.getConfigurationSection("icons");
         List<MenuEntry> entries = new ArrayList<>();
         if (icons != null) {
-            String equipped = module.equippedJoinEffect(player).orElse(null);
+            String equipped = type.equipped().apply(player).orElse(null);
             for (String id : icons.getKeys(false)) {
-                // Unknown or out-of-season effects are skipped so they leave no gap in the page.
-                module.joinEffects().find(id).ifPresent(effect -> {
+                // Unknown or out-of-season cosmetics are skipped so they leave no gap in the page.
+                type.find().apply(id).ifPresent(cosmetic -> {
                     Status status = id.equals(equipped) ? Status.SELECTED
-                            : player.hasPermission(Keys.Permission.COSMETICS_JOIN_EFFECT + id) ? Status.AVAILABLE
+                            : player.hasPermission(type.permission() + id) ? Status.AVAILABLE
                             : Status.LOCKED;
-                    entry(menu, player, page, template, icons.getString(id), effect, status).ifPresent(entries::add);
+                    entry(menu, player, page, template, icons.getString(id), cosmetic, status).ifPresent(entries::add);
                 });
             }
         }
@@ -65,11 +85,11 @@ final class JoinEffectsMenu {
     }
 
     private Optional<MenuEntry> entry(Menu menu, Player player, int page, ConfigurationSection template,
-                                      String material, JoinEffect effect, Status status) {
-        TagResolver resolvers = Placeholder.parsed("cosmetic", effect.name());
+                                      String material, T cosmetic, Status status) {
+        TagResolver resolvers = Placeholder.parsed("cosmetic", cosmetic.name());
         return loader.item(template, material, player, resolvers).map(item -> {
             var lore = new ArrayList<Component>(loader.lore(player, template.getStringList("lore"), resolvers));
-            if (effect.premium()) {
+            if (cosmetic.premium()) {
                 lore.addAll(loader.lore(player, template.getStringList("premium_lore"), resolvers));
             }
             lore.addAll(loader.lore(player, template.getStringList(status.lore), resolvers));
@@ -79,30 +99,30 @@ final class JoinEffectsMenu {
                     meta.setEnchantmentGlintOverride(true);
                 }
             });
-            return new MenuEntry(item, event -> click(menu, player, page, template, effect, status));
+            return new MenuEntry(item, event -> click(menu, player, page, template, cosmetic, status));
         });
     }
 
-    private void click(Menu menu, Player player, int page, ConfigurationSection template, JoinEffect effect, Status status) {
+    private void click(Menu menu, Player player, int page, ConfigurationSection template, T cosmetic, Status status) {
         if (!module.isEnabled()) {
             player.closeInventory();
             return;
         }
-        var name = Placeholder.parsed("cosmetic", effect.name());
+        var name = Placeholder.parsed("cosmetic", cosmetic.name());
         switch (status) {
             case SELECTED -> loader.run(player, template.getStringList("selected_commands"));
             case LOCKED -> {
-                messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_LOCKED, name);
+                messages.send(player, type.lockedMessage(), name);
                 loader.run(player, template.getStringList("locked_commands"));
             }
             case AVAILABLE -> module.selections()
-                    .select(player.getUniqueId(), CosmeticsModule.JOIN_EFFECT_SLOT, effect.id())
+                    .select(player.getUniqueId(), type.slot(), cosmetic.id())
                     .whenComplete((ignored, e) -> player.getScheduler().run(plugin, task -> {
                         if (e != null) {
                             messages.send(player, Keys.Message.COSMETICS_UNAVAILABLE);
                             return;
                         }
-                        messages.send(player, Keys.Message.COSMETICS_JOIN_EFFECT_SELECTED, name);
+                        messages.send(player, type.selectedMessage(), name);
                         loader.run(player, template.getStringList("select_commands"));
                         // Redraws the page so the glow and the selected lore move to the new choice.
                         if (player.getOpenInventory().getTopInventory().getHolder(false) == menu) {
